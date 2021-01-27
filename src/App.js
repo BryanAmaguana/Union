@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+
+import React from 'react';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import routes from './config/routes';
+import AdminHome from './pages/Admin';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return(
+        <BrowserRouter>
+        <Switch>
+            {routes.map((route, index) =>(
+                <RouterWithSubRoutes key ={index} {...route} />
+            ))}
+        </Switch>
+        </BrowserRouter>
+    );
+}
+
+function RouterWithSubRoutes(route){
+    console.log(route);
+    return (
+        <Route 
+        path={route.path} 
+        exact={route.exact} 
+        render={ props => <route.component routes={route.routes} {...props}/>}
+        />
+    )
 }
 
 export default App;
