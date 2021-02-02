@@ -1,0 +1,10 @@
+@import '../../../scss/index.scss';
+
+.admin-sider{
+    position: fixed;
+    left: 0;
+    top: 45px;
+    height: 100vh;
+    overflow: auto;
+    background: linear-gradient(rgb(250, 248, 248), red);
+}

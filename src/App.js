@@ -1,28 +1,31 @@
 
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import routes from './config/routes';
-import AdminHome from './pages/Admin';
+import AuthProvider from './providers/AuthProvider';
+/* import AdminHome from './pages/Admin'; */
 
 function App() {
-    return(
-        <BrowserRouter>
-        <Switch>
-            {routes.map((route, index) =>(
-                <RouterWithSubRoutes key ={index} {...route} />
-            ))}
-        </Switch>
-        </BrowserRouter>
+    return (
+        <AuthProvider>
+            <BrowserRouter>
+                <Switch>
+                    {routes.map((route, index) => (
+                        <RouterWithSubRoutes key={index} {...route} />
+                    ))}
+                </Switch>
+            </BrowserRouter>
+        </AuthProvider>
+
     );
 }
 
-function RouterWithSubRoutes(route){
-    console.log(route);
+function RouterWithSubRoutes(route) {
     return (
-        <Route 
-        path={route.path} 
-        exact={route.exact} 
-        render={ props => <route.component routes={route.routes} {...props}/>}
+        <Route
+            path={route.path}
+            exact={route.exact}
+            render={props => <route.component routes={route.routes} {...props} />}
         />
     )
 }

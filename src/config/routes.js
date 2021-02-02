@@ -7,7 +7,7 @@ import LayoutPublico from '../layouts/LayoutPublico'
 /* Importacion paginas Administrador */
 
 import AdminHome from '../pages/Admin';
-import AdminSingIn from '../pages/Admin/SingIn';
+import AdminSingIn from '../pages/Admin/SignIn/SingIn';
 
 /* Importacion Publico */
 import HomePublico from '../pages/Publico/Home';
