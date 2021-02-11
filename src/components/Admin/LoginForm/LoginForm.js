@@ -32,15 +32,13 @@ export default function LoginForm() {
               message: result.message
             });
         }else{
+          notification["success"]({
+            message: "Bienvenido " + inputs.nombre_usuario
+          });
             const { accessToken, refreshToken } = result;
             localStorage.setItem(ACCESS_TOKEN, accessToken);
             localStorage.setItem(REFRESH_TOKEN, refreshToken);
-
-            notification["success"]({
-                message: "Bienvenido " + inputs.nombre_usuario
-              });
-
-              window.location.href="/admin";
+            window.location.href="/admin";
         }
       console.log(result);
     };
