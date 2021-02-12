@@ -24,7 +24,6 @@ export default function LoginForm() {
     const login = async e => {
         e.preventDefault();
         const result = await signInApi(inputs);
-        console.log(result)
 
         if(result.message){
             e.preventDefault();
@@ -40,7 +39,6 @@ export default function LoginForm() {
             localStorage.setItem(REFRESH_TOKEN, refreshToken);
             window.location.href="/admin";
         }
-      console.log(result);
     };
   
     return (

@@ -1,15 +1,16 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Avatar, Form, Input, Select, Button, Row, Col } from "antd";
+import { Avatar, Form, Input, Select, Button, Row, Col, notification } from "antd";
 import { useDropzone } from "react-dropzone";
 import NoAvatar from "../../../../assets/img/png/no-avatar.png";
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
-import { ObtenerAvatar } from "../../../../api/user"
+import { ObtenerAvatar, ActualizarAvatar, ActualizarUsuario } from "../../../../api/user"
+import { getAccessTokenApi} from "../../../../api/auth"
 
 
 import "./EditUserForm.scss"
 
 export default function EditUserForm(props) {
-  const { usuario, rol } = props;
+  const { usuario, rol , setIsVisibleModal, setReloadUsers} = props;
   const [avatar, setAvatar] = useState(null);
   const [userData, setUserData] = useState({});
 
@@ -18,11 +19,11 @@ export default function EditUserForm(props) {
       nombre_usuario: usuario.nombre_usuario,
       correo: usuario.correo,
       contrasena: usuario.contrasena,
-      avatar: usuario.avatar,
-      id_rol: usuario.id_rol._id
+      contrasenaR: usuario.contrasenaR,
+      id_rol: usuario.id_rol._id,
+      avatar: usuario.avatar
     });
   }, [usuario]);
-
 
   useEffect(() => {
     if (usuario.avatar) {
@@ -39,18 +40,69 @@ export default function EditUserForm(props) {
     if (avatar) {
       setUserData({ ...userData, avatar: avatar.file });
     }
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatar]);
 
   const updateUser = e => {
     e.preventDefault();
-    console.log(userData);
+    const token = getAccessTokenApi();
+    let UsuarioActualizado = userData;
+
+    if (UsuarioActualizado.contrasena || UsuarioActualizado.contrasenaR) {
+      if (UsuarioActualizado.contrasena !== UsuarioActualizado.contrasenaR) {
+        notification["error"]({
+          message: "Las contraseñas tienen que ser iguales."
+        });
+        return;
+      } else {
+        delete UsuarioActualizado.contrasenaR;
+      }
+    }
+
+    if (!UsuarioActualizado.nombre_usuario || !UsuarioActualizado.correo || !UsuarioActualizado.id_rol) {
+      notification["error"]({
+        message: "Nombre, Correo y Rol son Obligatorios."
+      });
+      return;
+    }
+
+    if (typeof UsuarioActualizado.avatar === "object") {
+
+      console.log("Si quiere actualizar el avatar")
+      console.log(UsuarioActualizado);
+
+      ActualizarAvatar(token, UsuarioActualizado.avatar, usuario._id).then(response => {
+        UsuarioActualizado.avatar = response.avatarName;
+        ActualizarUsuario(token, UsuarioActualizado, usuario._id).then(result => {
+          notification["success"]({
+            message: result.message
+          });
+          setIsVisibleModal(false);
+          setReloadUsers(true);
+        });
+      });
+    } else {
+      ActualizarUsuario(token, UsuarioActualizado, usuario._id).then(result => {
+        notification["success"]({
+          message: result.message
+        });
+        setIsVisibleModal(false);
+        setReloadUsers(true);
+      });
+    }
   };
 
   return (
     <div className="edit-user-form">
-      <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
-      <EditForm usuario={usuario} userData={userData} setUserData={setUserData} updateUser={updateUser} rol={rol} />
+      <UploadAvatar 
+      avatar={avatar} 
+      setAvatar={setAvatar} />
+      <EditForm 
+      userData={userData} 
+      setUserData={setUserData} 
+      updateUser={updateUser} 
+      rol={rol} />
     </div>
   );
 }
@@ -135,7 +187,7 @@ function EditForm(props) {
         <Col span={24}>
           <Form.Item>
             <Select
-              placeholder="Seleccióna una rol"
+              placeholder="Seleccione una rol"
               onChange={e =>
                 setUserData({ ...userData, id_rol: e })}
                 value={userData.id_rol}
@@ -168,7 +220,7 @@ function EditForm(props) {
               type="password"
               placeholder="Repetir contraseña"
               onChange={e =>
-                setUserData({ ...userData, contrasena: e.target.value })
+                setUserData({ ...userData, contrasenaR: e.target.value })
               }
             />
           </Form.Item>

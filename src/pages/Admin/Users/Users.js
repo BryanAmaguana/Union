@@ -9,6 +9,7 @@ import "./Users.scss";
 export default function Users() {
   const [UsuariosActivos, setusuariosActivos] = useState([]);
   const [UsuariosInactivos, setusuariosInactivos] = useState([]);
+  const [reloadUsers , setReloadUsers] = useState(false);
   const [rol, setRol] = useState([]);
   const token = getAccessTokenApi(); 
 
@@ -25,12 +26,14 @@ export default function Users() {
       setRol(response.rol);
     });
 
+    setReloadUsers(false);
 
-  }, [token]);
+
+  }, [token , reloadUsers]);
 
   return (
     <div className="users">
-      <ListUsers usuarioActivo={UsuariosActivos} usuarioInactivo ={UsuariosInactivos} rol = {rol}/>
+      <ListUsers usuarioActivo={UsuariosActivos} usuarioInactivo ={UsuariosInactivos} rol = {rol} setReloadUsers={setReloadUsers}/>
     </div>
   );
 }

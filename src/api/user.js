@@ -132,7 +132,6 @@ export function ObtenerAvatar(avatarName) {
   return fetch(url)
     .then(response => {
       return response.url;
-      console.log(response.url)
     })
     .catch(err => {
       return err.message;
@@ -159,6 +158,83 @@ export function ActualizarUsuario(token, user, userId) {
     })
     .then(result => {
       return result;
+    })
+    .catch(err => {
+      return err.message;
+    });
+}
+
+/* Activar Usuarios */
+
+
+export function ActivarUsuario(token, userId, disponible) {
+  const url = `${basePath}/ActivarUsuario/${userId}`;
+
+  const params = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token
+    },
+    body: JSON.stringify({disponible : disponible})
+  };
+
+  return fetch(url, params)
+    .then(response => {
+      return response.json();
+    })
+    .then(result => {
+      return result.message;
+    })
+    .catch(err => {
+      return err.message;
+    });
+}
+
+/* Borrar Usuario */
+
+export function EliminarUsuario(token, userId) {
+  const url = `${basePath}/BorrarUsuario/${userId}`;
+
+  const params = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token
+    }
+  };
+
+  return fetch(url, params)
+    .then(response => {
+      return response.json();
+    })
+    .then(result => {
+      return result.message;
+    })
+    .catch(err => {
+      return err.message;
+    });
+}
+
+/* Crear nuevo usuario */
+export function CrearUsuario(token, data) {
+  const url = `${basePath}/AgregarUsuario`;
+
+  const params = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token
+    },
+    body: JSON.stringify(data)
+  };
+
+  return fetch(url, params)
+    .then(response => {
+      return response.json();
+    })
+    .then(result => {
+      return result.message;
     })
     .catch(err => {
       return err.message;
