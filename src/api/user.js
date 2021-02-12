@@ -96,3 +96,71 @@ export function  ObtenerUsuariosAI(token, status) {
       return err.message;
     });
 }
+
+//actualizar el Avatar
+
+export function ActualizarAvatar(token, avatar, userId) {
+  const url = `${basePath}/ActualizarUsuario/${userId}`;
+
+  const formData = new FormData();
+  formData.append("avatar", avatar, avatar.name);
+
+  const params = {
+    method: "PUT",
+    body: formData,
+    headers: {
+      Authorization: token
+    }
+  };
+
+  return fetch(url, params)
+    .then(response => {
+      return response.json();
+    })
+    .then(result => {
+      return result;
+    })
+    .catch(err => {
+      return err.message;
+    });
+}
+
+//obtener el url del avatar
+export function ObtenerAvatar(avatarName) {
+  const url = `${basePath}/ObtenerURLAvatar/${avatarName}`;
+
+  return fetch(url)
+    .then(response => {
+      return response.url;
+      console.log(response.url)
+    })
+    .catch(err => {
+      return err.message;
+    });
+}
+
+//Actualizar Usuario
+
+export function ActualizarUsuario(token, user, userId) {
+  const url = `${basePath}/ActualizarUsuario/${userId}`;
+
+  const params = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token
+    },
+    body: JSON.stringify(user)
+  };
+
+  return fetch(url, params)
+    .then(response => {
+      return response.json();
+    })
+    .then(result => {
+      return result;
+    })
+    .catch(err => {
+      return err.message;
+    });
+}
