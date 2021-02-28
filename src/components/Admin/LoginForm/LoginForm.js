@@ -30,14 +30,18 @@ export default function LoginForm() {
             notification["error"]({
               message: result.message
             });
-        }else{
-          notification["success"]({
-            message: "Bienvenido " + inputs.nombre_usuario
-          });
-            const { accessToken, refreshToken } = result;
+        }else {
+          const { accessToken, refreshToken } = result;
+          if(accessToken != null){
             localStorage.setItem(ACCESS_TOKEN, accessToken);
             localStorage.setItem(REFRESH_TOKEN, refreshToken);
             window.location.href="/admin";
+          }else{
+            e.preventDefault();
+            notification["error"]({
+              message: "Error al iniciar sesión con el servidor"
+            });
+          }
         }
     };
   

@@ -9,6 +9,7 @@ import LayoutPublico from '../layouts/LayoutPublico'
 import AdminHome from '../pages/Admin';
 import AdminSingIn from '../pages/Admin/SignIn/SingIn';
 import AdminUsers from '../pages/Admin/Users';
+import AdminRol from '../pages/Admin/Rol';
 
 /* Importacion Publico */
 import HomePublico from '../pages/Publico/Home';
@@ -40,6 +41,11 @@ const routes = [
             {
                 path: '/admin/usuario',
                 component: AdminUsers,
+                exact: true
+            },
+            {
+                path: '/admin/rol',
+                component: AdminRol,
                 exact: true
             },
             {

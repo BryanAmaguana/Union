@@ -75,8 +75,54 @@ export function ObtenerTodosUsuarios(token) {
 
 //obtener los usuarios activos
 
-export function  ObtenerUsuariosAI(token, status) {
-  const url = `${basePath}/ObtenerUsuarioActivos/${status}`;
+export function  ObtenerUsuariosAI(token, status, desde, limite) {
+  const url = `${basePath}/ObtenerUsuarioActivos/${status}/${desde}/${limite}`;
+
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token
+    }
+  };
+  return fetch(url, params)
+    .then(response => {
+      return response.json();
+    })
+    .then(result => {
+      return result;
+    })
+    .catch(err => {
+      return err.message;
+    });
+}
+
+/* Obtner usuario por el nombre */
+export function  ObtenerUsuariosNombreA(token, nombre) {
+  const url = `${basePath}/ObtenerUsuarioNombreActivo/${nombre}`;
+
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token
+    }
+  };
+  return fetch(url, params)
+    .then(response => {
+      return response.json();
+    })
+    .then(result => {
+      return result;
+    })
+    .catch(err => {
+      return err.message;
+    });
+}
+
+
+export function  ObtenerUsuariosNombreI(token, nombre) {
+  const url = `${basePath}/ObtenerUsuarioNombreInactivo/${nombre}`;
 
   const params = {
     method: "GET",
@@ -100,11 +146,9 @@ export function  ObtenerUsuariosAI(token, status) {
 //actualizar el Avatar
 
 export function ActualizarAvatar(token, avatar, userId) {
-  const url = `${basePath}/ActualizarUsuario/${userId}`;
-
+  const url = `${basePath}/ActualizarAvatar/${userId}`;
   const formData = new FormData();
   formData.append("avatar", avatar, avatar.name);
-
   const params = {
     method: "PUT",
     body: formData,
@@ -112,7 +156,6 @@ export function ActualizarAvatar(token, avatar, userId) {
       Authorization: token
     }
   };
-
   return fetch(url, params)
     .then(response => {
       return response.json();

@@ -14,17 +14,7 @@ export default function EditUserForm(props) {
   const [avatar, setAvatar] = useState(null);
   const [userData, setUserData] = useState({});
 
-  useEffect(() => {
-    setUserData({
-      nombre_usuario: usuario.nombre_usuario,
-      correo: usuario.correo,
-      contrasena: usuario.contrasena,
-      contrasenaR: usuario.contrasenaR,
-      id_rol: usuario.id_rol._id,
-      avatar: usuario.avatar
-    });
-  }, [usuario]);
-
+  
   useEffect(() => {
     if (usuario.avatar) {
       ObtenerAvatar(usuario.avatar).then(response => {
@@ -40,9 +30,19 @@ export default function EditUserForm(props) {
     if (avatar) {
       setUserData({ ...userData, avatar: avatar.file });
     }
-    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatar]);
+
+  useEffect(() => {
+    setUserData({
+      nombre_usuario: usuario.nombre_usuario,
+      correo: usuario.correo,
+      contrasena: usuario.contrasena,
+      contrasenaR: usuario.contrasenaR,
+      id_rol: usuario.id_rol._id,
+      avatar: usuario.avatar
+    });
+  }, [usuario]);
 
   const updateUser = e => {
     e.preventDefault();
@@ -68,10 +68,6 @@ export default function EditUserForm(props) {
     }
 
     if (typeof UsuarioActualizado.avatar === "object") {
-
-      console.log("Si quiere actualizar el avatar")
-      console.log(UsuarioActualizado);
-
       ActualizarAvatar(token, UsuarioActualizado.avatar, usuario._id).then(response => {
         UsuarioActualizado.avatar = response.avatarName;
         ActualizarUsuario(token, UsuarioActualizado, usuario._id).then(result => {
@@ -84,10 +80,13 @@ export default function EditUserForm(props) {
       });
     } else {
       ActualizarUsuario(token, UsuarioActualizado, usuario._id).then(result => {
-        notification["success"]({
+        if(result.message === "Usuario actualizado correctamente."){
+          setIsVisibleModal(false);
+          setReloadUsers(true);
+        }
+        notification["info"]({
           message: result.message
         });
-        setIsVisibleModal(false);
         setReloadUsers(true);
       });
     }
@@ -193,7 +192,7 @@ function EditForm(props) {
                 value={userData.id_rol}
             >
               {rol.map((item) => {
-                return <Option value={`${item._id}`}> {item.nombre} </Option>
+                return <Option key= {item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
               })}
             </Select>
           </Form.Item>

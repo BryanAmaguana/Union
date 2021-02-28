@@ -15,10 +15,10 @@ export default function Users() {
 
   useEffect(() => {
 
-    ObtenerUsuariosAI(token, true).then(response => {
+    ObtenerUsuariosAI(token, true, 0, 4).then(response => {
       setusuariosActivos(response.usuario);
     });
-    ObtenerUsuariosAI(token, false).then(response => {
+    ObtenerUsuariosAI(token, false, 0, 4).then(response => {
       setusuariosInactivos(response.usuario);
     });
 
@@ -33,7 +33,7 @@ export default function Users() {
 
   return (
     <div className="users">
-      <ListUsers usuarioActivo={UsuariosActivos} usuarioInactivo ={UsuariosInactivos} rol = {rol} setReloadUsers={setReloadUsers}/>
+      <ListUsers usuarioActivo={UsuariosActivos} usuarioInactivo ={UsuariosInactivos} rol = {rol} setReloadUsers={setReloadUsers} setusuariosActivos={setusuariosActivos} setusuariosInactivos={setusuariosInactivos}/>
     </div>
   );
 }
