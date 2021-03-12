@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { List, Button, Tooltip, Modal as ModalAntd } from "antd";
+import { List, Button, Tooltip } from "antd";
 import { EditOutlined } from '@ant-design/icons';
-import Modal from "../../../Modal";
+import ModalM from "../../../Modal";
 import EditRolForm from "../EditRol";
 import AddRolForm from "../AddRol"
 
@@ -41,9 +41,9 @@ export default function ListUsers(props) {
         setModalContent={setModalContent}
         setReloadRol={setReloadRol} />
       {/* Modal para editar */}
-      <Modal title={modalTitle} isVisible={IsVisibleModal} setIsVisible={setIsVisibleModal}>
+      <ModalM title={modalTitle} isVisible={IsVisibleModal} setIsVisible={setIsVisibleModal}>
         {modalContent}
-      </Modal>
+      </ModalM>
     </div>
   );
 }

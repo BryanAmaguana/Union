@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import { HomeOutlined, UserOutlined, TrademarkCircleOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, TrademarkCircleOutlined, MehOutlined } from '@ant-design/icons';
 import { getAccessTokenApi } from "../../../api/auth";
 import jwt_decode from "jwt-decode";
 import { Avatar } from "antd";
@@ -48,6 +48,13 @@ function MenuSider(props) {
                     <Link to={"/admin/rol"}>
                     <TrademarkCircleOutlined />
                         <span className="nac-text">Roles</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/persona">
+                    <Link to={"/admin/persona"}>
+                    <MehOutlined />
+                        <span className="nac-text">Personas</span>
                     </Link>
                 </Menu.Item>
 
