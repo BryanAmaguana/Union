@@ -60,7 +60,7 @@ export default function ListPersona(props) {
         <div className="list-persona">
             <div className="list-persona__header">
                 {/* Buscar persona */}
-                <div className="form-edit">
+                <div className="Buscar">
                     <Input
                         prefix={<SearchOutlined />}
                         placeholder=" Buscar por cédula "
@@ -163,9 +163,9 @@ function Personas(props) {
       ${persona.apellido_persona ? persona.apellido_persona : '...'}
       ${persona.nombre_persona ? persona.nombre_persona : '...'}`);
         setModalContent(<EditPersona
-        persona={persona}
-        setIsVisibleModal={setIsVisibleModal}
-        setReloadPersona={setReloadPersona} />);
+            persona={persona}
+            setIsVisibleModal={setIsVisibleModal}
+            setReloadPersona={setReloadPersona} />);
     }
 
     return (
@@ -242,7 +242,7 @@ function ListaPersonas(props) {
                         <br />
                         <b>Contacto:</b> {persona.celular_persona ? persona.celular_persona : '...'}
                         <br />
-                        <b>Fecha de Nacimiento:</b> {persona.fecha_nacimiento_persona ? persona.fecha_nacimiento_persona.substr(0,10) : '...'}
+                        <b>Fecha de Nacimiento:</b> {persona.fecha_nacimiento_persona ? persona.fecha_nacimiento_persona.substr(0, 10) : '...'}
                     </div>
                 }
             />

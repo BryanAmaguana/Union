@@ -92,7 +92,7 @@ function AddForm(props) {
                 }
             }
             total = total % 10 ? 10 - total % 10 : 0;
-            if (total == cad.charAt(longitud - 1)) {
+            if (cad.charAt(longitud - 1) == total) {
                 setMensaje("Cedula Correcta");
                 setFormatoCedula(true);
             } else {

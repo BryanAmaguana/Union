@@ -5,7 +5,7 @@ import ListPersona from "../../../components/Admin/Persona/ListPersona";
 
 import "./Persona.scss";
 
-export default function Rol() {
+export default function Persona() {
     const [reloadPersona , setReloadPersona] = useState(false);
     const [persona, setpersona] = useState([]);
     const token = getAccessTokenApi(); 

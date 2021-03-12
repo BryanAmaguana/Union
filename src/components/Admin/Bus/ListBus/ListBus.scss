@@ -1,4 +1,4 @@
-.list-persona {
+.list-bus {
     &__header {
       display: flex;
       align-items: center;
@@ -15,7 +15,7 @@
       }
     }
   
-    .persona-active {
+    .bus-active {
       background-color: #fff;
       padding: 10px 20px;
   
@@ -36,9 +36,9 @@
   margin: 10px;
 }
 
-.Buscar {
+.form-edit {
   text-align: center;
   size:40;
-  width:80%;
-  margin-left: 5%;
+  width:470px
+
 }
