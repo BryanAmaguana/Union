@@ -1,0 +1,44 @@
+.list-tarjeta {
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+  
+      &-switch {
+        display: flex;
+        align-items: center;
+  
+        > button {
+          margin-right: 20px;
+        }
+      }
+    }
+  
+    .tarjeta-active {
+      background-color: #fff;
+      padding: 10px 20px;
+  
+      .ant-list-item-meta {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+.centradoL{
+  text-align:center; 
+  padding: 10px;
+}
+
+.centradoB{
+  text-align:center; 
+  margin: 10px;
+}
+
+.form-edit {
+  text-align: center;
+  size:40;
+  width:470px
+
+}

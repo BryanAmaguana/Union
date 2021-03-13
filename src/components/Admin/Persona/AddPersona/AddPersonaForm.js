@@ -92,7 +92,9 @@ function AddForm(props) {
                 }
             }
             total = total % 10 ? 10 - total % 10 : 0;
-            if (cad.charAt(longitud - 1) == total) {
+            // eslint-disable-next-line
+            if (cad.charAt(longitud - 1) == total ) {
+                
                 setMensaje("Cedula Correcta");
                 setFormatoCedula(true);
             } else {
@@ -108,6 +110,7 @@ function AddForm(props) {
         } else {
             setMensaje("Verificar Cédula");
         }
+        // eslint-disable-next-line
     }, [personaData.cedula_persona]);
 
 

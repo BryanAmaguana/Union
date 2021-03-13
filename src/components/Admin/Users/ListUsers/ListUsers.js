@@ -338,7 +338,7 @@ function ListaUsuariosActivos(props) {
 
     confirm({
       title: "Eliminando usuario",
-      content: `¿Estas seguro que deseas eliminar a ${usuario.nombre_usuario}?`,
+      content: `¿Esta seguro que desea eliminar a ${usuario.nombre_usuario}?`,
       okText: "Eliminar",
       okType: "danger",
       cancelText: "Cancelar",
@@ -452,7 +452,7 @@ function ListaUsuariosInactivos(props) {
 
     confirm({
       title: "Eliminando usuario",
-      content: `¿Estas seguro que deseas eliminar a ${usuario.nombre_usuario}?`,
+      content: `¿Esta seguro que desea eliminar a ${usuario.nombre_usuario}?`,
       okText: "Eliminar",
       okType: "danger",
       cancelText: "Cancelar",

@@ -192,7 +192,7 @@ function ListaPersonas(props) {
 
         confirm({
             title: "Eliminando Persona",
-            content: `¿Estas seguro que deseas eliminar a ${persona.nombre_persona} ${persona.apellido_persona}?`,
+            content: `¿Esta seguro que desea eliminar a ${persona.nombre_persona} ${persona.apellido_persona}?`,
             okText: "Eliminar",
             okType: "danger",
             cancelText: "Cancelar",

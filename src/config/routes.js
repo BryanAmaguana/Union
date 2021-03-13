@@ -12,6 +12,7 @@ import AdminUsers from '../pages/Admin/Users';
 import AdminRol from '../pages/Admin/Rol';
 import AdminPersona from '../pages/Admin/Persona';
 import AdminBus from '../pages/Admin/Bus';
+import AdminTarjeta from '../pages/Admin/Tarjeta';
 
 /* Importacion Publico */
 import HomePublico from '../pages/Publico/Home';
@@ -58,6 +59,11 @@ const routes = [
             {
                 path: '/admin/bus',
                 component: AdminBus,
+                exact: true
+            },
+            {
+                path: '/admin/tarjeta',
+                component: AdminTarjeta,
                 exact: true
             },
             {

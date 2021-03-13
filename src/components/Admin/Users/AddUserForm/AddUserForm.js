@@ -7,7 +7,7 @@ import { ObtenerPersonaCedula } from "../../../../api/persona";
 
 import "./AddUserForm.scss";
 
-export default function EditUserForm(props) {
+export default function AddUserForm(props) {
   const { setIsVisibleModal, setReloadUsers, rol } = props;
   const [userData, setUserData] = useState({});
   const [persona, setPersona] = useState({});

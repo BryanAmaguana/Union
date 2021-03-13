@@ -290,7 +290,7 @@ function ListaBusActivos(props) {
 
         confirm({
             title: "Eliminando Bus",
-            content: `¿Estas seguro que deseas eliminar el Bus Numero:  ${bus.numero_bus}?`,
+            content: `¿Esta seguro que desea eliminar el Bus Numero:  ${bus.numero_bus}?`,
             okText: "Eliminar",
             okType: "danger",
             cancelText: "Cancelar",
@@ -394,7 +394,7 @@ function ListaBusInactivos(props) {
 
         confirm({
             title: "Eliminando Bus",
-            content: `¿Estas seguro que deseas eliminar el Bus Numero:  ${bus.numero_bus}?`,
+            content: `¿Esta seguro que desea eliminar el Bus Numero:  ${bus.numero_bus}?`,
             okText: "Eliminar",
             okType: "danger",
             cancelText: "Cancelar",
