@@ -377,9 +377,7 @@ function ListaTarjetaActivos(props) {
         >
             <List.Item.Meta
                 avatar={<Avatar src={NoAvatar} />}
-                title={`Código de Tarjeta: 
-            ${tarjeta.codigo ? tarjeta.codigo : '...'}
-         ` }
+                title={`Código de Tarjeta:  ${tarjeta.codigo ? tarjeta.codigo : '...'}`}
                 description={
                     <div>
                         <b>Valor Tarjeta:</b> {tarjeta.valor_tarjeta ? Valor(tarjeta.valor_tarjeta) : '0.00'}
