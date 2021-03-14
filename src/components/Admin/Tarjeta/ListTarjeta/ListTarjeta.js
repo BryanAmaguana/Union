@@ -56,7 +56,7 @@ export default function ListTarjeta(props) {
     }, [token, CodigoTarjeta, TarjetaActivos, TarjetaInactivos]);
 
     /* Modal para agregar usuario */
-    const AgregarUsuarioModal = () => {
+    const AgregarTarjetaModal = () => {
         setIsVisibleModal(true);
         setModalTitle("Agregar nueva Tarjeta");
         setModalContent(
@@ -123,7 +123,7 @@ export default function ListTarjeta(props) {
                 </div>
                 {/* .............. */}
 
-                <Button type="primary" onClick={AgregarUsuarioModal}>
+                <Button type="primary" onClick={AgregarTarjetaModal}>
                     Nueva Tarjeta
         </Button>
             </div>

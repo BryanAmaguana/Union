@@ -1,63 +1,63 @@
 import React, { useState } from "react";
 import { Switch, List, Button, Tooltip, notification, Modal as ModalAntd } from "antd";
-import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined} from '@ant-design/icons';
+import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons';
 import Modal from "../../../Modal";
-import EditRutaForm from "../EditRuta";
-import { ActivarRuta, EliminarRuta } from "../../../../api/ruta";
+import EditTipoForm from "../EditTipo_Pasajero";
+import { ActivarTipo_Pasajero, EliminarTipo_Pasajero } from "../../../../api/tipo_pasajero";
 import { getAccessTokenApi } from "../../../../api/auth";
-import AddRutaForm from "../AddRuta";
+import AddTipoForm from "../AddTipo_Pasajero";
 
-import "./ListRuta.scss";
+import "./ListTipo_Pasajero.scss";
 
 const { confirm } = ModalAntd;
 
-export default function ListRuta(props) {
-    const { RutaActivos, RutaInactivos, setReloadRuta } = props;
-    const [VerRutaActivos, setVerRutaActivos] = useState(true);
+export default function ListTipoP(props) {
+    const { TipoActivos, TipoInactivos, setReloadTipo } = props;
+    const [VerTipoActivos, setVerTipoActivos] = useState(true);
     const [IsVisibleModal, setIsVisibleModal] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
     const [modalContent, setModalContent] = useState(null);
 
     /* Modal para agregar usuario */
-    const AgregarRutaModal = () => {
+    const AgregarTipoModal = () => {
         setIsVisibleModal(true);
-        setModalTitle("Agregar nueva Ruta");
+        setModalTitle("Agregar nuevo Tipo de Pasajero");
         setModalContent(
-            <AddRutaForm
-                setIsVisibleModal={setIsVisibleModal}
-                setReloadRuta={setReloadRuta}
-            />
+             <AddTipoForm
+                 setIsVisibleModal={setIsVisibleModal}
+                 setReloadTipo={setReloadTipo}
+             />
         );
     };
 
     return (
         /* switch y boton agregar usuario */
-        <div className="list-ruta">
-            <div className="list-ruta__header">
-                <div className="list-ruta__header-switch">
+        <div className="list-tipo">
+            <div className="list-tipo__header">
+                <div className="list-tipo__header-switch">
                     <Switch
                         defaultChecked
-                        onChange={() => { setVerRutaActivos(!VerRutaActivos) }}
+                        onChange={() => { setVerTipoActivos(!VerTipoActivos) }}
                     />
                     <span >
-                        {VerRutaActivos ? "Rutas Activas" : "Rutas Inactivas"}
+                        {VerTipoActivos ? "Tipo de Pasajeros Activos" : "Tipo de Pasajeros Inactivos"}
                     </span>
                 </div>
 
-                <Button type="primary" onClick={AgregarRutaModal}>
-                    Nueva Ruta
+                <Button type="primary" onClick={AgregarTipoModal}>
+                    Nuevo Tipo de Pasajero
         </Button>
             </div>
 
             {/* listado de usuarios activos e inactivos */}
-            {VerRutaActivos ? (
-                <RutActivo
-                    RutaActivos={RutaActivos}
+            {VerTipoActivos ? (
+                <TipoPActivo
+                    TipoActivos={TipoActivos}
                     setIsVisibleModal={setIsVisibleModal}
                     setModalTitle={setModalTitle}
-                    setReloadRuta={setReloadRuta}
+                    setReloadTipo={setReloadTipo}
                     setModalContent={setModalContent} />) : (
-                <RutaInactivo RutaInactivos={RutaInactivos} setReloadRuta={setReloadRuta} />)}
+                <TipoPInactivo TipoInactivos={TipoInactivos} setReloadTipo={setReloadTipo} />)}
 
             {/* Modal para editar */}
             <Modal title={modalTitle} isVisible={IsVisibleModal} setIsVisible={setIsVisibleModal}>
@@ -69,49 +69,48 @@ export default function ListRuta(props) {
 }
 
 /* Metodo para llamar a los usuarios activos */
-function RutActivo(props) {
-    const { RutaActivos, setIsVisibleModal, setModalTitle, setModalContent, setReloadRuta } = props;
-    /* Metodo para activar modal y editar rutas, llamada a EditUserForm */
-    const EditarRuta = ruta => {
+function TipoPActivo(props) {
+    const { TipoActivos, setIsVisibleModal, setModalTitle, setModalContent, setReloadTipo } = props;
+    /* Metodo para activar modal y editar tipo de pasajeros */
+    const EditarTipo_Pasajero = tipo => {
         setIsVisibleModal(true);
-        setModalTitle(`Editar Ruta : 
-    ${ruta.nombre_ruta ? ruta.nombre_ruta : '...'}
-    ${ruta.numero_ruta ? ruta.numero_ruta : '...'}`);
+        setModalTitle(`Editar Tipo de Pasajero : 
+    ${tipo.nombre ? tipo.nombre : '...'}`);
         setModalContent(
-            <EditRutaForm
-            ruta={ruta}
+            <EditTipoForm
+            tipo={tipo}
                 setIsVisibleModal={setIsVisibleModal}
-                setReloadRuta={setReloadRuta} />)
+                setReloadTipo={setReloadTipo} />)
     }
 
     return (
         <List
-            className="ruta-active"
+            className="tipo-active"
             itemLayout="horizontal"
-            dataSource={RutaActivos}
+            dataSource={TipoActivos}
             renderItem={
-                ruta => <ListaRutaActivos
-                    ruta={ruta}
-                    EditarRuta={EditarRuta}
-                    setReloadRuta={setReloadRuta} />}
+                tipo => <ListaTPActivos
+                    tipo={tipo}
+                    EditarTipo_Pasajero={EditarTipo_Pasajero}
+                    setReloadTipo={setReloadTipo} />}
         />
 
     );
 }
 
 /* Metodo que muesta los datos dento de la lista */
-function ListaRutaActivos(props) {
-    const { ruta, EditarRuta, setReloadRuta } = props;
+function ListaTPActivos(props) {
+    const { tipo, EditarTipo_Pasajero, setReloadTipo } = props;
 
-    const desactivarTarjeta = () => {
+    const desactivarTipo = () => {
         const accesToken = getAccessTokenApi();
 
-        ActivarRuta(accesToken, ruta._id, false)
+        ActivarTipo_Pasajero(accesToken, tipo._id, false)
             .then(response => {
                 notification["success"]({
                     message: response
                 });
-                setReloadRuta(true);
+                setReloadTipo(true);
             })
             .catch(err => {
                 notification["error"]({
@@ -124,18 +123,18 @@ function ListaRutaActivos(props) {
         const accesToken = getAccessTokenApi();
 
         confirm({
-            title: "Eliminando Ruta",
-            content: `¿Esta seguro que desea eliminar a la Ruta: ${ruta.nombre_ruta}?`,
+            title: "Eliminando Tipo de pasajero",
+            content: `¿Esta seguro que desea eliminar al Tipo de pasajero : ${tipo.nombre}?`,
             okText: "Eliminar",
             okType: "danger",
             cancelText: "Cancelar",
             onOk() {
-                EliminarRuta(accesToken, ruta._id)
+                EliminarTipo_Pasajero(accesToken, tipo._id)
                     .then(response => {
                         notification["success"]({
                             message: response
                         });
-                        setReloadRuta(true);
+                        setReloadTipo(true);
                     })
                     .catch(err => {
                         notification["error"]({
@@ -146,17 +145,27 @@ function ListaRutaActivos(props) {
         });
     };
 
+    const Valor = valor => {
+        var cadena = valor;
+        var separador = ".";
+        var arregloDeSubCadenas = cadena.toString().split(separador, 3);
+        if (arregloDeSubCadenas[1] && arregloDeSubCadenas[1].length === 1) {
+            cadena = arregloDeSubCadenas[0] + "." + arregloDeSubCadenas[1] + "0";
+        }
+        return cadena;
+    }
+
     return (
         <List.Item
             actions={[
                 <Tooltip title="Editar">
-                    <Button type="primary" onClick={() => EditarRuta(ruta)} >
+                    <Button type="primary" onClick={() => EditarTipo_Pasajero(tipo)} >
                         <EditOutlined />
                     </Button>
                 </Tooltip>,
 
                 <Tooltip title="Desactivar">
-                    <Button type="danger" onClick={() => desactivarTarjeta()}>
+                    <Button type="danger" onClick={() => desactivarTipo()}>
                         <StopOutlined />
                     </Button>
                 </Tooltip>,
@@ -168,12 +177,12 @@ function ListaRutaActivos(props) {
             ]}
         >
             <List.Item.Meta
-                title={`Ruta :  ${ruta.nombre_ruta ? ruta.nombre_ruta : '...'}`}
+                title={`Tipo de pasajero :  ${tipo.nombre ? tipo.nombre : '...'}`}
                 description={
                     <div>
-                        <b>N˚:</b> {ruta.numero_ruta ? ruta.numero_ruta : '...'}
+                        <b>Valor :</b> {tipo.valor ? Valor(tipo.valor) : '0.00'}
                         <br />
-                        <b>Descripción:</b> {ruta.descripcion ? ruta.descripcion : '...'}
+                        <b>Descripción:</b> {tipo.descripcion ? tipo.descripcion : '...'}
                     </div>
                 }
             />
@@ -182,31 +191,31 @@ function ListaRutaActivos(props) {
 }
 
 /* Metodo para llamar a los usuarios inactivos */
-function RutaInactivo(props) {
-    const { RutaInactivos, setReloadRuta } = props
+function TipoPInactivo(props) {
+    const { TipoInactivos, setReloadTipo } = props
     return (
         <List
-            className="ruta-active"
+            className="tipo-active"
             itemLayout="horizontal"
-            dataSource={RutaInactivos}
-            renderItem={ruta => (<ListaRutaInactivos ruta={ruta} setReloadRuta={setReloadRuta} />)}
+            dataSource={TipoInactivos}
+            renderItem={tipo => (<ListaTPInactivos tipo={tipo} setReloadTipo={setReloadTipo} />)}
         />
     );
 }
 
 /* Metodo que muesta los datos dento de la lista */
-function ListaRutaInactivos(props) {
-    const { ruta, setReloadRuta } = props;
+function ListaTPInactivos(props) {
+    const { tipo, setReloadTipo } = props;
 
-    const activarRuta = () => {
+    const activarTipo_Pasajero = () => {
         const accesToken = getAccessTokenApi();
 
-        ActivarRuta(accesToken, ruta._id, true)
+        ActivarTipo_Pasajero(accesToken, tipo._id, true)
             .then(response => {
                 notification["success"]({
                     message: response
                 });
-                setReloadRuta(true);
+                setReloadTipo(true);
             })
             .catch(err => {
                 notification["error"]({
@@ -219,18 +228,18 @@ function ListaRutaInactivos(props) {
         const accesToken = getAccessTokenApi();
 
         confirm({
-            title: "Eliminando Ruta",
-            content: `¿Esta seguro que desea eliminar a la Ruta: ${ruta.nombre_ruta}?`,
+            title: "Eliminando Tipo de pasajero",
+            content: `¿Esta seguro que desea eliminar al Tipo de pasajero : ${tipo.nombre}?`,
             okText: "Eliminar",
             okType: "danger",
             cancelText: "Cancelar",
             onOk() {
-                EliminarRuta(accesToken, ruta._id)
+                EliminarTipo_Pasajero(accesToken, tipo._id)
                     .then(response => {
                         notification["success"]({
                             message: response
                         });
-                        setReloadRuta(true);
+                        setReloadTipo(true);
                     })
                     .catch(err => {
                         notification["error"]({
@@ -241,11 +250,21 @@ function ListaRutaInactivos(props) {
         });
     };
 
+    const Valor = valor => {
+        var cadena = valor;
+        var separador = ".";
+        var arregloDeSubCadenas = cadena.toString().split(separador, 3);
+        if (arregloDeSubCadenas[1] && arregloDeSubCadenas[1].length === 1) {
+            cadena = arregloDeSubCadenas[0] + "." + arregloDeSubCadenas[1] + "0";
+        }
+        return cadena;
+    }
+
     return (
         <List.Item
             actions={[
                 <Tooltip title="Activar">
-                    <Button type="primary" onClick={() => activarRuta()}>
+                    <Button type="primary" onClick={() => activarTipo_Pasajero()}>
                         <CheckOutlined />
                     </Button>
                 </Tooltip>,
@@ -257,12 +276,12 @@ function ListaRutaInactivos(props) {
             ]}
         >
             <List.Item.Meta
-                title={`Ruta :  ${ruta.nombre_ruta ? ruta.nombre_ruta : '...'}`}
+                title={`Tipo de pasajero :  ${tipo.nombre ? tipo.nombre : '...'}`}
                 description={
                     <div>
-                        <b>N˚:</b> {ruta.numero_ruta ? ruta.numero_ruta : '...'}
+                        <b>Valor :</b> {tipo.valor ? Valor(tipo.valor) : '0.00'}
                         <br />
-                        <b>Descripción:</b> {ruta.descripcion ? ruta.descripcion : '...'}
+                        <b>Descripción:</b> {tipo.descripcion ? tipo.descripcion : '...'}
                     </div>
                 }
             />

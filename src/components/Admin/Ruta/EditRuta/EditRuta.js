@@ -106,7 +106,7 @@ function EditForm(props) {
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" className="btn-submit">
-                    Agregar Ruta
+                    Actualizar Ruta
   </Button>
             </Form.Item>
         </Form>

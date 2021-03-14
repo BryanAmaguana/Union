@@ -155,7 +155,7 @@ function EditForm(props) {
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" className="btn-submit">
-                    Actualizar Usuario
+                    Actualizar Persona
         </Button>
             </Form.Item>
         </Form>

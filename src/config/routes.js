@@ -14,6 +14,7 @@ import AdminPersona from '../pages/Admin/Persona';
 import AdminBus from '../pages/Admin/Bus';
 import AdminTarjeta from '../pages/Admin/Tarjeta';
 import AdminRuta from '../pages/Admin/Ruta';
+import AdminTipo from '../pages/Admin/Tipo_Pasajero';
 
 /* Importacion Publico */
 import HomePublico from '../pages/Publico/Home';
@@ -70,6 +71,11 @@ const routes = [
             {
                 path: '/admin/ruta',
                 component: AdminRuta,
+                exact: true
+            },
+            {
+                path: '/admin/tipo',
+                component: AdminTipo,
                 exact: true
             },
             {

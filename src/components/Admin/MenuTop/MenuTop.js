@@ -17,6 +17,11 @@ export default function MenuTop(props) {
         window.location.href="/admin/login";
     }
 
+
+    const Home= () =>{
+        window.location.href="/admin";
+    }
+
     return (
         <div className="menu-top">
             &nbsp;
@@ -29,7 +34,7 @@ export default function MenuTop(props) {
                     className="menu-top__left-logo"
                     src={UnionLogo2}
                     alt="Union"
-                    
+                    onClick={Home}
                 />
 
             </div>

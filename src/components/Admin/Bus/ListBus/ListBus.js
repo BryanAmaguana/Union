@@ -30,7 +30,7 @@ export default function ListBus(props) {
     /* Modal para agregar buses */
     const AgregarUsuarioModal = () => {
         setIsVisibleModal(true);
-        setModalTitle("Agregar nuevo Usuario");
+        setModalTitle("Agregar nuevo Bus");
         setModalContent(
             <AddBus
                 setIsVisibleModal={setIsVisibleModal}
