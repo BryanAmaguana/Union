@@ -119,7 +119,7 @@ function ListaTPActivos(props) {
             });
     };
 
-    const ConfirmarEliminar = () => {
+/*     const ConfirmarEliminar = () => {
         const accesToken = getAccessTokenApi();
 
         confirm({
@@ -143,7 +143,7 @@ function ListaTPActivos(props) {
                     });
             }
         });
-    };
+    }; */
 
     const Valor = valor => {
         var cadena = valor;
@@ -170,10 +170,10 @@ function ListaTPActivos(props) {
                     </Button>
                 </Tooltip>,
 
-                <Tooltip title="Eliminar">
+/*                 <Tooltip title="Eliminar">
                     <Button type="danger" onClick={() => ConfirmarEliminar()}>
                         <DeleteOutlined />
-                    </Button></Tooltip>
+                    </Button></Tooltip> */
             ]}
         >
             <List.Item.Meta

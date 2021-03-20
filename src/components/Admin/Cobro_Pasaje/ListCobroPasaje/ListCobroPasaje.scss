@@ -1,0 +1,39 @@
+.list-cobro {
+    &__header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+        > button {
+          margin-right: 20px;
+        }
+    }
+  
+    .cobro-active {
+      background-color: #fff;
+      padding: 10px 20px;
+  
+      .ant-list-item-meta {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+.centradoL{
+  text-align:center; 
+  padding: 10px;
+}
+
+.centradoB{
+  text-align:center; 
+  margin: 10px;
+}
+
+.Buscar {
+  width: 200px;
+  margin-left: 5px
+}
+
+.BuscarLetra {
+  margin-left: 30px
+}

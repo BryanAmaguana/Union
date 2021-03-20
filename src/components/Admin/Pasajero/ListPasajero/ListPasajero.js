@@ -1,93 +1,67 @@
 import React, { useState, useEffect } from "react";
-import { Switch, List, Input, Avatar, Button, Tooltip, notification, Modal as ModalAntd } from "antd";
-import NoAvatar from "../../../../assets/img/png/tarjeta.png";
+import { Switch, List, Input, Button, Avatar, Tooltip, notification, Modal as ModalAntd } from "antd";
 import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined, SearchOutlined } from '@ant-design/icons';
 import Modal from "../../../Modal";
-import EditTarjetaForm from "../EditTarjeta";
-import { ObtenerTarjetaCodigo, ActivarTarjeta, EliminarTarjeta, ObtenerTarjeta } from "../../../../api/tarjeta";
+import NoAvatar from "../../../../assets/img/png/pasajero.png";
+import EditPasajero from "../EditPasajero";
+import { ActivarPasajero, EliminarPasajero, ObtenerCedulaPasajero, ObtenerPasajero } from "../../../../api/pasajero";
 import { getAccessTokenApi } from "../../../../api/auth";
-import AddTarjetaForm from "../AddTarjeta";
+import AddPasajero from "../AddPasajero";
 
-import "./ListTarjeta.scss";
+
+import "./ListPasajero.scss";
 
 const { confirm } = ModalAntd;
 
-export default function ListTarjeta(props) {
-    const { TarjetaActivos, setTarjetaActivos, TarjetaInactivos, setTarjetaInactivos, setReloadTarjeta } = props;
-    const [VerTarjetaActivos, setVerTarjetaActivos] = useState(true);
+export default function ListPasajero(props) {
+    const { PasajeroActivos, setPasajeroActivos, PasajeroInactivos, setPasajeroInactivos, setReloadPasajero, Tipo_Pasajero } = props;
+    const [VerPasajeroActivo, setVerPasajeroActivo] = useState(true);
     const [IsVisibleModal, setIsVisibleModal] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
     const [modalContent, setModalContent] = useState(null);
-    const [BusquedaTarjetaActivo, setBusquedaTarjetaA] = useState(false);
-    const [BusquedaTarjetaInactivo, setBusquedaTarjetaI] = useState(false);
-    const [CodigoTarjeta, setCodigoTarjeta] = useState(" ");
+    const [BusquedaPasajeroActivo, setBuquedaPasajeroA] = useState(false);
+    const [BusquedaPasajeroInactivo, setBusquedaPasajeroI] = useState(false);
     const [paginaActual, setpaginaActual] = useState(1);
     const [BotonesPaginacion, setBotonesPaginacion] = useState(true);
     const [desde, setDesde] = useState(0);
-    const [limite, setLimite] = useState(6);
+    const [limite, setLimite] = useState(3);
     const token = getAccessTokenApi();
-    const NumeroPorPagina = 6;
+    const NumeroPorPagina = 3;
 
-    /* Obtener los nombres de los usuarios para la busqueda */
-    useEffect(() => {
-        if (CodigoTarjeta === "" || CodigoTarjeta === " ") {
-            setBusquedaTarjetaA(TarjetaActivos);
-            setBusquedaTarjetaI(TarjetaInactivos);
-        } else {
-            ObtenerTarjetaCodigo(token, CodigoTarjeta, true)
-                .then(response => {
-                    setBusquedaTarjetaA(response.tarjeta)
-                })
-                .catch(err => {
-                    notification["error"]({
-                        message: err
-                    });
-                });
-            ObtenerTarjetaCodigo(token, CodigoTarjeta, false)
-                .then(response => {
-                    setBusquedaTarjetaI(response.tarjeta)
-                })
-                .catch(err => {
-                    notification["error"]({
-                        message: err
-                    });
-                });
-        }
-    }, [token, CodigoTarjeta, TarjetaActivos, TarjetaInactivos]);
 
-    /* Modal para agregar usuario */
-    const AgregarTarjetaModal = () => {
+    /* Modal para agregar buses */
+    const AgregarPasajeroModal = () => {
         setIsVisibleModal(true);
-        setModalTitle("Agregar nueva Tarjeta");
+        setModalTitle("Agregar nuevo Pasajero");
         setModalContent(
-            <AddTarjetaForm
+            <AddPasajero
                 setIsVisibleModal={setIsVisibleModal}
-                setReloadTarjeta={setReloadTarjeta}
+                setReloadPasajero={setReloadPasajero}
+                Tipo_Pasajero={Tipo_Pasajero}
             />
         );
     };
 
-    /* Buscar usuarios */
-    const Buscar = codigo => {
-        setCodigoTarjeta(codigo);
-        setBusquedaTarjetaA(TarjetaActivos);
-        setBusquedaTarjetaI(TarjetaInactivos);
-        if (codigo === "" || codigo === " ") {
-            setBusquedaTarjetaA(TarjetaActivos);
-            setBusquedaTarjetaI(TarjetaInactivos);
+    /* Buscar buses */
+    const Buscar = cedula => {
+        setBuquedaPasajeroA(PasajeroActivos);
+        setBusquedaPasajeroI(PasajeroInactivos);
+        if (cedula === "" || cedula === " ") {
+            setBuquedaPasajeroA(PasajeroActivos);
+            setBusquedaPasajeroI(PasajeroInactivos);
         } else {
-            ObtenerTarjetaCodigo(token, codigo, true)
+            ObtenerCedulaPasajero(token, cedula, true)
                 .then(response => {
-                    setBusquedaTarjetaA(response.tarjeta)
+                    setBuquedaPasajeroA(response.pasajero)
                 })
                 .catch(err => {
                     notification["error"]({
                         message: err
                     });
                 });
-            ObtenerTarjetaCodigo(token, codigo, false)
+            ObtenerCedulaPasajero(token, cedula, false)
                 .then(response => {
-                    setBusquedaTarjetaI(response.tarjeta)
+                    setBusquedaPasajeroI(response.pasajero)
                 })
                 .catch(err => {
                     notification["error"]({
@@ -98,24 +72,24 @@ export default function ListTarjeta(props) {
     }
 
     return (
-        /* switch y boton agregar usuario */
-        <div className="list-tarjeta">
-            <div className="list-tarjeta__header">
-                <div className="list-tarjeta__header-switch">
+        /* switch y boton agregar buses */
+        <div className="list-pasajero">
+            <div className="list-pasajero__header">
+                <div className="list-pasajero__header-switch">
                     <Switch
                         defaultChecked
-                        onChange={() => { setVerTarjetaActivos(!VerTarjetaActivos); setpaginaActual(1); setDesde(0); setLimite(6); setBotonesPaginacion(!BotonesPaginacion) }}
+                        onChange={() => { setVerPasajeroActivo(!VerPasajeroActivo); setpaginaActual(1); setDesde(0); setLimite(3); setBotonesPaginacion(!BotonesPaginacion) }}
                     />
-                    <span id="TActivos" >
-                        {VerTarjetaActivos ? "Tarjetas Activas" : "Tarjetas Inactivas"}
+                    <span >
+                        {VerPasajeroActivo ? "Pasajeros Activos" : "Pasajeros Inactivos"}
                     </span>
                 </div>
 
-                {/* Buscar Usuario */}
+                {/* Buscar buses */}
                 <div className="form-edit">
                     <Input
                         prefix={<SearchOutlined />}
-                        placeholder=" Buscar código de tarjeta"
+                        placeholder="Buscar cedula del Pasajero"
                         onChange={
                             event => Buscar(event.target.value)
                         }
@@ -123,50 +97,49 @@ export default function ListTarjeta(props) {
                 </div>
                 {/* .............. */}
 
-                <Button type="primary" onClick={AgregarTarjetaModal}>
-                    Nueva Tarjeta
-        </Button>
+                <Button type="primary" onClick={AgregarPasajeroModal}>
+                    Nuevo Pasajero
+                </Button>
             </div>
 
-            {/* listado de usuarios activos e inactivos */}
-            {VerTarjetaActivos ? (
-                <TarjetaActivo
-                    TarjetaActivos={BusquedaTarjetaActivo ? BusquedaTarjetaActivo : TarjetaActivos}
+            {/* listado de buses activos e inactivos */}
+            {VerPasajeroActivo ? (
+                <LPasajeroActivo
+                    PasajeroActivos={BusquedaPasajeroActivo ? BusquedaPasajeroActivo : PasajeroActivos}
                     setIsVisibleModal={setIsVisibleModal}
                     setModalTitle={setModalTitle}
-                    setReloadTarjeta={setReloadTarjeta}
-                    setModalContent={setModalContent} />) : (
-                <TarjetaInactivo TarjetaInactivos={BusquedaTarjetaInactivo ? BusquedaTarjetaInactivo : TarjetaInactivos} setReloadTarjeta={setReloadTarjeta} />)}
+                    setReloadPasajero={setReloadPasajero}
+                    setModalContent={setModalContent}
+                    Tipo_Pasajero={Tipo_Pasajero} />) : (
+                <LPasajeroInactivo PasajeroInactivos={BusquedaPasajeroInactivo ? BusquedaPasajeroInactivo : PasajeroInactivos} setReloadPasajero={setReloadPasajero} />)}
 
             {/* Modal para editar */}
             <Modal title={modalTitle} isVisible={IsVisibleModal} setIsVisible={setIsVisibleModal}>
                 {modalContent}
             </Modal>
 
-            {/* Paginacion de los usuarios Activos  */}
+            {/* Paginacion de los buses Activos  */}
             <div className="centradoL">
                 {BotonesPaginacion ?
                     <PaginacionA
                         paginaActual={paginaActual}
                         setpaginaActual={setpaginaActual}
                         token={token}
-                        setTarjetaActivos={setTarjetaActivos}
+                        setPasajeroActivos={setPasajeroActivos}
                         desde={desde}
                         setDesde={setDesde}
                         limite={limite}
-                        setLimite={setLimite}
-                        setTarjetaInactivos={setTarjetaInactivos}
+                        setPasajeroInactivos={setPasajeroInactivos}
                         NumeroPorPagina={NumeroPorPagina} /> :
                     <PaginacionI
                         paginaActual={paginaActual}
                         setpaginaActual={setpaginaActual}
                         token={token}
-                        setTarjetaActivos={setTarjetaActivos}
+                        setPasajeroActivos={setPasajeroActivos}
                         desde={desde}
                         setDesde={setDesde}
                         limite={limite}
-                        setLimite={setLimite}
-                        setTarjetaInactivos={setTarjetaInactivos}
+                        setPasajeroInactivos={setPasajeroInactivos}
                         NumeroPorPagina={NumeroPorPagina} />
                 }
             </div>
@@ -174,17 +147,16 @@ export default function ListTarjeta(props) {
     );
 }
 
-/* Mostrar 4 siguientes usuarios Activos */
 function PaginacionA(props) {
-    const { paginaActual, setpaginaActual, token, setTarjetaActivos, desde, setDesde, limite, setTarjetaInactivos, NumeroPorPagina } = props;
+    const { paginaActual, setpaginaActual, token, setPasajeroActivos, desde, setDesde, limite, setPasajeroInactivos, NumeroPorPagina } = props;
     useEffect(() => {
-        ObtenerTarjeta(token, true, desde, limite).then(response => {
-            setTarjetaActivos(response.tarjeta);
-            if ((response.tarjeta).length < NumeroPorPagina) {
+        ObtenerPasajero(token, true, desde, limite).then(response => {
+            setPasajeroActivos(response.pasajero);
+            if ((response.pasajero).length < NumeroPorPagina) {
                 document.getElementById('siguiente').disabled = true;
             }
         });
-    }, [desde, limite, token, setTarjetaActivos, setDesde, setTarjetaInactivos, NumeroPorPagina]);
+    }, [desde, limite, token, setPasajeroActivos, setDesde, setPasajeroInactivos, NumeroPorPagina]);
 
     const Siguiente = () => {
         var PA = paginaActual + 1
@@ -209,29 +181,29 @@ function PaginacionA(props) {
         <div>
             <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
                 Anterior
-      </Button>
+            </Button>
             <Button className="centradoB" type="second">
                 {paginaActual}
             </Button>
 
             <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
                 Siguiente
-      </Button>
+            </Button>
         </div>
     )
 }
 
-/* Mostrar 4 siguientes usuarios Inactivos */
+/* Mostrar 4 siguientes buses Inactivos */
 function PaginacionI(props) {
-    const { paginaActual, setpaginaActual, token, setTarjetaActivos, desde, setDesde, limite, setTarjetaInactivos, NumeroPorPagina } = props;
+    const { paginaActual, setpaginaActual, token, setPasajeroActivos, desde, setDesde, limite, setPasajeroInactivos, NumeroPorPagina } = props;
     useEffect(() => {
-        ObtenerTarjeta(token, false, desde, limite).then(response => {
-            setTarjetaInactivos(response.tarjeta);
-            if ((response.tarjeta).length < NumeroPorPagina) {
+        ObtenerPasajero(token, false, desde, limite).then(response => {
+            setPasajeroInactivos(response.pasajero);
+            if ((response.pasajero).length < NumeroPorPagina) {
                 document.getElementById('siguiente').disabled = true;
             }
         });
-    }, [desde, limite, token, setTarjetaActivos, setDesde, setTarjetaInactivos, NumeroPorPagina]);
+    }, [desde, limite, token, setPasajeroActivos, setDesde, setPasajeroInactivos, NumeroPorPagina]);
 
     const Siguiente = () => {
         var PA = paginaActual + 1
@@ -256,60 +228,64 @@ function PaginacionI(props) {
         <div>
             <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
                 Anterior
-      </Button>
+            </Button>
             <Button className="centradoB" type="second">
                 {paginaActual}
             </Button>
 
             <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
                 Siguiente
-      </Button>
+            </Button>
         </div>
     )
 }
 
-/* Metodo para llamar a los usuarios activos */
-function TarjetaActivo(props) {
-    const { TarjetaActivos, setIsVisibleModal, setModalTitle, setModalContent, setReloadTarjeta } = props;
-    /* Metodo para activar modal y editar usuario, llamada a EditUserForm */
-    const EditarTarjeta = tarjeta => {
+/* Metodo para llamar a los buses activos */
+function LPasajeroActivo(props) {
+    const { PasajeroActivos, setIsVisibleModal, setModalTitle, setModalContent, setReloadPasajero, Tipo_Pasajero } = props;
+    /* Metodo para activar modal y editar pasajero*/
+    const EditarPasajero = pasajero => {
         setIsVisibleModal(true);
-        setModalTitle(`Editar Tarjeta : 
-    ${tarjeta.codigo ? tarjeta.codigo : '...'}`);
+        setModalTitle(`Editar Pasajero con cedula:
+        ${pasajero.id_persona.nombre_persona} 
+        ${pasajero.id_persona.apellido_persona}`);
         setModalContent(
-            <EditTarjetaForm
-                tarjeta={tarjeta}
-                setIsVisibleModal={setIsVisibleModal}
-                setReloadTarjeta={setReloadTarjeta} />)
+            <EditPasajero
+            pasajero={pasajero}
+            Tipo_Pasajero={Tipo_Pasajero}
+            setIsVisibleModal={setIsVisibleModal}
+            setReloadPasajero={setReloadPasajero} />)
     }
 
     return (
         <List
-            className="tarjeta-active"
+            className="pasajero-active"
             itemLayout="horizontal"
-            dataSource={TarjetaActivos}
+            dataSource={PasajeroActivos}
             renderItem={
-                tarjeta => <ListaTarjetaActivos
-                    tarjeta={tarjeta}
-                    EditarTarjeta={EditarTarjeta}
-                    setReloadTarjeta={setReloadTarjeta} />}
+                pasajero => <ListaPActivos
+                    pasajero={pasajero}
+                    Tipo_Pasajero={Tipo_Pasajero}
+                    EditarPasajero={EditarPasajero}
+                    setReloadPasajero={setReloadPasajero} />}
         />
 
     );
 }
 
 /* Metodo que muesta los datos dento de la lista */
-function ListaTarjetaActivos(props) {
-    const { tarjeta, EditarTarjeta, setReloadTarjeta } = props;
-    const desactivarTarjeta = () => {
+function ListaPActivos(props) {
+    const { pasajero, EditarPasajero, setReloadPasajero } = props;
+
+    const desactivarPasajero = () => {
         const accesToken = getAccessTokenApi();
 
-        ActivarTarjeta(accesToken, tarjeta._id, false)
+        ActivarPasajero(accesToken, pasajero._id, false)
             .then(response => {
                 notification["success"]({
                     message: response
                 });
-                setReloadTarjeta(true);
+                setReloadPasajero(true);
             })
             .catch(err => {
                 notification["error"]({
@@ -322,18 +298,18 @@ function ListaTarjetaActivos(props) {
         const accesToken = getAccessTokenApi();
 
         confirm({
-            title: "Eliminando Tarjeta",
-            content: `¿Esta seguro que desea eliminar a la Tarjeta con código: ${tarjeta.codigo}?`,
+            title: "Eliminando Pasajero",
+            content: `¿Esta seguro que desea eliminar al Pasajero:  ${pasajero.id_persona.nombre_persona} ${pasajero.id_persona.apellido_persona}?`,
             okText: "Eliminar",
             okType: "danger",
             cancelText: "Cancelar",
             onOk() {
-                EliminarTarjeta(accesToken, tarjeta._id)
+                EliminarPasajero(accesToken, pasajero._id)
                     .then(response => {
                         notification["success"]({
                             message: response
                         });
-                        setReloadTarjeta(true);
+                        setReloadPasajero(true);
                     })
                     .catch(err => {
                         notification["error"]({
@@ -358,13 +334,13 @@ function ListaTarjetaActivos(props) {
         <List.Item
             actions={[
                 <Tooltip title="Editar">
-                    <Button type="primary" onClick={() => EditarTarjeta(tarjeta)} >
+                    <Button type="primary" onClick={() => EditarPasajero(pasajero)} >
                         <EditOutlined />
                     </Button>
                 </Tooltip>,
 
                 <Tooltip title="Desactivar">
-                    <Button type="danger" onClick={() => desactivarTarjeta()}>
+                    <Button type="danger" onClick={() => desactivarPasajero()}>
                         <StopOutlined />
                     </Button>
                 </Tooltip>,
@@ -377,12 +353,27 @@ function ListaTarjetaActivos(props) {
         >
             <List.Item.Meta
                 avatar={<Avatar src={NoAvatar} />}
-                title={`Código de Tarjeta:  ${tarjeta.codigo ? tarjeta.codigo : '...'}`}
+                title={`Pasajero: 
+                ${pasajero.id_persona.nombre_persona ? pasajero.id_persona.nombre_persona : "..."} 
+                ${pasajero.id_persona.apellido_persona ? pasajero.id_persona.apellido_persona : "..."}
+           ` }
                 description={
                     <div>
-                        <b>Valor Tarjeta:</b> {tarjeta.valor_tarjeta ? Valor(tarjeta.valor_tarjeta) : '0.00'}
+                        
+                        <b>Saldo de la tarjeta: </b> {pasajero.id_tarjeta_pasajero.valor_tarjeta ? Valor(pasajero.id_tarjeta_pasajero.valor_tarjeta) : '0.00'}
                         <br />
-                        <b>Descripción:</b> {tarjeta.descripcion ? tarjeta.descripcion : '...'}
+                        <b>Código de tarjeta: </b> {pasajero.id_tarjeta_pasajero.codigo ? pasajero.id_tarjeta_pasajero.codigo : '...'}
+                        <br />
+                        <b>Tipo de Pasajero: </b> {pasajero.id_tipo_pasajero.nombre ? pasajero.id_tipo_pasajero.nombre : '...'}
+                        <br />
+                        <b>Tarifa: </b> {pasajero.id_tipo_pasajero.valor ? Valor(pasajero.id_tipo_pasajero.valor) : '...'}
+                        <br />
+                        <b>Cédula: </b> {pasajero.cedula_persona ? pasajero.cedula_persona : '...'}
+                        <br />
+                        <b>Dirección: </b> {pasajero.id_persona.direccion_persona ? pasajero.id_persona.direccion_persona : '...'}
+                        <br />
+                        <b>Celular: </b> {pasajero.id_persona.celular_persona ? pasajero.id_persona.celular_persona : '...'}
+
                     </div>
                 }
             />
@@ -391,31 +382,31 @@ function ListaTarjetaActivos(props) {
 }
 
 /* Metodo para llamar a los usuarios inactivos */
-function TarjetaInactivo(props) {
-    const { TarjetaInactivos, setReloadTarjeta } = props
+function LPasajeroInactivo(props) {
+    const { PasajeroInactivos, setReloadPasajero } = props
     return (
         <List
-            className="tarjeta-active"
+            className="pasajero-active"
             itemLayout="horizontal"
-            dataSource={TarjetaInactivos}
-            renderItem={tarjeta => (<ListaTarjetaInactivos tarjeta={tarjeta} setReloadTarjeta={setReloadTarjeta} />)}
+            dataSource={PasajeroInactivos}
+            renderItem={pasajero => (<ListaPInactivos pasajero={pasajero} setReloadPasajero={setReloadPasajero} />)}
         />
     );
 }
 
 /* Metodo que muesta los datos dento de la lista */
-function ListaTarjetaInactivos(props) {
-    const { tarjeta, setReloadTarjeta } = props;
+function ListaPInactivos(props) {
+    const { pasajero, setReloadPasajero } = props;
 
-    const activarTarjeta = () => {
+    const activarPasajero = () => {
         const accesToken = getAccessTokenApi();
 
-        ActivarTarjeta(accesToken, tarjeta._id, true)
+        ActivarPasajero(accesToken, pasajero._id, true)
             .then(response => {
                 notification["success"]({
                     message: response
                 });
-                setReloadTarjeta(true);
+                setReloadPasajero(true);
             })
             .catch(err => {
                 notification["error"]({
@@ -428,18 +419,18 @@ function ListaTarjetaInactivos(props) {
         const accesToken = getAccessTokenApi();
 
         confirm({
-            title: "Eliminando Tarjeta",
-            content: `¿Esta seguro que desea eliminar a la Tarjeta con código: ${tarjeta.codigo}?`,
+            title: "Eliminando Pasajero",
+            content: `¿Esta seguro que desea eliminar al Pasajero:  ${pasajero.id_persona.nombre_persona} ${pasajero.id_persona.apellido_persona}?`,
             okText: "Eliminar",
             okType: "danger",
             cancelText: "Cancelar",
             onOk() {
-                EliminarTarjeta(accesToken, tarjeta._id)
+                EliminarPasajero(accesToken, pasajero._id)
                     .then(response => {
                         notification["success"]({
                             message: response
                         });
-                        setReloadTarjeta(true);
+                        setReloadPasajero(true);
                     })
                     .catch(err => {
                         notification["error"]({
@@ -464,7 +455,7 @@ function ListaTarjetaInactivos(props) {
         <List.Item
             actions={[
                 <Tooltip title="Activar">
-                    <Button type="primary" onClick={() => activarTarjeta()}>
+                    <Button type="primary" onClick={() => activarPasajero()}>
                         <CheckOutlined />
                     </Button>
                 </Tooltip>,
@@ -477,14 +468,27 @@ function ListaTarjetaInactivos(props) {
         >
             <List.Item.Meta
                 avatar={<Avatar src={NoAvatar} />}
-                title={`Código de Tarjeta: 
-            ${tarjeta.codigo ? tarjeta.codigo : '...'}
-         ` }
+                title={`Pasajero: 
+                ${pasajero.id_persona.nombre_persona ? pasajero.id_persona.nombre_persona : "..."} 
+                ${pasajero.id_persona.apellido_persona ? pasajero.id_persona.apellido_persona : "..."}
+           ` }
                 description={
                     <div>
-                        <b>Valor Tarjeta:</b> {tarjeta.valor_tarjeta ? Valor(tarjeta.valor_tarjeta) : '0.00'}
+                        
+                        <b>Saldo de la tarjeta: </b> {pasajero.id_tarjeta_pasajero.valor_tarjeta ? Valor(pasajero.id_tarjeta_pasajero.valor_tarjeta) : '0.00'}
                         <br />
-                        <b>Descripción:</b> {tarjeta.descripcion ? tarjeta.descripcion : '...'}
+                        <b>Código de tarjeta: </b> {pasajero.id_tarjeta_pasajero.codigo ? pasajero.id_tarjeta_pasajero.codigo : '...'}
+                        <br />
+                        <b>Tipo de Pasajero: </b> {pasajero.id_tipo_pasajero.nombre ? pasajero.id_tipo_pasajero.nombre : '...'}
+                        <br />
+                        <b>Tarifa: </b> {pasajero.id_tipo_pasajero.valor ? Valor(pasajero.id_tipo_pasajero.valor) : '...'}
+                        <br />
+                        <b>Cédula: </b> {pasajero.cedula_persona ? pasajero.cedula_persona : '...'}
+                        <br />
+                        <b>Dirección: </b> {pasajero.id_persona.direccion_persona ? pasajero.id_persona.direccion_persona : '...'}
+                        <br />
+                        <b>Celular: </b> {pasajero.id_persona.celular_persona ? pasajero.id_persona.celular_persona : '...'}
+
                     </div>
                 }
             />

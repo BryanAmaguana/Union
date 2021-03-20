@@ -7,7 +7,7 @@ import { ObtenerPersonaCedula } from "../../../../api/persona";
 
 import "./AddBus.scss";
 
-export default function EditBusForm(props) {
+export default function AddBusForm(props) {
   const { setIsVisibleModal, setReloadBus} = props;
   const [busData, setbusData] = useState({});
   const [persona, setPersona] = useState({});
@@ -51,7 +51,7 @@ export default function EditBusForm(props) {
   };
 
   return (
-    <div className="add-user-form">
+    <div className="add-bus-form">
       <AddForm
         busData={busData}
         setbusData={setbusData}
@@ -95,6 +95,7 @@ function AddForm(props) {
               id = 'Cedula'
               prefix={<UserAddOutlined />}
               placeholder="Cédula de la persona"
+              maxLength="10"
               value={ persona.Vacio}
             />
           </Form.Item>
@@ -138,6 +139,8 @@ function AddForm(props) {
             <Input
               prefix={<FieldNumberOutlined />}
               placeholder="Numero de Bus"
+              type="number"
+              min="0"
               value={busData.numero_bus}
               onChange={e =>
                 setbusData({ ...busData, numero_bus: e.target.value, id_persona: persona._id })

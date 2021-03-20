@@ -333,7 +333,7 @@ function ListaUsuariosActivos(props) {
       });
   };
 
-  const ConfirmarEliminar = () => {
+/*   const ConfirmarEliminar = () => {
     const accesToken = getAccessTokenApi();
 
     confirm({
@@ -357,7 +357,7 @@ function ListaUsuariosActivos(props) {
           });
       }
     });
-  };
+  }; */
 
   return (
     <List.Item
@@ -374,10 +374,10 @@ function ListaUsuariosActivos(props) {
           </Button>
         </Tooltip>,
 
-        <Tooltip title="Eliminar">
+/*         <Tooltip title="Eliminar">
           <Button type="danger" onClick={() => ConfirmarEliminar()}>
             <DeleteOutlined />
-          </Button></Tooltip>
+          </Button></Tooltip> */
       ]}
     >
       <List.Item.Meta

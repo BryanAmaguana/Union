@@ -65,10 +65,7 @@ function EditForm(props) {
     const { personaData, setpersonaData, updatePersona } = props;
 
     function onChange(dateString) {
-        console.log(personaData.fecha_nacimiento_persona.substr(0,10))
-        console.log(personaData.fecha_nacimiento_persona)
-        console.log(dateString)
-        setpersonaData({ ...personaData, fecha_nacimiento_persona: dateString })
+        setpersonaData({ ...personaData, fecha_nacimiento_persona: dateString})
     }
 
     return (

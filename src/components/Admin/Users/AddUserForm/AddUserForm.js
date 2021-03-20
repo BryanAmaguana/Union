@@ -106,6 +106,7 @@ function AddForm(props) {
             <Input
               id = 'Cedula'
               prefix={<UserAddOutlined />}
+              maxLength="10"
               placeholder="Cédula de la persona"
               value={ persona.Vacio}
             />

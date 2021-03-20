@@ -120,7 +120,7 @@ function ListaRutaActivos(props) {
             });
     };
 
-    const ConfirmarEliminar = () => {
+/*     const ConfirmarEliminar = () => {
         const accesToken = getAccessTokenApi();
 
         confirm({
@@ -145,7 +145,7 @@ function ListaRutaActivos(props) {
             }
         });
     };
-
+ */
     return (
         <List.Item
             actions={[
@@ -161,10 +161,10 @@ function ListaRutaActivos(props) {
                     </Button>
                 </Tooltip>,
 
-                <Tooltip title="Eliminar">
+/*                 <Tooltip title="Eliminar">
                     <Button type="danger" onClick={() => ConfirmarEliminar()}>
                         <DeleteOutlined />
-                    </Button></Tooltip>
+                    </Button></Tooltip> */
             ]}
         >
             <List.Item.Meta

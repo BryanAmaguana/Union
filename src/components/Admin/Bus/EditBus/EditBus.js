@@ -66,6 +66,8 @@ function EditForm(props) {
             <Input
               prefix={<FieldNumberOutlined />}
               placeholder="Numero de Bus"
+              type="number"
+              min="0"
               value={busData.numero_bus}
               onChange={e =>
                 setbusData({ ...busData, numero_bus: e.target.value })

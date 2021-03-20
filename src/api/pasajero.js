@@ -1,9 +1,9 @@
-import { basePath} from "./config";
+import { basePath } from "./config";
 
-/* Obtener todas las tarjetas paginadas */
+/* Obtener todos los Pasajero paginados */
 
-export function ObtenerTarjeta(token, disponible, desde, limite) {
-    const url = `${basePath}/ObtenerTarjeta/${disponible}/${desde}/${limite}`;
+export function ObtenerPasajero(token, disponible, desde, limite) {
+    const url = `${basePath}/ObtenerPasajero/${disponible}/${desde}/${limite}`;
     const params = {
       method: "GET",
       headers: {
@@ -23,9 +23,9 @@ export function ObtenerTarjeta(token, disponible, desde, limite) {
       });
   }
   
-  /* Crear nueva tarjeta */
-  export function CrearTarjeta(token, data) {
-    const url = `${basePath}/AgregarTarjeta`;
+  /* Crear nuevo Pasajero */
+  export function CrearPasajero(token, data) {
+    const url = `${basePath}/AgregarPasajero`;
   
     const params = {
       method: "POST",
@@ -48,10 +48,10 @@ export function ObtenerTarjeta(token, disponible, desde, limite) {
       });
   }
   
-  /* Activar Tarjeta*/
+  /* Activar Pasajero*/
   
-  export function ActivarTarjeta(token, TarjetaId, disponible) {
-    const url = `${basePath}/ActivarTarjeta/${TarjetaId}`;
+  export function ActivarPasajero(token, PasajeroId, disponible) {
+    const url = `${basePath}/ActivarPasajero/${PasajeroId}`;
   
     const params = {
       method: "PUT",
@@ -73,11 +73,11 @@ export function ObtenerTarjeta(token, disponible, desde, limite) {
         return err.message;
       });
   }
-
-  /* Borrar Tarjeta */
-
-export function EliminarTarjeta(token, TarjetaId) {
-    const url = `${basePath}/BorrarTarjeta/${TarjetaId}`;
+  
+  /* Borrar Pasajero */
+  
+  export function EliminarPasajero(token, PasajeroId) {
+    const url = `${basePath}/BorrarPasajero/${PasajeroId}`;
   
     const params = {
       method: "DELETE",
@@ -99,10 +99,10 @@ export function EliminarTarjeta(token, TarjetaId) {
       });
   }
   
-  //Actualizar Tarjeta
+  /* Obtener Pasajero */
   
-  export function ActualizarTarjeta(token, tarjeta, tarjetaid) {
-    const url = `${basePath}/ActualizarTarjeta/${tarjetaid}`;
+  export function ActualizarPasajero(token, pasajero, pasajeroId) {
+    const url = `${basePath}/ActualizarPasajero/${pasajeroId}`;
   
     const params = {
       method: "PUT",
@@ -110,7 +110,7 @@ export function EliminarTarjeta(token, TarjetaId) {
         "Content-Type": "application/json",
         Authorization: token
       },
-      body: JSON.stringify(tarjeta)
+      body: JSON.stringify(pasajero)
     };
   
   
@@ -126,10 +126,10 @@ export function EliminarTarjeta(token, TarjetaId) {
       });
   }
   
-   /* Obtener tarjeta por el codigo */
+   /* Obtener pasajero por la cedula */
   
-   export function ObtenerTarjetaCodigo (token, codigo, disponible) {
-    const url = `${basePath}/ObtenerTarjetaCodigo/${codigo}/${disponible}`;  
+   export function ObtenerCedulaPasajero (token, cedula, disponible) {
+    const url = `${basePath}/BuscarPasajeroCedula/${cedula}/${disponible}`;  
     const params = {
       method: "GET",
       headers: {
@@ -149,26 +149,3 @@ export function EliminarTarjeta(token, TarjetaId) {
       return err.message;
     });
   }
-
-  export function ObtenerTarjetaCodigoP (token, codigo) {
-    const url = `${basePath}/ObtenerTarjetaCodigoP/${codigo}`;  
-    const params = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      }
-    };
-  
-    return fetch(url, params)
-    .then(response => {
-      return response.json();
-    })
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err.message;
-    });
-  }
-  

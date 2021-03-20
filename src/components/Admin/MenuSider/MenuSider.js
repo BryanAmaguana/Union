@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import { HomeOutlined, UserOutlined, TrademarkCircleOutlined, MehOutlined, CarOutlined, CreditCardOutlined, QuestionCircleOutlined, NodeIndexOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, TrademarkCircleOutlined, MehOutlined, CarOutlined, CreditCardOutlined, QuestionCircleOutlined, NodeIndexOutlined, TeamOutlined, DollarCircleOutlined } from '@ant-design/icons';
 import { getAccessTokenApi } from "../../../api/auth";
 import jwt_decode from "jwt-decode";
 import { Avatar } from "antd";
@@ -83,6 +83,20 @@ function MenuSider(props) {
                     <Link to={"/admin/tipo"}>
                     <QuestionCircleOutlined />
                         <span className="nac-text">Tipo Pasajero</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/pasajero">
+                    <Link to={"/admin/pasajero"}>
+                    <TeamOutlined />
+                        <span className="nac-text">Pasajero</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/cobro">
+                    <Link to={"/admin/cobro"}>
+                    <DollarCircleOutlined />
+                        <span className="nac-text">Cobro Pasaje</span>
                     </Link>
                 </Menu.Item>
 

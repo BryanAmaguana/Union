@@ -4,17 +4,17 @@ import { useDropzone } from "react-dropzone";
 import NoAvatar from "../../../../assets/img/png/no-avatar.png";
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { ObtenerAvatar, ActualizarAvatar, ActualizarUsuario } from "../../../../api/user"
-import { getAccessTokenApi} from "../../../../api/auth"
+import { getAccessTokenApi } from "../../../../api/auth"
 
 
 import "./EditUserForm.scss"
 
 export default function EditUserForm(props) {
-  const { usuario, rol , setIsVisibleModal, setReloadUsers} = props;
+  const { usuario, rol, setIsVisibleModal, setReloadUsers } = props;
   const [avatar, setAvatar] = useState(null);
   const [userData, setUserData] = useState({});
 
-  
+
   useEffect(() => {
     if (usuario.avatar) {
       ObtenerAvatar(usuario.avatar).then(response => {
@@ -80,7 +80,7 @@ export default function EditUserForm(props) {
       });
     } else {
       ActualizarUsuario(token, UsuarioActualizado, usuario._id).then(result => {
-        if(result.message === "Usuario actualizado correctamente."){
+        if (result.message === "Usuario actualizado correctamente.") {
           setIsVisibleModal(false);
           setReloadUsers(true);
         }
@@ -94,14 +94,14 @@ export default function EditUserForm(props) {
 
   return (
     <div className="edit-user-form">
-      <UploadAvatar 
-      avatar={avatar} 
-      setAvatar={setAvatar} />
-      <EditForm 
-      userData={userData} 
-      setUserData={setUserData} 
-      updateUser={updateUser} 
-      rol={rol} />
+      <UploadAvatar
+        avatar={avatar}
+        setAvatar={setAvatar} />
+      <EditForm
+        userData={userData}
+        setUserData={setUserData}
+        updateUser={updateUser}
+        rol={rol} />
     </div>
   );
 }
@@ -189,10 +189,11 @@ function EditForm(props) {
               placeholder="Seleccione una rol"
               onChange={e =>
                 setUserData({ ...userData, id_rol: e })}
-                value={userData.id_rol}
+              value={userData.id_rol}
             >
+              
               {rol.map((item) => {
-                return <Option key= {item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
+                return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
               })}
             </Select>
           </Form.Item>

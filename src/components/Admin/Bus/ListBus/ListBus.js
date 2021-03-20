@@ -285,7 +285,7 @@ function ListaBusActivos(props) {
             });
     };
 
-    const ConfirmarEliminar = () => {
+/*     const ConfirmarEliminar = () => {
         const accesToken = getAccessTokenApi();
 
         confirm({
@@ -309,7 +309,7 @@ function ListaBusActivos(props) {
                     });
             }
         });
-    };
+    }; */
 
     return (
         <List.Item
@@ -326,10 +326,10 @@ function ListaBusActivos(props) {
                     </Button>
                 </Tooltip>,
 
-                <Tooltip title="Eliminar">
+/*                 <Tooltip title="Eliminar">
                     <Button type="danger" onClick={() => ConfirmarEliminar()}>
                         <DeleteOutlined />
-                    </Button></Tooltip>
+                    </Button></Tooltip> */
             ]}
         >
             <List.Item.Meta
