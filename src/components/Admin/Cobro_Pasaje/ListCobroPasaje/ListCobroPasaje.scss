@@ -2,6 +2,9 @@
     &__header {
       display: flex;
       align-items: center;
+      text-align: center;
+        width: 90%;       
+        margin: 0 auto;
       margin-bottom: 20px;
         > button {
           margin-right: 20px;

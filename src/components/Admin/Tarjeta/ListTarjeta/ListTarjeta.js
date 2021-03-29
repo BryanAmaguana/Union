@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Switch, List, Input, Avatar, Button, Tooltip, notification, Modal as ModalAntd } from "antd";
+import { Switch, List, Input, Avatar, Button, Tooltip, notification/*  Modal as ModalAntd */ } from "antd";
 import NoAvatar from "../../../../assets/img/png/tarjeta.png";
-import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined, SearchOutlined } from '@ant-design/icons';
+import { EditOutlined, StopOutlined, /* DeleteOutlined */ CheckOutlined, SearchOutlined } from '@ant-design/icons';
 import Modal from "../../../Modal";
 import EditTarjetaForm from "../EditTarjeta";
-import { ObtenerTarjetaCodigo, ActivarTarjeta, EliminarTarjeta, ObtenerTarjeta } from "../../../../api/tarjeta";
+import { ObtenerTarjetaCodigo, ActivarTarjeta, /* EliminarTarjeta */ ObtenerTarjeta } from "../../../../api/tarjeta";
 import { getAccessTokenApi } from "../../../../api/auth";
 import AddTarjetaForm from "../AddTarjeta";
 
 import "./ListTarjeta.scss";
 
-const { confirm } = ModalAntd;
+/* const { confirm } = ModalAntd; */
 
 export default function ListTarjeta(props) {
     const { TarjetaActivos, setTarjetaActivos, TarjetaInactivos, setTarjetaInactivos, setReloadTarjeta } = props;
@@ -424,7 +424,7 @@ function ListaTarjetaInactivos(props) {
             });
     };
 
-    const ConfirmarEliminar = () => {
+/*     const ConfirmarEliminar = () => {
         const accesToken = getAccessTokenApi();
 
         confirm({
@@ -448,7 +448,7 @@ function ListaTarjetaInactivos(props) {
                     });
             }
         });
-    };
+    }; */
 
     const Valor = valor => {
         var cadena = valor;
@@ -468,11 +468,11 @@ function ListaTarjetaInactivos(props) {
                         <CheckOutlined />
                     </Button>
                 </Tooltip>,
-                <Tooltip title="Eliminar">
+/*                 <Tooltip title="Eliminar">
                     <Button type="danger" onClick={() => ConfirmarEliminar()}>
                         <DeleteOutlined />
                     </Button>
-                </Tooltip>
+                </Tooltip> */
             ]}
         >
             <List.Item.Meta

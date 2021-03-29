@@ -17,6 +17,11 @@ import AdminRuta from '../pages/Admin/Ruta';
 import AdminTipo from '../pages/Admin/Tipo_Pasajero';
 import AdminPasajero from '../pages/Admin/Pasajero';
 import AdminCobro from '../pages/Admin/CobroPasaje';
+import AdminContenido from '../pages/Admin/ContenidoWeb';
+  
+
+/* Menu web */
+import AdminMenuWeb from "../pages/Admin/MenuWeb"
 
 /* Importacion Publico */
 import HomePublico from '../pages/Publico/Home';
@@ -88,6 +93,16 @@ const routes = [
             {
                 path: '/admin/cobro',
                 component: AdminCobro,
+                exact: true
+            },
+            {
+                path: '/admin/menuweb',
+                component: AdminMenuWeb,
+                exact: true
+            },
+            {
+                path: '/admin/contenidoweb',
+                component: AdminContenido,
                 exact: true
             },
             {

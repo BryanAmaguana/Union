@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { Switch, List, Button, Tooltip, notification, Modal as ModalAntd } from "antd";
-import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined} from '@ant-design/icons';
+import { Switch, List, Button, Tooltip, notification /* Modal as ModalAntd */ } from "antd";
+import { EditOutlined, StopOutlined, /* DeleteOutlined */ CheckOutlined} from '@ant-design/icons';
 import Modal from "../../../Modal";
 import EditRutaForm from "../EditRuta";
-import { ActivarRuta, EliminarRuta } from "../../../../api/ruta";
+import { ActivarRuta, /* EliminarRuta */ } from "../../../../api/ruta";
 import { getAccessTokenApi } from "../../../../api/auth";
 import AddRutaForm from "../AddRuta";
 
 import "./ListRuta.scss";
 
-const { confirm } = ModalAntd;
+/* const { confirm } = ModalAntd; */
 
 export default function ListRuta(props) {
     const { RutaActivos, RutaInactivos, setReloadRuta } = props;
@@ -215,7 +215,7 @@ function ListaRutaInactivos(props) {
             });
     };
 
-    const ConfirmarEliminar = () => {
+/*     const ConfirmarEliminar = () => {
         const accesToken = getAccessTokenApi();
 
         confirm({
@@ -239,7 +239,7 @@ function ListaRutaInactivos(props) {
                     });
             }
         });
-    };
+    }; */
 
     return (
         <List.Item
@@ -249,11 +249,11 @@ function ListaRutaInactivos(props) {
                         <CheckOutlined />
                     </Button>
                 </Tooltip>,
-                <Tooltip title="Eliminar">
+     /*            <Tooltip title="Eliminar">
                     <Button type="danger" onClick={() => ConfirmarEliminar()}>
                         <DeleteOutlined />
                     </Button>
-                </Tooltip>
+                </Tooltip> */
             ]}
         >
             <List.Item.Meta

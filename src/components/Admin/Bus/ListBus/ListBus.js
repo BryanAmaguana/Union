@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Switch, List, Input, Button, Avatar, Tooltip, notification, Modal as ModalAntd } from "antd";
-import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined, SearchOutlined } from '@ant-design/icons';
+import { Switch, List, Input, Button, Avatar, Tooltip, notification, /* Modal as ModalAntd */ } from "antd";
+import { EditOutlined, StopOutlined, /* DeleteOutlined */ CheckOutlined, SearchOutlined } from '@ant-design/icons';
 import Modal from "../../../Modal";
 import NoAvatar from "../../../../assets/img/png/Nobus.png";
 import EditBusForm from "../EditBus";
-import { ActivarBus, EliminarBus, ObtenerBusNumero, ObtenerBus} from "../../../../api/bus";
+import { ActivarBus, /* EliminarBus */ ObtenerBusNumero, ObtenerBus} from "../../../../api/bus";
 import { getAccessTokenApi } from "../../../../api/auth";
 import AddBus from "../AddBus";
 
 import "./ListBus.scss";
 
-const { confirm } = ModalAntd;
+/* const { confirm } = ModalAntd; */
 
 export default function ListBus(props) {
     const { BusActivo, setBusActivos, BusInactivo, setBusInactivos, setReloadBus } = props;
@@ -389,7 +389,7 @@ function ListaBusInactivos(props) {
             });
     };
 
-    const ConfirmarEliminar = () => {
+/*     const ConfirmarEliminar = () => {
         const accesToken = getAccessTokenApi();
 
         confirm({
@@ -413,7 +413,7 @@ function ListaBusInactivos(props) {
                     });
             }
         });
-    };
+    }; */
 
     return (
         <List.Item
@@ -423,11 +423,11 @@ function ListaBusInactivos(props) {
                         <CheckOutlined />
                     </Button>
                 </Tooltip>,
-                <Tooltip title="Eliminar">
+/*                 <Tooltip title="Eliminar">
                     <Button type="danger" onClick={() => ConfirmarEliminar()}>
                         <DeleteOutlined />
                     </Button>
-                </Tooltip>
+                </Tooltip> */
             ]}
         >
             <List.Item.Meta

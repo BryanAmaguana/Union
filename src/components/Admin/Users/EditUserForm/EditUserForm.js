@@ -69,14 +69,21 @@ export default function EditUserForm(props) {
 
     if (typeof UsuarioActualizado.avatar === "object") {
       ActualizarAvatar(token, UsuarioActualizado.avatar, usuario._id).then(response => {
-        UsuarioActualizado.avatar = response.avatarName;
-        ActualizarUsuario(token, UsuarioActualizado, usuario._id).then(result => {
-          notification["success"]({
-            message: result.message
+
+        if (response.message === 'La extension de la imagen no es valida. (Extensiones permitidas: .png y .jpg)') {
+          notification["info"]({
+            message: response.message
           });
-          setIsVisibleModal(false);
-          setReloadUsers(true);
-        });
+        } else {
+          UsuarioActualizado.avatar = response.avatarName;
+          ActualizarUsuario(token, UsuarioActualizado, usuario._id).then(result => {
+            notification["success"]({
+              message: result.message
+            });
+            setIsVisibleModal(false);
+            setReloadUsers(true);
+          });
+        }
       });
     } else {
       ActualizarUsuario(token, UsuarioActualizado, usuario._id).then(result => {
@@ -191,7 +198,7 @@ function EditForm(props) {
                 setUserData({ ...userData, id_rol: e })}
               value={userData.id_rol}
             >
-              
+
               {rol.map((item) => {
                 return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
               })}

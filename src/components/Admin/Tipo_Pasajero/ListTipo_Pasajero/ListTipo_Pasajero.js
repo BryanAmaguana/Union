@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { Switch, List, Button, Tooltip, notification, Modal as ModalAntd } from "antd";
-import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons';
+import { Switch, List, Button, Tooltip, notification, /* Modal as ModalAntd */ } from "antd";
+import { EditOutlined, StopOutlined, /* DeleteOutlined */ CheckOutlined } from '@ant-design/icons';
 import Modal from "../../../Modal";
 import EditTipoForm from "../EditTipo_Pasajero";
-import { ActivarTipo_Pasajero, EliminarTipo_Pasajero } from "../../../../api/tipo_pasajero";
+import { ActivarTipo_Pasajero, /* EliminarTipo_Pasajero */ } from "../../../../api/tipo_pasajero";
 import { getAccessTokenApi } from "../../../../api/auth";
 import AddTipoForm from "../AddTipo_Pasajero";
 
 import "./ListTipo_Pasajero.scss";
 
-const { confirm } = ModalAntd;
+/* const { confirm } = ModalAntd; */
 
 export default function ListTipoP(props) {
     const { TipoActivos, TipoInactivos, setReloadTipo } = props;
@@ -223,7 +223,7 @@ function ListaTPInactivos(props) {
                 });
             });
     };
-
+/* 
     const ConfirmarEliminar = () => {
         const accesToken = getAccessTokenApi();
 
@@ -248,7 +248,7 @@ function ListaTPInactivos(props) {
                     });
             }
         });
-    };
+    }; */
 
     const Valor = valor => {
         var cadena = valor;
@@ -268,11 +268,11 @@ function ListaTPInactivos(props) {
                         <CheckOutlined />
                     </Button>
                 </Tooltip>,
-                <Tooltip title="Eliminar">
+/*                 <Tooltip title="Eliminar">
                     <Button type="danger" onClick={() => ConfirmarEliminar()}>
                         <DeleteOutlined />
                     </Button>
-                </Tooltip>
+                </Tooltip> */
             ]}
         >
             <List.Item.Meta

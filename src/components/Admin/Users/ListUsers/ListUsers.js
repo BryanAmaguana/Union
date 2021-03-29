@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Switch, List, Input, Avatar, Button, Tooltip, notification, Modal as ModalAntd } from "antd";
+import { Switch, List, Input, Avatar, Button, Tooltip, notification /* Modal as ModalAntd */ } from "antd";
 import NoAvatar from "../../../../assets/img/png/no-avatar.png";
-import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined, SearchOutlined } from '@ant-design/icons';
+import { EditOutlined, StopOutlined, /* DeleteOutlined */ CheckOutlined, SearchOutlined } from '@ant-design/icons';
 import Modal from "../../../Modal";
 import EditUserForm from "../EditUserForm";
-import { ObtenerAvatar, ActivarUsuario, EliminarUsuario, ObtenerUsuariosNombreA, ObtenerUsuariosNombreI, ObtenerUsuariosAI } from "../../../../api/user";
+import { ObtenerAvatar, ActivarUsuario, /* EliminarUsuario */ ObtenerUsuariosNombreA, ObtenerUsuariosNombreI, ObtenerUsuariosAI } from "../../../../api/user";
 import { getAccessTokenApi } from "../../../../api/auth";
 import AddUserForm from "../AddUserForm";
 
 import "./ListUsers.scss";
-
-const { confirm } = ModalAntd;
+/* 
+const { confirm } = ModalAntd; */
 
 export default function ListUsers(props) {
   const { usuarioActivo, setusuariosActivos, usuarioInactivo, setusuariosInactivos, rol, setReloadUsers } = props;
@@ -447,7 +447,7 @@ function ListaUsuariosInactivos(props) {
       });
   };
 
-  const ConfirmarEliminar = () => {
+/*   const ConfirmarEliminar = () => {
     const accesToken = getAccessTokenApi();
 
     confirm({
@@ -471,7 +471,7 @@ function ListaUsuariosInactivos(props) {
           });
       }
     });
-  };
+  }; */
 
   return (
     <List.Item
@@ -481,11 +481,11 @@ function ListaUsuariosInactivos(props) {
             <CheckOutlined />
           </Button>
         </Tooltip>,
-        <Tooltip title="Eliminar">
+/*         <Tooltip title="Eliminar">
           <Button type="danger" onClick={() => ConfirmarEliminar()}>
             <DeleteOutlined />
           </Button>
-        </Tooltip>
+        </Tooltip> */
       ]}
     >
       <List.Item.Meta
