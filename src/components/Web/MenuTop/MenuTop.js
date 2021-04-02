@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
-import SocialLinks from "../SocialLinks";
 import { ObtenerMenuApi } from "../../../api/menu";
 import logoUnion from "../../../assets/img/png/ICONO2.png";
 
@@ -22,17 +21,17 @@ export default function MenuTop() {
 
   return (
     <Menu className="menu-top-web" mode="horizontal">
-      <Menu.Item className="menu-top-web__logo">
+      <Menu.Item className="logoInicio">
         <Link to={"/"}>
           <img src={logoUnion} alt="Union" />
         </Link>
 
       </Menu.Item>
       {menuData.map(item => {
-        const external = item.url.indexOf("http") > -1 ? true : false;
+        const external = item.url.indexOf("https") > -1 ? true : false;
         if (external) {
           return (
-            <Menu.Item key={item._id} className="menu-top-web__item">
+            <Menu.Item key={item._id}>
               <a href={item.url} target="_blank" rel="noopener noreferrer">
                 {item.titulo}
               </a>
@@ -41,12 +40,10 @@ export default function MenuTop() {
         }
         return (
           <Menu.Item key={item._id} className="menu-top-web__item">
-            <Link to={item.url}>{item.titulo}</Link>
+            <div className="current"><a className="smoothscroll" href={`#${item.url}`}>{item.titulo}</a></div>
           </Menu.Item>
         );
       })}
-
-      <SocialLinks />
     </Menu>
   );
 }

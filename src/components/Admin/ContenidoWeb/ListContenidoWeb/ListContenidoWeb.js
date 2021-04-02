@@ -1,166 +1,249 @@
 import React, { useState, useEffect } from "react";
-import { Switch, List, Button, Avatar, Modal as ModalAntd, notification } from "antd";
-import { EditOutlined, DeleteOutlined  } from '@ant-design/icons';
-import Modal from "../../../Modal";
-import NoAvatar from "../../../../assets/img/png/Fondo.png";
-import DragSortableList from "react-drag-sortable";
-import { ActualizarContenidoApi, ActivarContenidoApi, deleteContenidoApi, ObtenerFondo } from "../../../../api/contenidoWeb";
+import { Button, notification, Form, Input, Row, Col } from "antd";
+import { ContactsOutlined, MailOutlined, NodeIndexOutlined, PhoneOutlined, VerticalAlignBottomOutlined, ShakeOutlined } from '@ant-design/icons';
+import { ActualizarContenidoApi } from "../../../../api/contenidoWeb";
 import { getAccessTokenApi } from "../../../../api/auth";
-import AddContenidoForm from "../AddContenidoWeb";
-import EditContenidoForm from "../EditContenidoWeb";
+import TextareaAutosize from 'react-autosize-textarea';
 
 import "./ListContenidoWeb.scss";
 
-const { confirm } = ModalAntd;
-
 export default function ListContenidoWeb(props) {
-    const {ContenidoWeb, setReloadContenidoWeb } = props;
-    const [listItems, setListItems] = useState([]);
-    const [isVisibleModal, setIsVisibleModal] = useState(false);
-    const [modalTitle, setModalTitle] = useState("");
-    const [modalContent, setModalContent] = useState(null);
+    const { contenido, setReloadContenidoWeb } = props;
+    const [FondoData, setFondoData] = useState({});
 
     useEffect(() => {
-        const listItemsArray = [];
-        ContenidoWeb.forEach(item => {
-            listItemsArray.push({
-                content: (
-                    <ContenidoItem
-                        item={item}
-                        ActivarContenido={ActivarContenido}
-                        editConteidoWebModal={editConteidoWebModal}
-                        deleteContenido={deleteContenido}
-                    />
-                )
-            });
+        setFondoData({
+            nombre: contenido.nombre,
+            correo: contenido.correo,
+            direccion: contenido.direccion,
+            telefono: contenido.telefono,
+            Celular: contenido.Celular,
+            fax: contenido.fax,
+            mensaje_Inicio: contenido.mensaje_Inicio,
+            mensaje_Inicio2: contenido.mensaje_Inicio2,
+            descripcion: contenido.descripcion,
+            mision: contenido.mision,
+            vision: contenido.vision,
+            historia: contenido.historia
         });
-        setListItems(listItemsArray);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ContenidoWeb]);
+        // eslint-disable-next-line
+    }, [contenido]);
 
-    const ActivarContenido = (contenido, status) => {
-        const accesToken = getAccessTokenApi();
-        ActivarContenidoApi(accesToken, contenido._id, status).then(response => {
-            notification["success"]({
-                message: response
-            });
-        });
-    };
-
-    const OrdenarLista = (sortedList, dropEvent) => {
-        const accesToken = getAccessTokenApi();
-
-        sortedList.forEach(item => {
-            const { _id } = item.content.props.item;
-            const order = item.rank;
-            ActualizarContenidoApi(accesToken, _id, { order });
-        });
-    };
-
-    const addContenidoWebModal = () => {
-        setIsVisibleModal(true);
-        setModalTitle("Creando nuevo Contenido");
-        setModalContent(
-            <AddContenidoForm
-                setIsVisibleModal={setIsVisibleModal}
-                setReloadContenidoWeb={setReloadContenidoWeb}
-            />
-        );
-    };
-
-    const deleteContenido = contenido => {
-        const accesToken = getAccessTokenApi();
-
-        confirm({
-            title: "Eliminando Contenido",
-            content: `¿Estas seguro que desea eliminar el Contenido ${contenido.titulo}?`,
-            okText: "Eliminar",
-            okType: "danger",
-            cancelText: "Cancelar",
-            onOk() {
-                deleteContenidoApi(accesToken, contenido._id)
-                    .then(response => {
-                        notification["success"]({
-                            message: response
-                        });
-                        setReloadContenidoWeb(true);
-                    })
-                    .catch(() => {
-                        notification["error"]({
-                            message: "Error del servidor, intentelo más tarde."
-                        });
-                    });
+    const updateContenido = e => {
+        e.preventDefault();
+        const token = getAccessTokenApi();
+        let FondoActualizado = FondoData;
+        ActualizarContenidoApi(token, contenido._id, FondoActualizado).then(result => {
+            if (result === "Contenido Web Actualizado correctamente.") {
+                setReloadContenidoWeb(true);
             }
+            notification["info"]({
+                message: result
+            });
+            setReloadContenidoWeb(true);
         });
-    };
-
-    const editConteidoWebModal = contenido => {
-        setIsVisibleModal(true);
-        setModalTitle(`Editando Contenido: ${contenido.titulo}`);
-        setModalContent(
-            <EditContenidoForm
-                setIsVisibleModal={setIsVisibleModal}
-                setReloadContenidoWeb={setReloadContenidoWeb}
-                contenido={contenido}
-            />
-        );
     };
 
     return (
-        <div className="contenido-web-list">
-            <div className="contenido-web-list__header">
-                <Button type="primary" onClick={addContenidoWebModal}>
-                    Crear Contenido
-                </Button>
-            </div>
-
-            <div className="contenido-web-list__items">
-                <DragSortableList items={listItems} onSort={OrdenarLista} type="vertical" />
-            </div>
-
-            <Modal
-                title={modalTitle}
-                isVisible={isVisibleModal}
-                setIsVisible={setIsVisibleModal}
-            >
-                {modalContent}
-            </Modal>
+        <div className="edit-contenido-form">
+            <EditForm
+                contenido={FondoData}
+                setFondoData={setFondoData}
+                updateContenido={updateContenido} />
         </div>
     );
 }
 
-function ContenidoItem(props) {
-    const { item, ActivarContenido, editConteidoWebModal, deleteContenido } = props;
-    const [avatar, setAvatar] = useState(null);
-
-    useEffect(() => {
-        if (item.fondo) {
-          ObtenerFondo(item.fondo).then(response => {
-            setAvatar(response);
-          });
-        } else {
-          setAvatar(null);
-        }
-      }, [item]);
+function EditForm(props) {
+    const { contenido, setFondoData, updateContenido } = props;
 
     return (
-        <List.Item
-            actions={[
-                <Switch
-                    defaultChecked={item.disponible}
-                    onChange={e => ActivarContenido(item, e)}
-                />,
-                <Button type="primary" onClick={() => editConteidoWebModal(item)}>
-                    <EditOutlined />
-                </Button>,
-                <Button type="danger" onClick={() => deleteContenido(item)}>
-                    <DeleteOutlined />
+        <Form className="form-edit" onSubmitCapture={updateContenido}>
+            <Row gutter={24}>
+                <Col span={8} ><br /></Col>
+            </Row>
+            <Row gutter={24}>
+                <Col span={8}>
+                    <Form.Item>
+                        <span>Cooperativa</span>
+                        <Input
+                            prefix={<ContactsOutlined />}
+                            placeholder={'Nombre'}
+                            value={ contenido.nombre}
+                            onChange={e =>
+                                setFondoData({ ...contenido, nombre: e.target.value })
+                            }
+                        />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item>
+                        <span>Correo</span>
+                        <Input
+                            prefix={<MailOutlined />}
+                            placeholder="Correo"
+                            value={contenido.correo}
+                            onChange={e =>
+                                setFondoData({ ...contenido, correo: e.target.value })
+                            }
+                        />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item>
+                        <span>Dirección</span>
+                        <Input
+                            prefix={<NodeIndexOutlined />}
+                            placeholder="Direción"
+                            value={contenido.direccion}
+                            onChange={e =>
+                                setFondoData({ ...contenido, direccion: e.target.value })
+                            }
+                        />
+                    </Form.Item>
+                </Col>
+            </Row>
+
+            <Row gutter={24}>
+                <Col span={8} ><br /> <br /></Col>
+            </Row>
+
+            <Row gutter={24}>
+                <Col span={8}>
+                    <Form.Item>
+                        <span>Teléfono</span>
+                        <Input
+                            prefix={<PhoneOutlined />}
+                            placeholder="Teléfono"
+                            value={contenido.telefono}
+                            onChange={e =>
+                                setFondoData({ ...contenido, telefono: e.target.value })
+                            }
+                        />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item>
+                        <span>Celular</span>
+                        <Input
+                            prefix={<ShakeOutlined />}
+                            placeholder="Celular"
+                            value={contenido.Celular}
+                            onChange={e =>
+                                setFondoData({ ...contenido, Celular: e.target.value })
+                            }
+                        />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item>
+                        <span>Fax</span>
+                        <Input
+                            prefix={<VerticalAlignBottomOutlined />}
+                            placeholder="Fax"
+                            value={contenido.fax}
+                            onChange={e =>
+                                setFondoData({ ...contenido, fax: e.target.value })
+                            }
+                        />
+                    </Form.Item>
+                </Col>
+            </Row>
+
+
+            <Row gutter={24}>
+                <Col span={8} ><br /> <br /></Col>
+            </Row>
+
+            <Row gutter={24}>
+                <Col span={8} >
+                    <span>Mensaje de Inicio</span>
+                    <Form.Item>
+                        <TextareaAutosize className="textoG"
+                            placeholder="Mensaje de Inicio"
+                            value={ contenido.mensaje_Inicio }
+                            rows={7}
+                            onChange={e =>
+                                setFondoData({ ...contenido, mensaje_Inicio: e.target.value })
+                            } />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <span>Mensaje Secundario</span>
+                    <Form.Item>
+                        <TextareaAutosize className="textoG"
+                            placeholder="Segundo Mensaje"
+                            value={contenido.mensaje_Inicio2}
+                            rows={7}
+                            onChange={e =>
+                                setFondoData({ ...contenido, mensaje_Inicio2: e.target.value })
+                            } />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <span>Descripción</span>
+                    <Form.Item>
+                        <TextareaAutosize className="textoG"
+                            placeholder="Descripción"
+                            value={contenido.descripcion}
+                            rows={7}
+                            onChange={e =>
+                                setFondoData({ ...contenido, descripcion: e.target.value })
+                            } />
+                    </Form.Item>
+                </Col>
+            </Row>
+
+            <Row gutter={24}>
+                <Col span={8} ><br /> <br /></Col>
+            </Row>
+
+            <Row gutter={24}>
+                <Col span={8} >
+                    <span>Misión</span>
+                    <Form.Item>
+                        <TextareaAutosize className="textoG"
+                            placeholder="Misión"
+                            value={contenido.mision}
+                            rows={7}
+                            onChange={e =>
+                                setFondoData({ ...contenido, mision: e.target.value })
+                            } />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <span>Visión</span>
+                    <Form.Item>
+                        <TextareaAutosize className="textoG"
+                            placeholder="Visión"
+                            value={contenido.vision}
+                            rows={7} 
+                            onChange={e =>
+                                setFondoData({ ...contenido, vision: e.target.value })
+                            } />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <span>Historia</span>
+                    <Form.Item>
+                        <TextareaAutosize className="textoG"
+                            placeholder="Historia"
+                            value={contenido.historia}
+                            rows={7}
+                            onChange={e =>
+                                setFondoData({ ...contenido, historia: e.target.value })
+                            } />
+                    </Form.Item>
+                </Col>
+            </Row>
+
+
+            <Form.Item>
+                <Button type="primary" htmlType="submit" className="btn-submit">
+                    Actualizar Contenido
                 </Button>
-            ]}
-        >
-            <List.Item.Meta 
-            avatar={<Avatar src={avatar ? avatar : NoAvatar} />}
-            title={item.titulo} description={item.contenido} />
-        </List.Item>
+            </Form.Item>
+        </Form>
     );
 }
+

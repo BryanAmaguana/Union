@@ -8,7 +8,7 @@ export function getAccessTokenApi() {
     if (!accessToken || accessToken === "null") {
       return null;
     }
-    return willExpireToken(accessToken) ? null : accessToken;
+    return willExpireToken(accessToken) ? window.location = '' : accessToken;
   }
 
 
@@ -19,7 +19,7 @@ export function getAccessTokenApi() {
       return null;
     }
   
-    return willExpireToken(refreshToken) ? null : refreshToken;
+    return willExpireToken(refreshToken) ? window.location = '' : refreshToken;
   }
 
   export function refreshAccessTokenApi(refreshToken) {

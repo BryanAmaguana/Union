@@ -1,0 +1,53 @@
+/* ------------------------------------------------------------------ */
+/* c. About Section
+/* ------------------------------------------------------------------ */
+/*  #af3a3a */
+#Informacion {
+   background: linear-gradient(snow, hsl(0, 63%, 75%));  
+    padding-top: 96px;
+    padding-bottom: 66px;
+    overflow: hidden;
+ }
+
+ .CentradoInagen {
+
+   height: 600px;
+   width: 100%;
+   text-align: center;
+
+ }
+
+ .Letras{
+   font: 40px/1.1em 'opensans-bold', sans-serif;
+   letter-spacing: -2px;
+   margin: 0 auto 20px auto;
+   color: rgb(128, 48, 48);
+   width: 100%;
+ }
+
+ .Letras2{
+   font: 40px/1.1em 'opensans-bold', sans-serif;
+   margin: 0 auto 20px auto;
+   color: rgb(128, 48, 48);
+ }
+
+
+ .LetrasDescripcion{
+   font: 20px/4.1em 'opensans-bold', sans-serif;
+   margin: 0 auto 20px auto;
+   width: 100%;
+ }
+
+ .ContenidoI{
+/*    opacity: 8%; */
+   height: 600px;
+   width: 100%;
+ }
+ 
+ #Informacion .profile-pic {
+    position: relative;
+    width: 220px;
+    height: 220px;
+
+ }
+

@@ -1,0 +1,27 @@
+
+#Historia {
+   // background: #1F1F1F url(../../../assets/img/png/FondoHistoria.png) no-repeat center center;
+   background: linear-gradient( hsl(0, 63%, 75%), snow);  
+    background-size: cover !important;
+     -webkit-background-size: cover !important;
+    position: relative;
+    min-height: 200px;
+    width: 100%;
+    overflow: hidden;
+    height: 800px;
+ }
+ #Historia .text-container {
+    padding-top: 96px;
+    padding-bottom: 66px;
+ }
+ #Historia h1 {
+    font: 25px/24px 'opensans-bold', sans-serif;
+    text-transform: uppercase;
+    padding: 20px;
+    letter-spacing: 3px;
+    color: rgb(128, 48, 48);
+ }
+ #Historia h2 {
+   font: 18px/30px 'opensans-bold', sans-serif;
+   padding: 50px;
+}

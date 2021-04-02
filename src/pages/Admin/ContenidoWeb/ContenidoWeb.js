@@ -6,20 +6,20 @@ import ListContenidoWeb from "../../../components/Admin/ContenidoWeb/ListConteni
 import "./ContenidoWeb.scss";
 
 export default function ContenidoWeb() {
-  const [ContenidoWeb, setContenidoWeb] = useState([]);
+  const [contenidoWeb, setContenidoWeb] = useState([]);
   const [reloadContenidoWeb , setReloadContenidoWeb] = useState(false);
   const token = getAccessTokenApi(); 
 
   useEffect(() => {
     ObtenerContenidoApi().then(response => {
-      setContenidoWeb(response.contenido);
+      setContenidoWeb(response.contenido[0]);
     });
     setReloadContenidoWeb(false);
   }, [token , reloadContenidoWeb]);
 
   return (
     <div className="contenido">
-      <ListContenidoWeb ContenidoWeb={ContenidoWeb} setReloadContenidoWeb={setReloadContenidoWeb} />
+      <ListContenidoWeb contenido={contenidoWeb} setReloadContenidoWeb={setReloadContenidoWeb} />
     </div>
   );
 }

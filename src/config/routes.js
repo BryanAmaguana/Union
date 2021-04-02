@@ -25,7 +25,6 @@ import AdminMenuWeb from "../pages/Admin/MenuWeb"
 
 /* Importacion Publico */
 import HomePublico from '../pages/Publico/Home';
-import ContactPublico from '../pages/Publico/Contact';
 
 /* Importacion Personal */
 import HomePersonal from '../pages/Personal/Personal';
@@ -139,11 +138,6 @@ const routes = [
                 path: "/",
                 component: HomePublico,
                 exact: true
-            },
-            {
-                path: "/contact",
-                component: ContactPublico,
-                exact: true 
             },
             {
                 component: Error404
