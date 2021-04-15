@@ -180,27 +180,42 @@ export default function ListTarjeta(props) {
 function PaginacionA(props) {
     const { paginaActual, setpaginaActual, token, setTarjetaActivos, desde, setDesde, limite, setTarjetaInactivos, NumeroPorPagina } = props;
     useEffect(() => {
-        ObtenerTarjeta(token, true, desde, limite).then(response => {
+        try {
+                ObtenerTarjeta(token, true, desde, limite).then(response => {
             setTarjetaActivos(response.tarjeta);
             if ((response.tarjeta).length < NumeroPorPagina) {
                 document.getElementById('siguiente').disabled = true;
             }
         });
+        } catch (error) {
+          
+        }
+
     }, [desde, limite, token, setTarjetaActivos, setDesde, setTarjetaInactivos, NumeroPorPagina]);
 
     const Siguiente = () => {
-        var PA = paginaActual + 1
+        try {
+                var PA = paginaActual + 1
         setpaginaActual(PA)
         setDesde(desde + limite);
         document.getElementById('anterior').disabled = false;
+        } catch (error) {
+          
+        }
+
     }
 
     const Atras = () => {
         if (paginaActual > 1) {
-            var PA = paginaActual - 1
+            try {
+                    var PA = paginaActual - 1
             setpaginaActual(PA)
             setDesde(desde - limite);
             document.getElementById('siguiente').disabled = false;
+            } catch (error) {
+              
+            }
+
         }
         if (paginaActual === 1) {
             document.getElementById('anterior').disabled = true;

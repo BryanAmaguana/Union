@@ -128,26 +128,35 @@ function Paginacion(props) {
     const { paginaActual, setpaginaActual, token, setcobro, desde, setDesde, limite, setlimite, NumeroPorPagina } = props;
     useEffect(() => {
         ObtenerCobroPasajeTodo(token, desde, limite).then(response => {
-            setcobro(response.cobro);
-            if ((response.cobro).length < NumeroPorPagina) {
-                document.getElementById('siguiente').disabled = true;
+            try {
+                setcobro(response.cobro);
+                if ((response.cobro).length < NumeroPorPagina) {
+                    document.getElementById('siguiente').disabled = true;
+                }
+            } catch (error) {
             }
         });
     }, [desde, limite, token, setcobro, setDesde, setlimite, NumeroPorPagina]);
 
     const Siguiente = () => {
-        var PA = paginaActual + 1
-        setpaginaActual(PA)
-        setDesde(desde + limite);
-        document.getElementById('anterior').disabled = false;
+        try {
+            var PA = paginaActual + 1
+            setpaginaActual(PA)
+            setDesde(desde + limite);
+            document.getElementById('anterior').disabled = false;
+        } catch (error) {   
+        } 
     }
 
     const Atras = () => {
         if (paginaActual > 1) {
-            var PA = paginaActual - 1
-            setpaginaActual(PA)
-            setDesde(desde - limite);
-            document.getElementById('siguiente').disabled = false;
+            try {
+                var PA = paginaActual - 1
+                setpaginaActual(PA)
+                setDesde(desde - limite);
+                document.getElementById('siguiente').disabled = false;  
+            } catch (error) {   
+            }
         }
         if (paginaActual === 1) {
             document.getElementById('anterior').disabled = true;

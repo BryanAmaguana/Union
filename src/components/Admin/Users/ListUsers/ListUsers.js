@@ -180,27 +180,42 @@ export default function ListUsers(props) {
 function PaginacionA(props) {
   const { paginaActual, setpaginaActual, token, setusuariosActivos, desde, setDesde, limite, setusuariosInactivos, NumeroPorPagina } = props;
   useEffect(() => {
-    ObtenerUsuariosAI(token, true, desde, limite).then(response => {
+    try {
+            ObtenerUsuariosAI(token, true, desde, limite).then(response => {
       setusuariosActivos(response.usuario);
       if((response.usuario).length < NumeroPorPagina){
         document.getElementById('siguiente').disabled=true;
       }
     });
+    } catch (error) {
+      
+    }
+
   }, [desde, limite, token, setusuariosActivos, setDesde, setusuariosInactivos, NumeroPorPagina]);
 
   const Siguiente = () => {
-    var PA = paginaActual + 1
+    try {
+          var PA = paginaActual + 1
     setpaginaActual(PA)
     setDesde(desde + limite);
-    document.getElementById('anterior').disabled=false;
+    document.getElementById('anterior').disabled=false;  
+    } catch (error) {
+      
+    }
+
   }
 
   const Atras = () => {
     if (paginaActual > 1) {
-      var PA = paginaActual - 1
+      try {
+              var PA = paginaActual - 1
       setpaginaActual(PA)
       setDesde(desde - limite);
       document.getElementById('siguiente').disabled=false;
+      } catch (error) {
+        
+      }
+
     }
     if(paginaActual === 1){
       document.getElementById('anterior').disabled=true;

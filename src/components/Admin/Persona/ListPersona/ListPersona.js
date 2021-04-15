@@ -109,27 +109,42 @@ export default function ListPersona(props) {
 function Paginacion(props) {
     const { paginaActual, setpaginaActual, token, setpersona, desde, setDesde, limite, setlimite, NumeroPorPagina } = props;
     useEffect(() => {
-        ObtenerPersona(token, desde, limite).then(response => {
+        try {
+                ObtenerPersona(token, desde, limite).then(response => {
             setpersona(response.persona);
             if ((response.persona).length < NumeroPorPagina) {
                 document.getElementById('siguiente').disabled = true;
             }
         });
+        } catch (error) {
+          
+        }
+
     }, [desde, limite, token, setpersona, setDesde, setlimite, NumeroPorPagina]);
 
     const Siguiente = () => {
-        var PA = paginaActual + 1
+        try {
+                var PA = paginaActual + 1
         setpaginaActual(PA)
         setDesde(desde + limite);
         document.getElementById('anterior').disabled = false;
+        } catch (error) {
+          
+        }
+
     }
 
     const Atras = () => {
         if (paginaActual > 1) {
-            var PA = paginaActual - 1
+            try {
+                    var PA = paginaActual - 1
             setpaginaActual(PA)
             setDesde(desde - limite);
             document.getElementById('siguiente').disabled = false;
+            } catch (error) {
+              
+            }
+
         }
         if (paginaActual === 1) {
             document.getElementById('anterior').disabled = true;

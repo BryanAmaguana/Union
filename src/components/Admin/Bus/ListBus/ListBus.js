@@ -145,27 +145,39 @@ export default function ListBus(props) {
   function PaginacionA(props) {
     const { paginaActual, setpaginaActual, token, setBusActivos, desde, setDesde, limite, setBusInactivos, NumeroPorPagina } = props;
     useEffect(() => {
+      try {
         ObtenerBus(token, true, desde, limite).then(response => {
-        setBusActivos(response.bus);
-        if((response.bus).length < NumeroPorPagina){
-          document.getElementById('siguiente').disabled=true;
-        }
-      });
+          setBusActivos(response.bus);
+          if((response.bus).length < NumeroPorPagina){
+            document.getElementById('siguiente').disabled=true;
+          }
+        });
+      } catch (error) {
+      }
+
     }, [desde, limite, token, setBusActivos, setDesde, setBusInactivos, NumeroPorPagina]);
   
     const Siguiente = () => {
-      var PA = paginaActual + 1
+      try {
+              var PA = paginaActual + 1
       setpaginaActual(PA)
       setDesde(desde + limite);
       document.getElementById('anterior').disabled=false;
+      } catch (error) {
+      }
+
     }
   
     const Atras = () => {
       if (paginaActual > 1) {
-        var PA = paginaActual - 1
+        try {
+         var PA = paginaActual - 1
         setpaginaActual(PA)
         setDesde(desde - limite);
         document.getElementById('siguiente').disabled=false;
+        } catch (error) {
+        }
+       
       }
       if(paginaActual === 1){
         document.getElementById('anterior').disabled=true;

@@ -150,27 +150,42 @@ export default function ListPasajero(props) {
 function PaginacionA(props) {
     const { paginaActual, setpaginaActual, token, setPasajeroActivos, desde, setDesde, limite, setPasajeroInactivos, NumeroPorPagina } = props;
     useEffect(() => {
+        try {
         ObtenerPasajero(token, true, desde, limite).then(response => {
             setPasajeroActivos(response.pasajero);
             if ((response.pasajero).length < NumeroPorPagina) {
                 document.getElementById('siguiente').disabled = true;
             }
         });
+        } catch (error) {
+
+        }
+        
     }, [desde, limite, token, setPasajeroActivos, setDesde, setPasajeroInactivos, NumeroPorPagina]);
 
     const Siguiente = () => {
-        var PA = paginaActual + 1
+        try {
+                var PA = paginaActual + 1
         setpaginaActual(PA)
         setDesde(desde + limite);
         document.getElementById('anterior').disabled = false;
+        } catch (error) {
+          
+        }
+
     }
 
     const Atras = () => {
         if (paginaActual > 1) {
-            var PA = paginaActual - 1
+            try {
+                    var PA = paginaActual - 1
             setpaginaActual(PA)
             setDesde(desde - limite);
             document.getElementById('siguiente').disabled = false;
+            } catch (error) {
+              
+            }
+
         }
         if (paginaActual === 1) {
             document.getElementById('anterior').disabled = true;
