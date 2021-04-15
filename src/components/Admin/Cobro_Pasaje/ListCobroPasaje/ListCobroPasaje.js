@@ -7,7 +7,6 @@ import { ObtenerBusNumero } from "../../../../api/bus";
 import moment from 'moment';
 
 import "./ListCobroPasaje.scss";
-
 export default function ListCobro(props) {
     const { cobro, setcobro, setReloadCobro } = props;
     const [BusquedaCobro, setBusquedaCobro] = useState(false);
