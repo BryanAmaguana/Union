@@ -6,7 +6,6 @@ import { notification } from "antd";
 import "./inicio.scss";
 
 export default function Inicio() {
-
     const [ContenidoInformacion, setContenidoInformacion] = useState({});
 
     useEffect(() => {
@@ -34,7 +33,7 @@ export default function Inicio() {
             <div className="row banner">
                 <div className="banner-text">
                     <h1 className="logoIconoPrincipal">
-                        <img src={Logo} alt="Union" />
+                        <img src={Logo} alt="Union"/>
                     </h1>
 
                     <h1 >{ContenidoInformacion.nombre}</h1>

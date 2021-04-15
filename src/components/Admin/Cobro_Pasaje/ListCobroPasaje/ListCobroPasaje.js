@@ -20,7 +20,6 @@ export default function ListCobro(props) {
     const [Inicio, setInicio] = useState("");
     const [Fin, setFin] = useState("");
 
-
     function FechaInicio(dateString) {
         const date = moment(dateString).format('YYYY-MM-DD');
         setInicio(date);
@@ -213,7 +212,7 @@ function ListaPersonas(props) {
            ` }
                 description={
                     <div>
-                        <b>Cédula :</b> {cobro.id_pasajero.cedula_persona ? cobro.id_pasajero.cedula_persona : '...'}
+                        <b>Tarjeta :</b> {cobro.id_tarjeta.codigo ? cobro.id_tarjeta.codigo : '...'}
                         <br />
                         <b>Valor:</b> {cobro.valor_pagado ? Valor(cobro.valor_pagado) : '...'}
                         <br />

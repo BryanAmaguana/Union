@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
-import { Link } from "react-router-dom";
 import { ObtenerMenuApi } from "../../../api/menu";
 import logoUnion from "../../../assets/img/png/ICONO2.png";
 
@@ -12,21 +11,33 @@ export default function MenuTop() {
   useEffect(() => {
     ObtenerMenuApi().then(response => {
       const arrayMenu = [];
-      response.menu.forEach(item => {
-        item.disponible && arrayMenu.push(item);
-      });
-      setMenuData(arrayMenu);
+      try {
+        response.menu.forEach(item => {
+          item.disponible && arrayMenu.push(item);
+        });
+        setMenuData(arrayMenu);
+      } catch (error) {
+        window.location.href = "/Error404";
+      }
+      
     });
   }, []);
 
+  const HomeLink = () => {
+    window.location.href = "/";
+  }
+
   return (
     <Menu className="menu-top-web" mode="horizontal">
-      <Menu.Item className="logoInicio">
-        <Link to={"/"}>
-          <img src={logoUnion} alt="Union" />
-        </Link>
+      <Menu.Item className="logoInicio" >
+        <img
+          className="menu-top__left-logo"
+          src={logoUnion}
+          alt="Union"
+          onClick={HomeLink}
+        />
 
-      </Menu.Item>
+      </Menu.Item  >
       {menuData.map(item => {
         const external = item.url.indexOf("https") > -1 ? true : false;
         if (external) {

@@ -137,7 +137,6 @@ function EditForm(props) {
                 <Col span={12}>
                     <Form.Item>
                         <Input
-                            disabled
                             prefix={<ContactsOutlined />}
                             placeholder="Nombre "
                             value={PasajeroData.nombre_persona}
@@ -147,7 +146,6 @@ function EditForm(props) {
                 <Col span={12}>
                     <Form.Item>
                         <Input
-                            disabled
                             prefix={<ContactsOutlined />}
                             placeholder="Apellido"
                             value={PasajeroData.apellido_persona}
@@ -185,7 +183,6 @@ function EditForm(props) {
                 <Col span={12}>
                     <Form.Item>
                         <Input
-                            disabled
                             prefix={<DollarCircleOutlined />}
                             placeholder="Saldo"
                             value={PasajeroData.valor_tarjeta ? valor(PasajeroData.valor_tarjeta) : "0.00"}
@@ -195,10 +192,9 @@ function EditForm(props) {
                 <Col span={12}>
                     <Form.Item>
                         <Input
-                            disabled
                             prefix={<InfoCircleOutlined />}
                             placeholder="Descripción"
-                            value={PasajeroData.descripcion}
+                            value={PasajeroData.descripcion ? PasajeroData.descripcion.nombre :""}
                         />
                     </Form.Item>
                 </Col>

@@ -145,7 +145,7 @@ function AddForm(props) {
                 <Col span={12}>
                     <Form.Item>
                         <Input
-                            disabled
+         
                             prefix={<ContactsOutlined />}
                             placeholder="Nombre "
                             value={persona.nombre_persona}
@@ -155,7 +155,7 @@ function AddForm(props) {
                 <Col span={12}>
                     <Form.Item>
                         <Input
-                            disabled
+                      
                             prefix={<ContactsOutlined />}
                             placeholder="Apellido"
                             value={persona.apellido_persona}
@@ -189,7 +189,7 @@ function AddForm(props) {
                 <Col span={12}>
                     <Form.Item>
                         <Input
-                            disabled
+         
                             prefix={<DollarCircleOutlined />}
                             placeholder="Saldo"
                             value={tarjeta.valor_tarjeta ? valor(tarjeta.valor_tarjeta) : "0.00"}
@@ -199,10 +199,10 @@ function AddForm(props) {
                 <Col span={12}>
                     <Form.Item>
                         <Input
-                            disabled
+     
                             prefix={<InfoCircleOutlined />}
                             placeholder="Descripción"
-                            value={tarjeta.descripcion}
+                            value={tarjeta.descripcion ? tarjeta.descripcion.nombre :""}
                         />
                     </Form.Item>
                 </Col>

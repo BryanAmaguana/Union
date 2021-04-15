@@ -204,7 +204,7 @@ function AddForm(props) {
             <Row gutter={24}>
                 <Col span={24}>
                     <Form.Item>
-                        {Mensaje}
+                        {Mensaje === "Verificar Cédula"? <div className="Color1">{Mensaje}</div>: <div className="Color2" >{Mensaje}</div>}
                     </Form.Item>
                 </Col>
             </Row>

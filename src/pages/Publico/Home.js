@@ -7,7 +7,7 @@ import Informacion from '../../components/Web/Informacion';
 import Historia from '../../components/Web/Historia';
 import { ObtenerMenuApi } from "../../api/menu";
 
-export default function Home() {
+export default function InicioPagina() {
     const [menu, setmenu] = useState(false);
 
     useEffect(() => {
@@ -25,18 +25,20 @@ export default function Home() {
     return (
         <div className="App">
             <Inicio />
-            {menu ? (// eslint-disable-next-line
+            {menu ? (
+                // eslint-disable-next-line
                 menu.map((menu) => {
                     if (menu.disponible & menu.url === "Historia") {
-                        return (<Historia />);
+                        return (<Historia key={menu._id}/>);
                     };
                     if (menu.disponible && menu.url === "MisionVision") {
-                        return (<MisionVision />)
+                        return (<MisionVision key={menu._id}/>)
                     };
                     if (menu.disponible && menu.url === "Informacion") {
-                        return (<Informacion />)
+                        return (<Informacion key={menu._id}/>)
                     }
-                })):(<Inicio />)}
+                })):(
+                <Inicio />)}
             <Footer />
         </div>
     );

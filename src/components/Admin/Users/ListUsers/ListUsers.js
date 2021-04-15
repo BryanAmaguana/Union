@@ -116,7 +116,7 @@ export default function ListUsers(props) {
         <div className="form-edit">
           <Input
             prefix={<SearchOutlined />}
-            placeholder=" Buscar "
+            placeholder=" Buscar nombre de usuario"
             onChange={
               event => Buscar(event.target.value)
             }

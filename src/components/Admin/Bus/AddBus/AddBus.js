@@ -114,7 +114,7 @@ function AddForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
-              disabled
+
               prefix={<ContactsOutlined />}
               placeholder="Nombre "
               value={ persona.nombre_persona}
@@ -124,7 +124,6 @@ function AddForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
-              disabled
               prefix={<ContactsOutlined />}
               placeholder="Apellido"
               value={persona.apellido_persona}

@@ -19,7 +19,7 @@ export function getAccessTokenApi() {
       return null;
     }
   
-    return willExpireToken(refreshToken) ? window.location = '' : refreshToken;
+    return willExpireToken(refreshToken) ? null : refreshToken;
   }
 
   export function refreshAccessTokenApi(refreshToken) {

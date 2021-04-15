@@ -13,7 +13,7 @@ import "./ListTarjeta.scss";
 /* const { confirm } = ModalAntd; */
 
 export default function ListTarjeta(props) {
-    const { TarjetaActivos, setTarjetaActivos, TarjetaInactivos, setTarjetaInactivos, setReloadTarjeta } = props;
+    const { TarjetaActivos, setTarjetaActivos, TarjetaInactivos, setTarjetaInactivos, setReloadTarjeta, Tipo_Pasajero } = props;
     const [VerTarjetaActivos, setVerTarjetaActivos] = useState(true);
     const [IsVisibleModal, setIsVisibleModal] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
@@ -63,6 +63,7 @@ export default function ListTarjeta(props) {
             <AddTarjetaForm
                 setIsVisibleModal={setIsVisibleModal}
                 setReloadTarjeta={setReloadTarjeta}
+                Tipo_Pasajero={Tipo_Pasajero}
             />
         );
     };
@@ -125,7 +126,7 @@ export default function ListTarjeta(props) {
 
                 <Button type="primary" onClick={AgregarTarjetaModal}>
                     Nueva Tarjeta
-        </Button>
+                </Button>
             </div>
 
             {/* listado de usuarios activos e inactivos */}
@@ -135,7 +136,8 @@ export default function ListTarjeta(props) {
                     setIsVisibleModal={setIsVisibleModal}
                     setModalTitle={setModalTitle}
                     setReloadTarjeta={setReloadTarjeta}
-                    setModalContent={setModalContent} />) : (
+                    setModalContent={setModalContent}
+                    Tipo_Pasajero={Tipo_Pasajero} />) : (
                 <TarjetaInactivo TarjetaInactivos={BusquedaTarjetaInactivo ? BusquedaTarjetaInactivo : TarjetaInactivos} setReloadTarjeta={setReloadTarjeta} />)}
 
             {/* Modal para editar */}
@@ -209,14 +211,14 @@ function PaginacionA(props) {
         <div>
             <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
                 Anterior
-      </Button>
+            </Button>
             <Button className="centradoB" type="second">
                 {paginaActual}
             </Button>
 
             <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
                 Siguiente
-      </Button>
+            </Button>
         </div>
     )
 }
@@ -256,21 +258,21 @@ function PaginacionI(props) {
         <div>
             <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
                 Anterior
-      </Button>
+            </Button>
             <Button className="centradoB" type="second">
                 {paginaActual}
             </Button>
 
             <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
                 Siguiente
-      </Button>
+            </Button>
         </div>
     )
 }
 
 /* Metodo para llamar a los usuarios activos */
 function TarjetaActivo(props) {
-    const { TarjetaActivos, setIsVisibleModal, setModalTitle, setModalContent, setReloadTarjeta } = props;
+    const { TarjetaActivos, setIsVisibleModal, setModalTitle, setModalContent, setReloadTarjeta, Tipo_Pasajero } = props;
     /* Metodo para activar modal y editar usuario, llamada a EditUserForm */
     const EditarTarjeta = tarjeta => {
         setIsVisibleModal(true);
@@ -280,7 +282,8 @@ function TarjetaActivo(props) {
             <EditTarjetaForm
                 tarjeta={tarjeta}
                 setIsVisibleModal={setIsVisibleModal}
-                setReloadTarjeta={setReloadTarjeta} />)
+                setReloadTarjeta={setReloadTarjeta}
+                Tipo_Pasajero={Tipo_Pasajero} />)
     }
 
     return (
@@ -318,31 +321,31 @@ function ListaTarjetaActivos(props) {
             });
     };
 
-/*     const ConfirmarEliminar = () => {
-        const accesToken = getAccessTokenApi();
-
-        confirm({
-            title: "Eliminando Tarjeta",
-            content: `¿Esta seguro que desea eliminar a la Tarjeta con código: ${tarjeta.codigo}?`,
-            okText: "Eliminar",
-            okType: "danger",
-            cancelText: "Cancelar",
-            onOk() {
-                EliminarTarjeta(accesToken, tarjeta._id)
-                    .then(response => {
-                        notification["success"]({
-                            message: response
+    /*     const ConfirmarEliminar = () => {
+            const accesToken = getAccessTokenApi();
+    
+            confirm({
+                title: "Eliminando Tarjeta",
+                content: `¿Esta seguro que desea eliminar a la Tarjeta con código: ${tarjeta.codigo}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    EliminarTarjeta(accesToken, tarjeta._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            });
+                            setReloadTarjeta(true);
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            });
                         });
-                        setReloadTarjeta(true);
-                    })
-                    .catch(err => {
-                        notification["error"]({
-                            message: err
-                        });
-                    });
-            }
-        });
-    }; */
+                }
+            });
+        }; */
 
     const Valor = valor => {
         var cadena = valor;
@@ -369,10 +372,10 @@ function ListaTarjetaActivos(props) {
                     </Button>
                 </Tooltip>,
 
-/*                 <Tooltip title="Eliminar">
-                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
-                        <DeleteOutlined />
-                    </Button></Tooltip> */
+                /*                 <Tooltip title="Eliminar">
+                                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                                        <DeleteOutlined />
+                                    </Button></Tooltip> */
             ]}
         >
             <List.Item.Meta
@@ -382,7 +385,9 @@ function ListaTarjetaActivos(props) {
                     <div>
                         <b>Valor Tarjeta:</b> {tarjeta.valor_tarjeta ? Valor(tarjeta.valor_tarjeta) : '0.00'}
                         <br />
-                        <b>Descripción:</b> {tarjeta.descripcion ? tarjeta.descripcion : '...'}
+                        <b>Descripción:</b> {tarjeta.descripcion.nombre ? tarjeta.descripcion.nombre : '...'}
+                        <br />
+                        <b>Bloqueo:</b> {tarjeta.bloqueo? tarjeta.bloqueo : 'ninguno'}
                     </div>
                 }
             />
@@ -424,31 +429,31 @@ function ListaTarjetaInactivos(props) {
             });
     };
 
-/*     const ConfirmarEliminar = () => {
-        const accesToken = getAccessTokenApi();
-
-        confirm({
-            title: "Eliminando Tarjeta",
-            content: `¿Esta seguro que desea eliminar a la Tarjeta con código: ${tarjeta.codigo}?`,
-            okText: "Eliminar",
-            okType: "danger",
-            cancelText: "Cancelar",
-            onOk() {
-                EliminarTarjeta(accesToken, tarjeta._id)
-                    .then(response => {
-                        notification["success"]({
-                            message: response
+    /*     const ConfirmarEliminar = () => {
+            const accesToken = getAccessTokenApi();
+    
+            confirm({
+                title: "Eliminando Tarjeta",
+                content: `¿Esta seguro que desea eliminar a la Tarjeta con código: ${tarjeta.codigo}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    EliminarTarjeta(accesToken, tarjeta._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            });
+                            setReloadTarjeta(true);
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            });
                         });
-                        setReloadTarjeta(true);
-                    })
-                    .catch(err => {
-                        notification["error"]({
-                            message: err
-                        });
-                    });
-            }
-        });
-    }; */
+                }
+            });
+        }; */
 
     const Valor = valor => {
         var cadena = valor;
@@ -468,11 +473,11 @@ function ListaTarjetaInactivos(props) {
                         <CheckOutlined />
                     </Button>
                 </Tooltip>,
-/*                 <Tooltip title="Eliminar">
-                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
-                        <DeleteOutlined />
-                    </Button>
-                </Tooltip> */
+                /*                 <Tooltip title="Eliminar">
+                                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                                        <DeleteOutlined />
+                                    </Button>
+                                </Tooltip> */
             ]}
         >
             <List.Item.Meta
@@ -484,7 +489,9 @@ function ListaTarjetaInactivos(props) {
                     <div>
                         <b>Valor Tarjeta:</b> {tarjeta.valor_tarjeta ? Valor(tarjeta.valor_tarjeta) : '0.00'}
                         <br />
-                        <b>Descripción:</b> {tarjeta.descripcion ? tarjeta.descripcion : '...'}
+                        <b>Descripción:</b> {tarjeta.descripcion.nombre ? tarjeta.descripcion.nombre : '...'}
+                        <br />
+                        <b>Bloqueo:</b> {tarjeta.bloqueo? tarjeta.bloqueo : 'ninguno'}
                     </div>
                 }
             />

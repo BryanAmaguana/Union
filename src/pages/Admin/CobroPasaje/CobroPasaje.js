@@ -11,7 +11,7 @@ export default function CobroPasaje() {
     const token = getAccessTokenApi(); 
 
     useEffect(() => {    
-        ObtenerCobroPasajeTodo(token).then(response => {
+        ObtenerCobroPasajeTodo(token, 0, 4).then(response => {
           setcobro(response.cobro);
         });
         setReloadCobro(false);

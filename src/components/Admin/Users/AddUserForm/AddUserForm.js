@@ -12,7 +12,6 @@ export default function AddUserForm(props) {
   const [userData, setUserData] = useState({});
   const [persona, setPersona] = useState({});
   var f = new Date();
-
   const addUser = event => {
     event.preventDefault();
     userData.fecha_registro_Usuario = (f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear()+"/" + f.getHours()+ ":"+ f.getMinutes()+":"+ f.getSeconds());
@@ -126,7 +125,6 @@ function AddForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
-              disabled
               prefix={<ContactsOutlined />}
               placeholder="Nombre "
               value={ persona.nombre_persona}
@@ -136,7 +134,6 @@ function AddForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
-              disabled
               prefix={<ContactsOutlined />}
               placeholder="Apellido"
               value={persona.apellido_persona}

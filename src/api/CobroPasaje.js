@@ -3,8 +3,8 @@ import { basePath } from "./config";
 
 /* Obtener todos los cobros */
 
-export function  ObtenerCobroPasajeTodo(token) {
-  const url = `${basePath}/ObtenerCobroPasajeTodo`;
+export function  ObtenerCobroPasajeTodo(token, desde, limite) {
+  const url = `${basePath}/ObtenerCobroPasajeTodo/${desde}/${limite}`;
 
   const params = {
     method: "GET",

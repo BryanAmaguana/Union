@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, notification} from "antd";
-import { CrearTarjeta} from "../../../../api/tarjeta";
+import { Form, Input, Button, Row, Col, notification, Select } from "antd";
+import { CrearTarjeta } from "../../../../api/tarjeta";
 import { getAccessTokenApi } from "../../../../api/auth";
-import { CreditCardOutlined, DollarCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { CreditCardOutlined, DollarCircleOutlined } from '@ant-design/icons';
 
 import "./AddTarjeta.scss";
 
 export default function AddTarjetaForm(props) {
-  const { setIsVisibleModal, setReloadTarjeta } = props;
+  const { setIsVisibleModal, setReloadTarjeta, Tipo_Pasajero } = props;
   const [tarjetaData, setTarjetaData] = useState({});
 
   const addTarjeta = event => {
@@ -25,14 +25,14 @@ export default function AddTarjetaForm(props) {
       const accesToken = getAccessTokenApi();
       CrearTarjeta(accesToken, tarjetaData)
         .then(response => {
-          if(response === "Tarjeta creada exitosamente."){
+          if (response === "Tarjeta creada exitosamente.") {
             notification["success"]({
               message: response
             });
             setTarjetaData({});
             setIsVisibleModal(false);
             setReloadTarjeta(true);
-          }else{
+          } else {
             notification["error"]({
               message: response
             });
@@ -52,6 +52,7 @@ export default function AddTarjetaForm(props) {
         tarjetaData={tarjetaData}
         setTarjetaData={setTarjetaData}
         addTarjeta={addTarjeta}
+        Tipo_Pasajero={Tipo_Pasajero}
       />
     </div>
   );
@@ -59,7 +60,8 @@ export default function AddTarjetaForm(props) {
 
 
 function AddForm(props) {
-  const { tarjetaData, setTarjetaData, addTarjeta} = props;    
+  const { tarjetaData, setTarjetaData, addTarjeta, Tipo_Pasajero } = props;
+  const { Option } = Select;
   return (
 
     <Form className="form-edit" onSubmitCapture={addTarjeta}>
@@ -72,7 +74,7 @@ function AddForm(props) {
               placeholder="Código"
               value={tarjetaData.codigo}
               onChange={e =>
-                setTarjetaData({ ...tarjetaData, codigo: e.target.value})
+                setTarjetaData({ ...tarjetaData, codigo: e.target.value })
               }
             />
           </Form.Item>
@@ -97,14 +99,17 @@ function AddForm(props) {
       <Row gutter={24}>
         <Col span={24}>
           <Form.Item>
-            <Input
-              prefix={<InfoCircleOutlined/>}
-              placeholder="Descripción"
-              value={tarjetaData.descripcion}
+            <Select
+              placeholder="Seleccione tipo de Tarjeta"
               onChange={e =>
-                setTarjetaData({ ...tarjetaData, descripcion: e.target.value })
+                setTarjetaData({ ...tarjetaData, descripcion: e })
               }
-            />
+              value={tarjetaData.descripcion}
+            >
+              {Tipo_Pasajero.map((item) => {
+                return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
+              })}
+            </Select>
           </Form.Item>
         </Col>
       </Row>

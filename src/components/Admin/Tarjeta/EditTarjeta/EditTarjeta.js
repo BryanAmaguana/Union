@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Row, Col, notification } from "antd";
-import { CreditCardOutlined, DollarCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Row, Col, notification, Select } from "antd";
+import { CreditCardOutlined, DollarCircleOutlined } from '@ant-design/icons';
 import { ActualizarTarjeta } from "../../../../api/tarjeta"
 import { getAccessTokenApi } from "../../../../api/auth"
 
@@ -8,14 +8,14 @@ import { getAccessTokenApi } from "../../../../api/auth"
 import "./EditTarjeta.scss"
 
 export default function EditTarjetaForm(props) {
-    const { tarjeta, setIsVisibleModal, setReloadTarjeta } = props;
+    const { tarjeta, setIsVisibleModal, setReloadTarjeta, Tipo_Pasajero } = props;
     const [tarjetaData, setTarjetaData] = useState({});
 
     useEffect(() => {
         setTarjetaData({
             codigo: tarjeta.codigo,
             valor_tarjeta: tarjeta.valor_tarjeta,
-            descripcion: tarjeta.descripcion,
+            descripcion: tarjeta.descripcion._id,
         });
     }, [tarjeta]);
 
@@ -43,20 +43,20 @@ export default function EditTarjetaForm(props) {
         });
 
     };
-
     return (
         <div className="edit-tarjeta-form">
             <EditForm
                 tarjetaData={tarjetaData}
                 setTarjetaData={setTarjetaData}
-                updateTarjeta={updateTarjeta} />
+                updateTarjeta={updateTarjeta}
+                Tipo_Pasajero={Tipo_Pasajero} />
         </div>
     );
 }
 
 function EditForm(props) {
-    const { tarjetaData, setTarjetaData, updateTarjeta } = props;
-
+    const { tarjetaData, setTarjetaData, updateTarjeta, Tipo_Pasajero } = props;
+    const { Option } = Select;
     return (
         <Form className="form-edit" onSubmitCapture={updateTarjeta}>
             <Row gutter={24}>
@@ -91,14 +91,18 @@ function EditForm(props) {
             <Row gutter={24}>
                 <Col span={24}>
                     <Form.Item>
-                        <Input
-                            prefix={<InfoCircleOutlined />}
-                            placeholder="Descripción"
+                        <Select
+                            placeholder="Seleccione tipo de Tarjeta"
                             value={tarjetaData.descripcion}
                             onChange={e =>
-                                setTarjetaData({ ...tarjetaData, descripcion: e.target.value })
+                                setTarjetaData({ ...tarjetaData, descripcion: e })
                             }
-                        />
+                            
+                        >
+                            {Tipo_Pasajero.map((item) => {
+                                return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
+                            })}
+                        </Select>
                     </Form.Item>
                 </Col>
             </Row>
@@ -107,7 +111,7 @@ function EditForm(props) {
             <Form.Item>
                 <Button type="primary" htmlType="submit" className="btn-submit">
                     Actualizar Tarjeta
-        </Button>
+                </Button>
             </Form.Item>
         </Form>
     );
