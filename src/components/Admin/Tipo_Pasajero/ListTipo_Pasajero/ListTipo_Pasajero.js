@@ -23,18 +23,18 @@ export default function ListTipoP(props) {
         setIsVisibleModal(true);
         setModalTitle("Agregar nuevo Tipo de Pasajero");
         setModalContent(
-             <AddTipoForm
-                 setIsVisibleModal={setIsVisibleModal}
-                 setReloadTipo={setReloadTipo}
-             />
+            <AddTipoForm
+                setIsVisibleModal={setIsVisibleModal}
+                setReloadTipo={setReloadTipo}
+            />
         );
     };
 
     return (
         /* switch y boton agregar usuario */
         <div className="list-tipo">
-            <div className="list-tipo__header">
-                <div className="list-tipo__header-switch">
+            <div className="navbar">
+                <div className="switch" >
                     <Switch
                         defaultChecked
                         onChange={() => { setVerTipoActivos(!VerTipoActivos) }}
@@ -43,11 +43,13 @@ export default function ListTipoP(props) {
                         {VerTipoActivos ? "Tipo de Pasajeros Activos" : "Tipo de Pasajeros Inactivos"}
                     </span>
                 </div>
-
-                <Button type="primary" onClick={AgregarTipoModal}>
-                    Nuevo Tipo de Pasajero
-        </Button>
+                <div className="BuscadorB" >
+                    <Button type="primary" className="BuscadorB" onClick={AgregarTipoModal}>
+                        Nuevo Tipo de Pasajero
+                    </Button>
+                </div>
             </div>
+
 
             {/* listado de usuarios activos e inactivos */}
             {VerTipoActivos ? (
@@ -78,7 +80,7 @@ function TipoPActivo(props) {
     ${tipo.nombre ? tipo.nombre : '...'}`);
         setModalContent(
             <EditTipoForm
-            tipo={tipo}
+                tipo={tipo}
                 setIsVisibleModal={setIsVisibleModal}
                 setReloadTipo={setReloadTipo} />)
     }
@@ -119,31 +121,31 @@ function ListaTPActivos(props) {
             });
     };
 
-/*     const ConfirmarEliminar = () => {
-        const accesToken = getAccessTokenApi();
-
-        confirm({
-            title: "Eliminando Tipo de pasajero",
-            content: `¿Esta seguro que desea eliminar al Tipo de pasajero : ${tipo.nombre}?`,
-            okText: "Eliminar",
-            okType: "danger",
-            cancelText: "Cancelar",
-            onOk() {
-                EliminarTipo_Pasajero(accesToken, tipo._id)
-                    .then(response => {
-                        notification["success"]({
-                            message: response
+    /*     const ConfirmarEliminar = () => {
+            const accesToken = getAccessTokenApi();
+    
+            confirm({
+                title: "Eliminando Tipo de pasajero",
+                content: `¿Esta seguro que desea eliminar al Tipo de pasajero : ${tipo.nombre}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    EliminarTipo_Pasajero(accesToken, tipo._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            });
+                            setReloadTipo(true);
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            });
                         });
-                        setReloadTipo(true);
-                    })
-                    .catch(err => {
-                        notification["error"]({
-                            message: err
-                        });
-                    });
-            }
-        });
-    }; */
+                }
+            });
+        }; */
 
     const Valor = valor => {
         var cadena = valor;
@@ -158,22 +160,29 @@ function ListaTPActivos(props) {
     return (
         <List.Item
             actions={[
-                <Tooltip title="Editar">
-                    <Button type="primary" onClick={() => EditarTipo_Pasajero(tipo)} >
-                        <EditOutlined />
-                    </Button>
-                </Tooltip>,
 
-                <Tooltip title="Desactivar">
-                    <Button type="danger" onClick={() => desactivarTipo()}>
-                        <StopOutlined />
-                    </Button>
-                </Tooltip>,
+                <div className="navbarContenido">
+                    <div className="BuscadorContenido" >
+                        <Tooltip title="Editar">
+                            <Button type="primary" onClick={() => EditarTipo_Pasajero(tipo)} >
+                                <EditOutlined />
+                            </Button>
+                        </Tooltip>
+                    </div>
+                    <div className="BuscadorContenido" >
+                        <Tooltip title="Desactivar">
+                            <Button type="danger" onClick={() => desactivarTipo()}>
+                                <StopOutlined />
+                            </Button>
+                        </Tooltip>
 
-/*                 <Tooltip title="Eliminar">
-                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
-                        <DeleteOutlined />
-                    </Button></Tooltip> */
+                        {/* <Tooltip title="Eliminar">
+                  <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                    <DeleteOutlined />
+                  </Button></Tooltip> */}
+                    </div>
+                </div>
+
             ]}
         >
             <List.Item.Meta
@@ -223,32 +232,32 @@ function ListaTPInactivos(props) {
                 });
             });
     };
-/* 
-    const ConfirmarEliminar = () => {
-        const accesToken = getAccessTokenApi();
-
-        confirm({
-            title: "Eliminando Tipo de pasajero",
-            content: `¿Esta seguro que desea eliminar al Tipo de pasajero : ${tipo.nombre}?`,
-            okText: "Eliminar",
-            okType: "danger",
-            cancelText: "Cancelar",
-            onOk() {
-                EliminarTipo_Pasajero(accesToken, tipo._id)
-                    .then(response => {
-                        notification["success"]({
-                            message: response
+    /* 
+        const ConfirmarEliminar = () => {
+            const accesToken = getAccessTokenApi();
+    
+            confirm({
+                title: "Eliminando Tipo de pasajero",
+                content: `¿Esta seguro que desea eliminar al Tipo de pasajero : ${tipo.nombre}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    EliminarTipo_Pasajero(accesToken, tipo._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            });
+                            setReloadTipo(true);
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            });
                         });
-                        setReloadTipo(true);
-                    })
-                    .catch(err => {
-                        notification["error"]({
-                            message: err
-                        });
-                    });
-            }
-        });
-    }; */
+                }
+            });
+        }; */
 
     const Valor = valor => {
         var cadena = valor;
@@ -268,11 +277,11 @@ function ListaTPInactivos(props) {
                         <CheckOutlined />
                     </Button>
                 </Tooltip>,
-/*                 <Tooltip title="Eliminar">
-                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
-                        <DeleteOutlined />
-                    </Button>
-                </Tooltip> */
+                /*                 <Tooltip title="Eliminar">
+                                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                                        <DeleteOutlined />
+                                    </Button>
+                                </Tooltip> */
             ]}
         >
             <List.Item.Meta

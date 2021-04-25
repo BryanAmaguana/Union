@@ -24,8 +24,9 @@ export default function MisionVision() {
       <section id="MisionVision">
 
          <div className="row education">
-            <div className="three columns header-col">
-               <h1><b><span>Misión</span></b></h1>
+         
+            <div className="centrar">
+               <h4><b><span>Misión</span></b></h4>
             </div>
 
             <div>
@@ -40,7 +41,7 @@ export default function MisionVision() {
          <div className="row work">
 
             <div className="three columns header-col">
-               <h1><b><span>Visión</span></b></h1>
+               <h4><b><span>Visión</span></b></h4>
             </div>
 
             <div >

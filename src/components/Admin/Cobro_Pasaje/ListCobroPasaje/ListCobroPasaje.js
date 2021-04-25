@@ -44,7 +44,7 @@ export default function ListCobro(props) {
                         });
                         setBusquedaCobro(false);
                     } else {
-                        ObtenerCobroPasaje(token, Inicio, Fin, result.bus._id)
+                        ObtenerCobroPasaje(token, Inicio, Fin, Numero)
                             .then(response => {
                                 setBusquedaCobro(response.cobro);
                             })
@@ -53,7 +53,6 @@ export default function ListCobro(props) {
                                     message: err
                                 });
                             });
-
                     }
                 })
                 .catch(err => {
@@ -67,10 +66,23 @@ export default function ListCobro(props) {
     return (
         /* switch y boton agregar persona */
         <div className="list-cobro">
-            <div className="list-cobro__header">
-                {/* Buscar persona */}
-                <b className="BuscarLetra">Unidad N˚ </b>
-                <div className="Buscar">
+            <div className="navbar">
+                <div className="switch" >
+                    <span >Fecha Inicio </span>
+                    <DatePicker className="BuscadorB"
+                        prefix={<SearchOutlined />}
+                        placeholder="Fecha Inicio"
+                        onChange={FechaInicio} />
+                </div>
+                <div className="switch" >
+                    <span >Fecha Fin </span>
+                    <DatePicker className="BuscadorB"
+                        prefix={<SearchOutlined />}
+                        placeholder=" Fecha Fin "
+                        onChange={FechaFin} />
+                </div>
+                <span >Unidad N˚ </span>
+                <div className="Buscador" >
                     <Input
                         prefix={<SearchOutlined />}
                         placeholder=" Numero de Bus "
@@ -79,25 +91,11 @@ export default function ListCobro(props) {
                         }
                     />
                 </div>
-                <b className="BuscarLetra">Inicio </b>
-                <div className="Buscar">
-                    <DatePicker
-                        prefix={<SearchOutlined />}
-                        placeholder="Fecha Inicio"
-                        onChange={FechaInicio} />
+                <div className="BuscadorB" >
+                    <Button className="BuscadorB" type="primary" onClick={Buscar}>
+                        Buscar
+                    </Button>
                 </div>
-
-                <b >Fin </b>
-                <div className="Buscar">
-                    <DatePicker
-                        prefix={<SearchOutlined />}
-                        placeholder=" Fecha Fin "
-                        onChange={FechaFin} />
-                </div>
-
-                <Button className="BuscarLetra" type="primary" onClick={Buscar}>
-                    Buscar
-                </Button>
             </div>
 
             {/* listado de usuarios activos e inactivos */}
@@ -116,7 +114,8 @@ export default function ListCobro(props) {
                     setDesde={setDesde}
                     limite={limite}
                     setLimite={setLimite}
-                    NumeroPorPagina={NumeroPorPagina} />
+                    NumeroPorPagina={NumeroPorPagina}
+                    setReloadCobro={setReloadCobro} />
             </div>
         </div>
     );
@@ -125,17 +124,19 @@ export default function ListCobro(props) {
 
 /* Mostrar 4 siguientes usuarios Activos */
 function Paginacion(props) {
-    const { paginaActual, setpaginaActual, token, setcobro, desde, setDesde, limite, setlimite, NumeroPorPagina } = props;
+    const { paginaActual, setpaginaActual, token, setcobro, desde, setDesde, limite, setlimite, NumeroPorPagina, setReloadCobro } = props;
     useEffect(() => {
         ObtenerCobroPasajeTodo(token, desde, limite).then(response => {
+            setcobro(response.cobro);
             try {
-                setcobro(response.cobro);
                 if ((response.cobro).length < NumeroPorPagina) {
                     document.getElementById('siguiente').disabled = true;
                 }
             } catch (error) {
+                setReloadCobro(true);
             }
         });
+        // eslint-disable-next-line 
     }, [desde, limite, token, setcobro, setDesde, setlimite, NumeroPorPagina]);
 
     const Siguiente = () => {
@@ -144,8 +145,8 @@ function Paginacion(props) {
             setpaginaActual(PA)
             setDesde(desde + limite);
             document.getElementById('anterior').disabled = false;
-        } catch (error) {   
-        } 
+        } catch (error) {
+        }
     }
 
     const Atras = () => {
@@ -154,8 +155,8 @@ function Paginacion(props) {
                 var PA = paginaActual - 1
                 setpaginaActual(PA)
                 setDesde(desde - limite);
-                document.getElementById('siguiente').disabled = false;  
-            } catch (error) {   
+                document.getElementById('siguiente').disabled = false;
+            } catch (error) {
             }
         }
         if (paginaActual === 1) {
@@ -164,21 +165,30 @@ function Paginacion(props) {
     }
 
     return (
-        <div>
-            <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-                Anterior
-            </Button>
-            <Button className="centradoB" type="second">
-                {paginaActual}
-            </Button>
+        <div className="navbar">
 
-            <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-                Siguiente
-            </Button>
+        <div className="BuscadorB" >
+          <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+            Anterior
+          </Button>
         </div>
+    
+    
+        <div className="BuscadorB" >
+          <Button className="centradoB" type="second">
+            {paginaActual}
+          </Button>
+        </div>
+    
+        <div className="BuscadorB" >
+          <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+            Siguiente
+          </Button>
+        </div>
+    
+      </div>
     )
 }
-
 
 /* Metodo para llamar a los usuarios activos */
 function Cobros(props) {
@@ -216,11 +226,11 @@ function ListaPersonas(props) {
         <List.Item>
             <List.Item.Meta
                 title={`Cobro de la unidad: 
-              ${cobro.id_bus_cobro.numero_bus ? cobro.id_bus_cobro.numero_bus : '...'}
+              ${cobro.numero_bus_cobro ? cobro.numero_bus_cobro : '...'}
            ` }
                 description={
                     <div>
-                        <b>Tarjeta :</b> {cobro.id_tarjeta.codigo ? cobro.id_tarjeta.codigo : '...'}
+                        <b>Tarjeta :</b> {cobro.codigo_tarjeta ? cobro.codigo_tarjeta : '...'}
                         <br />
                         <b>Valor:</b> {cobro.valor_pagado ? Valor(cobro.valor_pagado) : '...'}
                         <br />

@@ -25,6 +25,28 @@ export function  ObtenerCobroPasajeTodo(token, desde, limite) {
     });
 }
 
+export function  PasajeMeses(token, desde, limite) {
+  const url = `${basePath}/CobroMeses/${desde}/${limite}`;
+
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token
+    }
+  };
+  return fetch(url, params)
+    .then(response => {
+      return response.json();
+    })
+    .then(result => {
+      return result;
+    })
+    .catch(err => {
+      return err.message;
+    });
+}
+
 /* Obtener busqueda cobros */
 
 export function  ObtenerCobroPasaje(token, inicio, fin, bus) {

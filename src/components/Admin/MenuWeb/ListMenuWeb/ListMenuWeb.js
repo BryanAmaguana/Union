@@ -21,19 +21,24 @@ export default function MenuWebList(props) {
 
     useEffect(() => {
         const listItemsArray = [];
-        menu.forEach(item => {
-            listItemsArray.push({
-                content: (
-                    <MenuItem
-                        item={item}
-                        activateMenu={activateMenu}
-                        editMenuWebModal={editMenuWebModal}
-                        /* deleteMenu={deleteMenu} */
-                    />
-                )
+        try {
+            menu.forEach(item => {
+                listItemsArray.push({
+                    content: (
+                        <MenuItem
+                            item={item}
+                            activateMenu={activateMenu}
+                            editMenuWebModal={editMenuWebModal}
+                            /* deleteMenu={deleteMenu} */
+                        />
+                    )
+                });
             });
-        });
-        setListItems(listItemsArray);
+            setListItems(listItemsArray);
+        } catch (error) {
+            setReloadMenuWeb(true);
+        }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [menu]);
 
@@ -134,16 +139,26 @@ function MenuItem(props) {
     return (
         <List.Item
             actions={[
+
+
+                <div className="navbarContenido">
+                <div className="BuscadorContenido" >
                 <Switch
                     defaultChecked={item.disponible}
                     onChange={e => activateMenu(item, e)}
-                />,
+                />
+                </div>
+                <div className="BuscadorContenido" >
                 <Button type="primary" onClick={() => editMenuWebModal(item)}>
                     <EditOutlined />
-                </Button>,
-/*                 <Button type="danger" onClick={() => deleteMenu(item)}>
-                    <DeleteOutlined />
-                </Button> */
+                </Button>
+      
+                  {/* <Tooltip title="Eliminar">
+                        <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                          <DeleteOutlined />
+                        </Button></Tooltip> */}
+                </div>
+              </div>
             ]}
         >
             <List.Item.Meta title={item.titulo} description={item.url} />

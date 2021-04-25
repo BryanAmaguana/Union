@@ -12,7 +12,10 @@ export default function ContenidoWeb() {
 
   useEffect(() => {
     ObtenerContenidoApi().then(response => {
-      setContenidoWeb(response.contenido[0]);
+      if(response.contenido){
+        setContenidoWeb(response.contenido[0]);
+      }
+      
     });
     setReloadContenidoWeb(false);
   }, [token , reloadContenidoWeb]);

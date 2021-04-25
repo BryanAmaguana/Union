@@ -18,6 +18,7 @@ header {
    overflow: hidden;
 }
 
+
 .logoIconoPrincipal {
     padding: 60px 20px;
     img {
@@ -53,8 +54,10 @@ header .banner {
 }
 
 header .banner-text { width: 100%; }
+
+
 header .banner-text h1 {
-   font: 100px/1.1em 'opensans-bold', sans-serif;
+   font: 65px/1.1em 'opensans-bold', sans-serif;
    color:#f82727;
    letter-spacing: -2px;
    margin: 0 auto 20px auto;
@@ -177,3 +180,4 @@ ul#nav li a {
 
 ul#nav li a:active { background-color: transparent !important; }
 ul#nav li.current a { color: #F06000; }
+

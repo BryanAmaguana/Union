@@ -74,8 +74,11 @@ export default function ListPasajero(props) {
     return (
         /* switch y boton agregar buses */
         <div className="list-pasajero">
-            <div className="list-pasajero__header">
-                <div className="list-pasajero__header-switch">
+
+
+
+            <div className="navbar">
+                <div className="switch" >
                     <Switch
                         defaultChecked
                         onChange={() => { setVerPasajeroActivo(!VerPasajeroActivo); setpaginaActual(1); setDesde(0); setLimite(3); setBotonesPaginacion(!BotonesPaginacion) }}
@@ -84,9 +87,7 @@ export default function ListPasajero(props) {
                         {VerPasajeroActivo ? "Pasajeros Activos" : "Pasajeros Inactivos"}
                     </span>
                 </div>
-
-                {/* Buscar buses */}
-                <div className="form-edit">
+                <div className="Buscador" >
                     <Input
                         prefix={<SearchOutlined />}
                         placeholder="Buscar cedula del Pasajero"
@@ -95,11 +96,11 @@ export default function ListPasajero(props) {
                         }
                     />
                 </div>
-                {/* .............. */}
-
-                <Button type="primary" onClick={AgregarPasajeroModal}>
-                    Nuevo Pasajero
-                </Button>
+                <div className="BuscadorB" >
+                    <Button className="BuscadorB" type="primary" onClick={AgregarPasajeroModal}>
+                        Nuevo Pasajero
+                    </Button>
+                </div>
             </div>
 
             {/* listado de buses activos e inactivos */}
@@ -130,7 +131,8 @@ export default function ListPasajero(props) {
                         setDesde={setDesde}
                         limite={limite}
                         setPasajeroInactivos={setPasajeroInactivos}
-                        NumeroPorPagina={NumeroPorPagina} /> :
+                        NumeroPorPagina={NumeroPorPagina}
+                        setReloadPasajero={setReloadPasajero} /> :
                     <PaginacionI
                         paginaActual={paginaActual}
                         setpaginaActual={setpaginaActual}
@@ -140,7 +142,8 @@ export default function ListPasajero(props) {
                         setDesde={setDesde}
                         limite={limite}
                         setPasajeroInactivos={setPasajeroInactivos}
-                        NumeroPorPagina={NumeroPorPagina} />
+                        NumeroPorPagina={NumeroPorPagina}
+                        setReloadPasajero={setReloadPasajero} />
                 }
             </div>
         </div>
@@ -148,29 +151,29 @@ export default function ListPasajero(props) {
 }
 
 function PaginacionA(props) {
-    const { paginaActual, setpaginaActual, token, setPasajeroActivos, desde, setDesde, limite, setPasajeroInactivos, NumeroPorPagina } = props;
+    const { paginaActual, setpaginaActual, token, setPasajeroActivos, desde, setDesde, limite, setPasajeroInactivos, NumeroPorPagina, setReloadPasajero } = props;
     useEffect(() => {
-        try {
         ObtenerPasajero(token, true, desde, limite).then(response => {
             setPasajeroActivos(response.pasajero);
-            if ((response.pasajero).length < NumeroPorPagina) {
-                document.getElementById('siguiente').disabled = true;
+            try {
+                if ((response.pasajero).length < NumeroPorPagina) {
+                    document.getElementById('siguiente').disabled = true;
+                }
+            } catch (error) {
+                setReloadPasajero(true);
             }
         });
-        } catch (error) {
-
-        }
-        
+        // eslint-disable-next-line
     }, [desde, limite, token, setPasajeroActivos, setDesde, setPasajeroInactivos, NumeroPorPagina]);
 
     const Siguiente = () => {
         try {
-                var PA = paginaActual + 1
-        setpaginaActual(PA)
-        setDesde(desde + limite);
-        document.getElementById('anterior').disabled = false;
+            var PA = paginaActual + 1
+            setpaginaActual(PA)
+            setDesde(desde + limite);
+            document.getElementById('anterior').disabled = false;
         } catch (error) {
-          
+
         }
 
     }
@@ -178,14 +181,12 @@ function PaginacionA(props) {
     const Atras = () => {
         if (paginaActual > 1) {
             try {
-                    var PA = paginaActual - 1
-            setpaginaActual(PA)
-            setDesde(desde - limite);
-            document.getElementById('siguiente').disabled = false;
+                var PA = paginaActual - 1
+                setpaginaActual(PA)
+                setDesde(desde - limite);
+                document.getElementById('siguiente').disabled = false;
             } catch (error) {
-              
             }
-
         }
         if (paginaActual === 1) {
             document.getElementById('anterior').disabled = true;
@@ -193,31 +194,46 @@ function PaginacionA(props) {
     }
 
     return (
-        <div>
-            <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-                Anterior
-            </Button>
-            <Button className="centradoB" type="second">
-                {paginaActual}
-            </Button>
+        <div className="navbar">
 
-            <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-                Siguiente
-            </Button>
+        <div className="BuscadorB" >
+          <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+            Anterior
+          </Button>
         </div>
+    
+    
+        <div className="BuscadorB" >
+          <Button className="centradoB" type="second">
+            {paginaActual}
+          </Button>
+        </div>
+    
+        <div className="BuscadorB" >
+          <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+            Siguiente
+          </Button>
+        </div>
+    
+      </div>
     )
 }
 
 /* Mostrar 4 siguientes buses Inactivos */
 function PaginacionI(props) {
-    const { paginaActual, setpaginaActual, token, setPasajeroActivos, desde, setDesde, limite, setPasajeroInactivos, NumeroPorPagina } = props;
+    const { paginaActual, setpaginaActual, token, setPasajeroActivos, desde, setDesde, limite, setPasajeroInactivos, NumeroPorPagina, setReloadPasajero } = props;
     useEffect(() => {
         ObtenerPasajero(token, false, desde, limite).then(response => {
             setPasajeroInactivos(response.pasajero);
-            if ((response.pasajero).length < NumeroPorPagina) {
-                document.getElementById('siguiente').disabled = true;
+            try {
+                if ((response.pasajero).length < NumeroPorPagina) {
+                    document.getElementById('siguiente').disabled = true;
+                }
+            } catch (error) {
+                setReloadPasajero(true);
             }
         });
+        // eslint-disable-next-line
     }, [desde, limite, token, setPasajeroActivos, setDesde, setPasajeroInactivos, NumeroPorPagina]);
 
     const Siguiente = () => {
@@ -240,18 +256,28 @@ function PaginacionI(props) {
     }
 
     return (
-        <div>
-            <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-                Anterior
-            </Button>
-            <Button className="centradoB" type="second">
-                {paginaActual}
-            </Button>
+        <div className="navbar">
 
-            <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-                Siguiente
-            </Button>
+        <div className="BuscadorB" >
+          <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+            Anterior
+          </Button>
         </div>
+    
+    
+        <div className="BuscadorB" >
+          <Button className="centradoB" type="second">
+            {paginaActual}
+          </Button>
+        </div>
+    
+        <div className="BuscadorB" >
+          <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+            Siguiente
+          </Button>
+        </div>
+    
+      </div>
     )
 }
 
@@ -266,10 +292,10 @@ function LPasajeroActivo(props) {
         ${pasajero.id_persona.apellido_persona}`);
         setModalContent(
             <EditPasajero
-            pasajero={pasajero}
-            Tipo_Pasajero={Tipo_Pasajero}
-            setIsVisibleModal={setIsVisibleModal}
-            setReloadPasajero={setReloadPasajero} />)
+                pasajero={pasajero}
+                Tipo_Pasajero={Tipo_Pasajero}
+                setIsVisibleModal={setIsVisibleModal}
+                setReloadPasajero={setReloadPasajero} />)
     }
 
     return (
@@ -309,31 +335,31 @@ function ListaPActivos(props) {
             });
     };
 
-/*     const ConfirmarEliminar = () => {
-        const accesToken = getAccessTokenApi();
-
-        confirm({
-            title: "Eliminando Pasajero",
-            content: `¿Esta seguro que desea eliminar al Pasajero:  ${pasajero.id_persona.nombre_persona} ${pasajero.id_persona.apellido_persona}?`,
-            okText: "Eliminar",
-            okType: "danger",
-            cancelText: "Cancelar",
-            onOk() {
-                EliminarPasajero(accesToken, pasajero._id)
-                    .then(response => {
-                        notification["success"]({
-                            message: response
+    /*     const ConfirmarEliminar = () => {
+            const accesToken = getAccessTokenApi();
+    
+            confirm({
+                title: "Eliminando Pasajero",
+                content: `¿Esta seguro que desea eliminar al Pasajero:  ${pasajero.id_persona.nombre_persona} ${pasajero.id_persona.apellido_persona}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    EliminarPasajero(accesToken, pasajero._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            });
+                            setReloadPasajero(true);
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            });
                         });
-                        setReloadPasajero(true);
-                    })
-                    .catch(err => {
-                        notification["error"]({
-                            message: err
-                        });
-                    });
-            }
-        });
-    }; */
+                }
+            });
+        }; */
 
     const Valor = valor => {
         var cadena = valor;
@@ -348,22 +374,29 @@ function ListaPActivos(props) {
     return (
         <List.Item
             actions={[
+
+
+                <div className="navbarContenido">
+                <div className="BuscadorContenido" >
                 <Tooltip title="Editar">
                     <Button type="primary" onClick={() => EditarPasajero(pasajero)} >
                         <EditOutlined />
                     </Button>
-                </Tooltip>,
-
+                </Tooltip>
+                </div>
+                <div className="BuscadorContenido" >
                 <Tooltip title="Desactivar">
                     <Button type="danger" onClick={() => desactivarPasajero()}>
                         <StopOutlined />
                     </Button>
-                </Tooltip>,
-
-/*                 <Tooltip title="Eliminar">
-                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
-                        <DeleteOutlined />
-                    </Button></Tooltip> */
+                </Tooltip>
+      
+                  {/* <Tooltip title="Eliminar">
+                        <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                          <DeleteOutlined />
+                        </Button></Tooltip> */}
+                </div>
+              </div>
             ]}
         >
             <List.Item.Meta
@@ -374,7 +407,7 @@ function ListaPActivos(props) {
            ` }
                 description={
                     <div>
-                        
+
                         <b>Saldo de la tarjeta: </b> {pasajero.id_tarjeta_pasajero.valor_tarjeta ? Valor(pasajero.id_tarjeta_pasajero.valor_tarjeta) : '0.00'}
                         <br />
                         <b>Código de tarjeta: </b> {pasajero.id_tarjeta_pasajero.codigo ? pasajero.id_tarjeta_pasajero.codigo : '...'}
@@ -430,32 +463,32 @@ function ListaPInactivos(props) {
             });
     };
 
-/*     const ConfirmarEliminar = () => {
-        const accesToken = getAccessTokenApi();
-
-        confirm({
-            title: "Eliminando Pasajero",
-            content: `¿Esta seguro que desea eliminar al Pasajero:  ${pasajero.id_persona.nombre_persona} ${pasajero.id_persona.apellido_persona}?`,
-            okText: "Eliminar",
-            okType: "danger",
-            cancelText: "Cancelar",
-            onOk() {
-                EliminarPasajero(accesToken, pasajero._id)
-                    .then(response => {
-                        notification["success"]({
-                            message: response
+    /*     const ConfirmarEliminar = () => {
+            const accesToken = getAccessTokenApi();
+    
+            confirm({
+                title: "Eliminando Pasajero",
+                content: `¿Esta seguro que desea eliminar al Pasajero:  ${pasajero.id_persona.nombre_persona} ${pasajero.id_persona.apellido_persona}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    EliminarPasajero(accesToken, pasajero._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            });
+                            setReloadPasajero(true);
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            });
                         });
-                        setReloadPasajero(true);
-                    })
-                    .catch(err => {
-                        notification["error"]({
-                            message: err
-                        });
-                    });
-            }
-        });
-    };
- */
+                }
+            });
+        };
+     */
     const Valor = valor => {
         var cadena = valor;
         var separador = ".";
@@ -474,11 +507,11 @@ function ListaPInactivos(props) {
                         <CheckOutlined />
                     </Button>
                 </Tooltip>,
-/*                 <Tooltip title="Eliminar">
-                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
-                        <DeleteOutlined />
-                    </Button>
-                </Tooltip> */
+                /*                 <Tooltip title="Eliminar">
+                                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                                        <DeleteOutlined />
+                                    </Button>
+                                </Tooltip> */
             ]}
         >
             <List.Item.Meta
@@ -489,7 +522,7 @@ function ListaPInactivos(props) {
            ` }
                 description={
                     <div>
-                        
+
                         <b>Saldo de la tarjeta: </b> {pasajero.id_tarjeta_pasajero.valor_tarjeta ? Valor(pasajero.id_tarjeta_pasajero.valor_tarjeta) : '0.00'}
                         <br />
                         <b>Código de tarjeta: </b> {pasajero.id_tarjeta_pasajero.codigo ? pasajero.id_tarjeta_pasajero.codigo : '...'}

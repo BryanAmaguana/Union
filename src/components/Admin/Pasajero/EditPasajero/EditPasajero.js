@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Select, Button, Row, Col, notification } from "antd";
+import { Form, Input, Select, Button, notification } from "antd";
 import { ActualizarPasajero } from "../../../../api/pasajero"
 import { getAccessTokenApi } from "../../../../api/auth"
 import { ObtenerPersonaCedula } from "../../../../api/persona";
@@ -77,7 +77,7 @@ function EditForm(props) {
                     message: result.message
                 });
             } else {
-                setPasajeroData({ ...PasajeroData, id_persona: result.persona._id,  nombre_persona: result.persona.nombre_persona, apellido_persona: result.persona.apellido_persona })
+                setPasajeroData({ ...PasajeroData, id_persona: result.persona._id, nombre_persona: result.persona.nombre_persona, apellido_persona: result.persona.apellido_persona })
             }
         });
     }
@@ -107,121 +107,106 @@ function EditForm(props) {
 
     return (
         <Form className="form-edit" onSubmitCapture={ActualizarPasajero}>
+
             {/* ver los datos de la persona */}
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            id='Cedula'
-                            prefix={<UserAddOutlined />}
-                            maxLength="10"
-                            placeholder="Cédula de la persona"
-                            value={PasajeroData.cedula_persona}
-                            onChange={e =>
-                                setPasajeroData({ ...PasajeroData, cedula_persona: e.target.value , nombre_persona : "",  apellido_persona: "" })
-                              }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Button type="primary" onClick={() => PersonaCedula(document.getElementById('Cedula').value !== "" ? document.getElementById('Cedula').value : "11")} className="btn-submit">
-                            Buscar datos
-                        </Button>
-                    </Form.Item>
-                </Col>
-            </Row>
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        id='Cedula'
+                        prefix={<UserAddOutlined />}
+                        maxLength="10"
+                        placeholder="Cédula de la persona"
+                        value={PasajeroData.cedula_persona}
+                        onChange={e =>
+                            setPasajeroData({ ...PasajeroData, cedula_persona: e.target.value, nombre_persona: "", apellido_persona: "" })
+                        }
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <Button type="primary" onClick={() => PersonaCedula(document.getElementById('Cedula').value !== "" ? document.getElementById('Cedula').value : "11")} className="btn-submit">
+                        Buscar datos
+                    </Button>
+
+                </div>
+            </div>
 
             {/* datos de la persona */}
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<ContactsOutlined />}
-                            placeholder="Nombre "
-                            value={PasajeroData.nombre_persona}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<ContactsOutlined />}
-                            placeholder="Apellido"
-                            value={PasajeroData.apellido_persona}
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<ContactsOutlined />}
+                        placeholder="Nombre "
+                        value={PasajeroData.nombre_persona}
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<ContactsOutlined />}
+                        placeholder="Apellido"
+                        value={PasajeroData.apellido_persona}
+                    />
+                </div>
+            </div>
 
-{/* codigo tarjeta */}
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            id='CodigoT'
-                            prefix={<CreditCardOutlined />}
-                            placeholder="Código Tarjeta"
-                            value={PasajeroData.codigo}
-                            onChange={e =>
-                                setPasajeroData({ ...PasajeroData, codigo: e.target.value, valor_tarjeta: "", descripcion: ""  })
-                              }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Button type="primary" onClick={() => CodigoTarjeta(document.getElementById('CodigoT').value !== "" ? document.getElementById('CodigoT').value : "11")} className="btn-submit">
-                            Buscar Tarjeta
-                        </Button>
-                    </Form.Item>
-                </Col>
-            </Row>
+            {/* codigo tarjeta */}
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        id='CodigoT'
+                        prefix={<CreditCardOutlined />}
+                        placeholder="Código Tarjeta"
+                        value={PasajeroData.codigo}
+                        onChange={e =>
+                            setPasajeroData({ ...PasajeroData, codigo: e.target.value, valor_tarjeta: "", descripcion: "" })
+                        }
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <Button type="primary" onClick={() => CodigoTarjeta(document.getElementById('CodigoT').value !== "" ? document.getElementById('CodigoT').value : "11")} className="btn-submit">
+                        Buscar Tarjeta
+                    </Button>
+                </div>
+            </div>
 
-{/* Datos Tarjeta */}
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<DollarCircleOutlined />}
-                            placeholder="Saldo"
-                            value={PasajeroData.valor_tarjeta ? valor(PasajeroData.valor_tarjeta) : "0.00"}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<InfoCircleOutlined />}
-                            placeholder="Descripción"
-                            value={PasajeroData.descripcion ? PasajeroData.descripcion.nombre :""}
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
+            {/* Datos Tarjeta */}
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<DollarCircleOutlined />}
+                        placeholder="Saldo"
+                        value={PasajeroData.valor_tarjeta ? valor(PasajeroData.valor_tarjeta) : "0.00"}
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<InfoCircleOutlined />}
+                        placeholder="Descripción"
+                        value={PasajeroData.descripcion ? PasajeroData.descripcion.nombre : ""}
+                    />
+                </div>
+            </div>
 
-{/* Tipo pasajero */}
-            <Row gutter={24}>
-                <Col span={24}>
-                    <Form.Item>
-                        <Select
-                            placeholder="Seleccione tipo de pasajero"
-                            onChange={e =>
-                                setPasajeroData({ ...PasajeroData, id_tipo_pasajero: e })}
-                            value={PasajeroData.id_tipo_pasajero}
-                        >
-                            {Tipo_Pasajero.map((item) => {
-                                return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
-                            })}
-                        </Select>
-                    </Form.Item>
-                </Col>
-            </Row>
+            {/* Tipo pasajero */}
+            <div className="navbarContenido">
+                <Select
+                    className="BuscadorContenido2"
+                    placeholder="Seleccione tipo de pasajero"
+                    onChange={e =>
+                        setPasajeroData({ ...PasajeroData, id_tipo_pasajero: e })}
+                    value={PasajeroData.id_tipo_pasajero}
+                >
+                    {Tipo_Pasajero.map((item) => {
+                        return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
+                    })}
+                </Select>
+            </div>
 
             <Form.Item>
-                <Button type="primary" htmlType="submit" className="btn-submit">
-                    Actualizar Pasajero
-                </Button>
+                <div className="navbarContenido">
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        Actualizar Pasajero
+                    </Button>
+                </div>
             </Form.Item>
         </Form>
     );

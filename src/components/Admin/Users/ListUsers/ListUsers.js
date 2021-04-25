@@ -101,19 +101,17 @@ export default function ListUsers(props) {
   return (
     /* switch y boton agregar usuario */
     <div className="list-users">
-      <div className="list-users__header">
-        <div className="list-users__header-switch">
+      <div className="navbar">
+        <div className="switch" >
           <Switch
             defaultChecked
             onChange={() => { setVerUsuariosActivos(!VerUsuariosActivos); setpaginaActual(1); setDesde(0); setLimite(4); setBotonesPaginacion(!BotonesPaginacion) }}
           />
-          <span id= "UActivos" >
+          <span id="UActivos" >
             {VerUsuariosActivos ? "Usuarios Activos" : "Usuarios Inactivos"}
           </span>
         </div>
-
-        {/* Buscar Usuario */}
-        <div className="form-edit">
+        <div className="Buscador" >
           <Input
             prefix={<SearchOutlined />}
             placeholder=" Buscar nombre de usuario"
@@ -122,12 +120,13 @@ export default function ListUsers(props) {
             }
           />
         </div>
-        {/* .............. */}
-
-        <Button type="primary" onClick={AgregarUsuarioModal}>
-          Nuevo Usuario
-        </Button>
+        <div className="BuscadorB" >
+          <Button className="BuscadorB" type="primary" onClick={AgregarUsuarioModal}>
+            Nuevo Usuario
+          </Button>
+        </div>
       </div>
+
 
       {/* listado de usuarios activos e inactivos */}
       {VerUsuariosActivos ? (
@@ -148,28 +147,30 @@ export default function ListUsers(props) {
       {/* Paginacion de los usuarios Activos  */}
       <div className="centradoL">
         {BotonesPaginacion ?
-        <PaginacionA 
-        paginaActual={paginaActual}
-        setpaginaActual={setpaginaActual} 
-        token={token} 
-        setusuariosActivos={setusuariosActivos} 
-        desde={desde} 
-        setDesde={setDesde}
-        limite={limite}
-        setLimite={setLimite}
-        setusuariosInactivos= {setusuariosInactivos}
-        NumeroPorPagina={NumeroPorPagina} /> :
-        <PaginacionI 
-        paginaActual={paginaActual}
-        setpaginaActual={setpaginaActual} 
-        token={token} 
-        setusuariosActivos={setusuariosActivos} 
-        desde={desde} 
-        setDesde={setDesde}
-        limite={limite}
-        setLimite={setLimite}
-        setusuariosInactivos= {setusuariosInactivos}
-        NumeroPorPagina={NumeroPorPagina} />
+          <PaginacionA
+            paginaActual={paginaActual}
+            setpaginaActual={setpaginaActual}
+            token={token}
+            setusuariosActivos={setusuariosActivos}
+            desde={desde}
+            setDesde={setDesde}
+            limite={limite}
+            setLimite={setLimite}
+            setusuariosInactivos={setusuariosInactivos}
+            NumeroPorPagina={NumeroPorPagina}
+            setReloadUsers={setReloadUsers} /> :
+          <PaginacionI
+            paginaActual={paginaActual}
+            setpaginaActual={setpaginaActual}
+            token={token}
+            setusuariosActivos={setusuariosActivos}
+            desde={desde}
+            setDesde={setDesde}
+            limite={limite}
+            setLimite={setLimite}
+            setusuariosInactivos={setusuariosInactivos}
+            NumeroPorPagina={NumeroPorPagina}
+            setReloadUsers={setReloadUsers} />
         }
       </div>
     </div>
@@ -178,29 +179,30 @@ export default function ListUsers(props) {
 
 /* Mostrar 4 siguientes usuarios Activos */
 function PaginacionA(props) {
-  const { paginaActual, setpaginaActual, token, setusuariosActivos, desde, setDesde, limite, setusuariosInactivos, NumeroPorPagina } = props;
+  const { paginaActual, setpaginaActual, token, setusuariosActivos, desde, setDesde, limite, setusuariosInactivos, NumeroPorPagina, setReloadUsers } = props;
   useEffect(() => {
-    try {
-            ObtenerUsuariosAI(token, true, desde, limite).then(response => {
+
+    ObtenerUsuariosAI(token, true, desde, limite).then(response => {
       setusuariosActivos(response.usuario);
-      if((response.usuario).length < NumeroPorPagina){
-        document.getElementById('siguiente').disabled=true;
+      try {
+        if ((response.usuario).length < NumeroPorPagina) {
+          document.getElementById('siguiente').disabled = true;
+        }
+      } catch (error) {
+        setReloadUsers(true)
       }
     });
-    } catch (error) {
-      
-    }
-
+    // eslint-disable-next-line
   }, [desde, limite, token, setusuariosActivos, setDesde, setusuariosInactivos, NumeroPorPagina]);
 
   const Siguiente = () => {
     try {
-          var PA = paginaActual + 1
-    setpaginaActual(PA)
-    setDesde(desde + limite);
-    document.getElementById('anterior').disabled=false;  
+      var PA = paginaActual + 1
+      setpaginaActual(PA)
+      setDesde(desde + limite);
+      document.getElementById('anterior').disabled = false;
     } catch (error) {
-      
+
     }
 
   }
@@ -208,53 +210,69 @@ function PaginacionA(props) {
   const Atras = () => {
     if (paginaActual > 1) {
       try {
-              var PA = paginaActual - 1
-      setpaginaActual(PA)
-      setDesde(desde - limite);
-      document.getElementById('siguiente').disabled=false;
+        var PA = paginaActual - 1
+        setpaginaActual(PA)
+        setDesde(desde - limite);
+        document.getElementById('siguiente').disabled = false;
       } catch (error) {
-        
+
       }
 
     }
-    if(paginaActual === 1){
-      document.getElementById('anterior').disabled=true;
+    if (paginaActual === 1) {
+      document.getElementById('anterior').disabled = true;
     }
   }
 
   return (
-    <div>
-      <Button id = 'anterior' className="centradoB" type="primary" onClick={Atras}>
+    <div className="navbar">
+
+    <div className="BuscadorB" >
+      <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
         Anterior
       </Button>
+    </div>
+
+
+    <div className="BuscadorB" >
       <Button className="centradoB" type="second">
         {paginaActual}
       </Button>
+    </div>
 
-      <Button id = 'siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+    <div className="BuscadorB" >
+      <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
         Siguiente
       </Button>
     </div>
+
+  </div>
   )
 }
 
 /* Mostrar 4 siguientes usuarios Inactivos */
 function PaginacionI(props) {
-  const { paginaActual, setpaginaActual, token, setusuariosActivos, desde, setDesde, limite, setusuariosInactivos, NumeroPorPagina } = props;
+  const { paginaActual, setpaginaActual, token, setusuariosActivos, desde, setDesde, limite, setusuariosInactivos, NumeroPorPagina, setReloadUsers } = props;
   useEffect(() => {
     ObtenerUsuariosAI(token, false, desde, limite).then(response => {
       setusuariosInactivos(response.usuario);
-      if((response.usuario).length < NumeroPorPagina){
-        document.getElementById('siguiente').disabled=true;
+      try {
+        if ((response.usuario).length < NumeroPorPagina) {
+          document.getElementById('siguiente').disabled = true;
+        }
+      } catch (error) {
+        setReloadUsers(true)
       }
+
     });
+    // eslint-disable-next-line
   }, [desde, limite, token, setusuariosActivos, setDesde, setusuariosInactivos, NumeroPorPagina]);
 
   const Siguiente = () => {
     var PA = paginaActual + 1
     setpaginaActual(PA)
     setDesde(desde + limite);
-    document.getElementById('anterior').disabled=false;
+    document.getElementById('anterior').disabled = false;
   }
 
   const Atras = () => {
@@ -262,26 +280,40 @@ function PaginacionI(props) {
       var PA = paginaActual - 1
       setpaginaActual(PA)
       setDesde(desde - limite);
-      document.getElementById('siguiente').disabled=false;
+      document.getElementById('siguiente').disabled = false;
     }
-    if(paginaActual === 1){
-      document.getElementById('anterior').disabled=true;
+    if (paginaActual === 1) {
+      document.getElementById('anterior').disabled = true;
     }
   }
 
   return (
-    <div>
-      <Button id = 'anterior' className="centradoB" type="primary" onClick={Atras}>
-        Anterior
-      </Button>
-      <Button className="centradoB" type="second">
-        {paginaActual}
-      </Button>
 
-      <Button id = 'siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-        Siguiente
-      </Button>
+
+    <div className="navbar">
+
+      <div className="BuscadorB" >
+        <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+          Anterior
+        </Button>
+      </div>
+
+
+      <div className="BuscadorB" >
+        <Button className="centradoB" type="second">
+          {paginaActual}
+        </Button>
+      </div>
+
+      <div className="BuscadorB" >
+        <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+          Siguiente
+        </Button>
+      </div>
+
     </div>
+
+
   )
 }
 
@@ -348,53 +380,60 @@ function ListaUsuariosActivos(props) {
       });
   };
 
-/*   const ConfirmarEliminar = () => {
-    const accesToken = getAccessTokenApi();
-
-    confirm({
-      title: "Eliminando usuario",
-      content: `¿Esta seguro que desea eliminar a ${usuario.nombre_usuario}?`,
-      okText: "Eliminar",
-      okType: "danger",
-      cancelText: "Cancelar",
-      onOk() {
-        EliminarUsuario(accesToken, usuario._id)
-          .then(response => {
-            notification["success"]({
-              message: response
+  /*   const ConfirmarEliminar = () => {
+      const accesToken = getAccessTokenApi();
+  
+      confirm({
+        title: "Eliminando usuario",
+        content: `¿Esta seguro que desea eliminar a ${usuario.nombre_usuario}?`,
+        okText: "Eliminar",
+        okType: "danger",
+        cancelText: "Cancelar",
+        onOk() {
+          EliminarUsuario(accesToken, usuario._id)
+            .then(response => {
+              notification["success"]({
+                message: response
+              });
+              setReloadUsers(true);
+            })
+            .catch(err => {
+              notification["error"]({
+                message: err
+              });
             });
-            setReloadUsers(true);
-          })
-          .catch(err => {
-            notification["error"]({
-              message: err
-            });
-          });
-      }
-    });
-  }; */
+        }
+      });
+    }; */
 
   return (
+
     <List.Item
       actions={[
-        <Tooltip title="Editar">
-          <Button type="primary" onClick={() => EditarUsuario(usuario)} >
-            <EditOutlined />
-          </Button>
-        </Tooltip>,
+        <div className="navbarContenido">
+          <div className="BuscadorContenido" >
+            <Tooltip title="Editar">
+              <Button type="primary" onClick={() => EditarUsuario(usuario)} >
+                <EditOutlined />
+              </Button>
+            </Tooltip>
+          </div>
+          <div className="BuscadorContenido" >
+            <Tooltip title="Desactivar">
+              <Button type="danger" onClick={() => desactivarUsuario()}>
+                <StopOutlined />
+              </Button>
+            </Tooltip>
 
-        <Tooltip title="Desactivar">
-          <Button type="danger" onClick={() => desactivarUsuario()}>
-            <StopOutlined />
-          </Button>
-        </Tooltip>,
-
-/*         <Tooltip title="Eliminar">
-          <Button type="danger" onClick={() => ConfirmarEliminar()}>
-            <DeleteOutlined />
-          </Button></Tooltip> */
+            {/* <Tooltip title="Eliminar">
+                  <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                    <DeleteOutlined />
+                  </Button></Tooltip> */}
+          </div>
+        </div>
       ]}
     >
+
       <List.Item.Meta
         avatar={<Avatar src={avatar ? avatar : NoAvatar} />}
         title={`
@@ -462,31 +501,31 @@ function ListaUsuariosInactivos(props) {
       });
   };
 
-/*   const ConfirmarEliminar = () => {
-    const accesToken = getAccessTokenApi();
-
-    confirm({
-      title: "Eliminando usuario",
-      content: `¿Esta seguro que desea eliminar a ${usuario.nombre_usuario}?`,
-      okText: "Eliminar",
-      okType: "danger",
-      cancelText: "Cancelar",
-      onOk() {
-        EliminarUsuario(accesToken, usuario._id)
-          .then(response => {
-            notification["success"]({
-              message: response
+  /*   const ConfirmarEliminar = () => {
+      const accesToken = getAccessTokenApi();
+  
+      confirm({
+        title: "Eliminando usuario",
+        content: `¿Esta seguro que desea eliminar a ${usuario.nombre_usuario}?`,
+        okText: "Eliminar",
+        okType: "danger",
+        cancelText: "Cancelar",
+        onOk() {
+          EliminarUsuario(accesToken, usuario._id)
+            .then(response => {
+              notification["success"]({
+                message: response
+              });
+              setReloadUsers(true);
+            })
+            .catch(err => {
+              notification["error"]({
+                message: err
+              });
             });
-            setReloadUsers(true);
-          })
-          .catch(err => {
-            notification["error"]({
-              message: err
-            });
-          });
-      }
-    });
-  }; */
+        }
+      });
+    }; */
 
   return (
     <List.Item
@@ -496,11 +535,11 @@ function ListaUsuariosInactivos(props) {
             <CheckOutlined />
           </Button>
         </Tooltip>,
-/*         <Tooltip title="Eliminar">
-          <Button type="danger" onClick={() => ConfirmarEliminar()}>
-            <DeleteOutlined />
-          </Button>
-        </Tooltip> */
+        /*         <Tooltip title="Eliminar">
+                  <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                    <DeleteOutlined />
+                  </Button>
+                </Tooltip> */
       ]}
     >
       <List.Item.Meta

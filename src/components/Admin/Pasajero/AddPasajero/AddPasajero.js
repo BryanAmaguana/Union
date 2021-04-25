@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, notification, Select } from "antd";
+import { Form, Input, Button, notification, Select } from "antd";
 import { CrearPasajero } from "../../../../api/pasajero";
 import { getAccessTokenApi } from "../../../../api/auth";
-import { UserAddOutlined, ContactsOutlined, DollarCircleOutlined, InfoCircleOutlined, CreditCardOutlined  } from '@ant-design/icons';
+import { UserAddOutlined, ContactsOutlined, DollarCircleOutlined, InfoCircleOutlined, CreditCardOutlined } from '@ant-design/icons';
 import { ObtenerPersonaCedula } from "../../../../api/persona";
 import { ObtenerTarjetaCodigoP } from "../../../../api/tarjeta"
 
@@ -16,7 +16,7 @@ export default function AddPasajeroForm(props) {
     const [tarjeta, setTarjeta] = useState({});
 
 
-    const addPasajero = event => { 
+    const addPasajero = event => {
         event.preventDefault();
         pasajeroData.id_persona = persona._id;
         pasajeroData.id_tarjeta_pasajero = tarjeta._id;
@@ -119,115 +119,97 @@ function AddForm(props) {
     return (
 
         <Form className="form-edit" onSubmitCapture={addPasajero}>
+
             {/* ver los datos de la persona */}
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            id='Cedula'
-                            prefix={<UserAddOutlined />}
-                            maxLength="10"
-                            placeholder="Cédula de la persona"
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Button type="primary" onClick={() => PersonaCedula(document.getElementById('Cedula').value !== "" ? document.getElementById('Cedula').value : "11")} className="btn-submit">
-                            Buscar datos
-        </Button>
-                    </Form.Item>
-                </Col>
-            </Row>
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        id='Cedula'
+                        prefix={<UserAddOutlined />}
+                        maxLength="10"
+                        placeholder="Cédula de la persona"
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <Button type="primary" onClick={() => PersonaCedula(document.getElementById('Cedula').value !== "" ? document.getElementById('Cedula').value : "11")} className="btn-submit">
+                        Buscar datos
+                    </Button>
+                </div>
+            </div>
 
             {/* datos de la persona */}
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-         
-                            prefix={<ContactsOutlined />}
-                            placeholder="Nombre "
-                            value={persona.nombre_persona}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                      
-                            prefix={<ContactsOutlined />}
-                            placeholder="Apellido"
-                            value={persona.apellido_persona}
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<ContactsOutlined />}
+                        placeholder="Nombre "
+                        value={persona.nombre_persona}
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<ContactsOutlined />}
+                        placeholder="Apellido"
+                        value={persona.apellido_persona}
+                    />
+                </div>
+            </div>
 
             {/* Buscar Tarjeta  */}
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            id='CodigoT'
-                            prefix={<CreditCardOutlined />}
-                            placeholder="Código Tarjeta"
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Button type="primary" onClick={() => CodigoTarjeta(document.getElementById('CodigoT').value !== "" ? document.getElementById('CodigoT').value : "11")} className="btn-submit">
-                            Buscar Tarjeta
-        </Button>
-                    </Form.Item>
-                </Col>
-            </Row>
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        id='CodigoT'
+                        prefix={<CreditCardOutlined />}
+                        placeholder="Código Tarjeta"
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <Button type="primary" onClick={() => CodigoTarjeta(document.getElementById('CodigoT').value !== "" ? document.getElementById('CodigoT').value : "11")} className="btn-submit">
+                        Buscar Tarjeta
+                    </Button>
+                </div>
+            </div>
 
             {/* datos de la tarjeta */}
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-         
-                            prefix={<DollarCircleOutlined />}
-                            placeholder="Saldo"
-                            value={tarjeta.valor_tarjeta ? valor(tarjeta.valor_tarjeta) : "0.00"}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-     
-                            prefix={<InfoCircleOutlined />}
-                            placeholder="Descripción"
-                            value={tarjeta.descripcion ? tarjeta.descripcion.nombre :""}
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<DollarCircleOutlined />}
+                        placeholder="Saldo"
+                        value={tarjeta.valor_tarjeta ? valor(tarjeta.valor_tarjeta) : "0.00"}
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <Input
 
-            <Row gutter={24}>
-                <Col span={24}>
-                    <Form.Item>
-                        <Select
-                            placeholder="Seleccione tipo de pasajero"
-                            onChange={e =>
-                                setPasajeroData({ ...pasajeroData, id_tipo_pasajero: e })}
-                            value={pasajeroData.id_tipo_pasajero}
-                        >
-                            {Tipo_Pasajero.map((item) => {
-                                return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
-                            })}
-                        </Select>
-                    </Form.Item>
-                </Col>
-            </Row>
+                        prefix={<InfoCircleOutlined />}
+                        placeholder="Descripción"
+                        value={tarjeta.descripcion ? tarjeta.descripcion.nombre : ""}
+                    />
+                </div>
+            </div>
+
+            <div className="navbarContenido">
+                <Select
+                    className="BuscadorContenido2"
+                    placeholder="Seleccione tipo de pasajero"
+                    onChange={e =>
+                        setPasajeroData({ ...pasajeroData, id_tipo_pasajero: e })}
+                    value={pasajeroData.id_tipo_pasajero}
+                >
+                    {Tipo_Pasajero.map((item) => {
+                        return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
+                    })}
+                </Select>
+            </div>
+
             <Form.Item>
-                <Button type="primary" htmlType="submit" className="btn-submit">
-                    Agregar Pasajero
-        </Button>
+                <div className="navbarContenido">
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        Agregar Pasajero
+                    </Button>
+                </div>
             </Form.Item>
         </Form>
     );

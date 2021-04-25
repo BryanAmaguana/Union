@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, notification, Form, Input, Row, Col } from "antd";
+import { Button, notification, Form, Input } from "antd";
 import { ContactsOutlined, MailOutlined, NodeIndexOutlined, PhoneOutlined, VerticalAlignBottomOutlined, ShakeOutlined } from '@ant-design/icons';
 import { ActualizarContenidoApi } from "../../../../api/contenidoWeb";
 import { getAccessTokenApi } from "../../../../api/auth";
@@ -56,194 +56,160 @@ export default function ListContenidoWeb(props) {
 
 function EditForm(props) {
     const { contenido, setFondoData, updateContenido } = props;
-
     return (
         <Form className="form-edit" onSubmitCapture={updateContenido}>
-            <Row gutter={24}>
-                <Col span={8} ><br /></Col>
-            </Row>
-            <Row gutter={24}>
-                <Col span={8}>
-                    <Form.Item>
-                        <span>Cooperativa</span>
-                        <Input
-                            prefix={<ContactsOutlined />}
-                            placeholder={'Nombre'}
-                            value={ contenido.nombre}
-                            onChange={e =>
-                                setFondoData({ ...contenido, nombre: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item>
-                        <span>Correo</span>
-                        <Input
-                            prefix={<MailOutlined />}
-                            placeholder="Correo"
-                            value={contenido.correo}
-                            onChange={e =>
-                                setFondoData({ ...contenido, correo: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item>
-                        <span>Dirección</span>
-                        <Input
-                            prefix={<NodeIndexOutlined />}
-                            placeholder="Direción"
-                            value={contenido.direccion}
-                            onChange={e =>
-                                setFondoData({ ...contenido, direccion: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
+            <div className="navbarCont">
+                <div className="BuscadorCont" >
+                    <span>Cooperativa</span>
+                    <Input
+                        prefix={<ContactsOutlined />}
+                        placeholder={'Nombre'}
+                        value={contenido.nombre}
+                        onChange={e =>
+                            setFondoData({ ...contenido, nombre: e.target.value })
+                        }
+                    />
+                </div>
+                <div className="BuscadorCont" >
+                    <span>Correo</span>
+                    <Input
+                        prefix={<MailOutlined />}
+                        placeholder="Correo"
+                        value={contenido.correo}
+                        onChange={e =>
+                            setFondoData({ ...contenido, correo: e.target.value })
+                        }
+                    />
+                </div>
+                <div className="BuscadorCont" >
+                    <span>Dirección</span>
+                    <Input
+                        prefix={<NodeIndexOutlined />}
+                        placeholder="Direción"
+                        value={contenido.direccion}
+                        onChange={e =>
+                            setFondoData({ ...contenido, direccion: e.target.value })
+                        }
+                    />
+                </div>
+            </div>
 
-            <Row gutter={24}>
-                <Col span={8} ><br /> <br /></Col>
-            </Row>
+            <div className="navbarCont">
+                <div className="BuscadorCont" >
+                    <span>Teléfono</span>
+                    <Input
+                        prefix={<PhoneOutlined />}
+                        placeholder="Teléfono"
+                        value={contenido.telefono}
+                        onChange={e =>
+                            setFondoData({ ...contenido, telefono: e.target.value })
+                        }
+                    />
+                </div>
+                <div className="BuscadorCont" >
+                    <span>Celular</span>
+                    <Input
+                        prefix={<ShakeOutlined />}
+                        placeholder="Celular"
+                        value={contenido.Celular}
+                        onChange={e =>
+                            setFondoData({ ...contenido, Celular: e.target.value })
+                        }
+                    />
+                </div>
+                <div className="BuscadorCont" >
+                    <span>Fax</span>
+                    <Input
+                        prefix={<VerticalAlignBottomOutlined />}
+                        placeholder="Fax"
+                        value={contenido.fax}
+                        onChange={e =>
+                            setFondoData({ ...contenido, fax: e.target.value })
+                        }
+                    />
+                </div>
+            </div>
 
-            <Row gutter={24}>
-                <Col span={8}>
-                    <Form.Item>
-                        <span>Teléfono</span>
-                        <Input
-                            prefix={<PhoneOutlined />}
-                            placeholder="Teléfono"
-                            value={contenido.telefono}
-                            onChange={e =>
-                                setFondoData({ ...contenido, telefono: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item>
-                        <span>Celular</span>
-                        <Input
-                            prefix={<ShakeOutlined />}
-                            placeholder="Celular"
-                            value={contenido.Celular}
-                            onChange={e =>
-                                setFondoData({ ...contenido, Celular: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item>
-                        <span>Fax</span>
-                        <Input
-                            prefix={<VerticalAlignBottomOutlined />}
-                            placeholder="Fax"
-                            value={contenido.fax}
-                            onChange={e =>
-                                setFondoData({ ...contenido, fax: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
-
-
-            <Row gutter={24}>
-                <Col span={8} ><br /> <br /></Col>
-            </Row>
-
-            <Row gutter={24}>
-                <Col span={8} >
+            <div className="navbarCont">
+                <div className="BuscadorCont" >
                     <span>Mensaje de Inicio</span>
-                    <Form.Item>
-                        <TextareaAutosize className="textoG"
-                            placeholder="Mensaje de Inicio"
-                            value={ contenido.mensaje_Inicio }
-                            rows={7}
-                            onChange={e =>
-                                setFondoData({ ...contenido, mensaje_Inicio: e.target.value })
-                            } />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
+                    <TextareaAutosize className="textoGCont"
+                        placeholder="Mensaje de Inicio"
+                        value={contenido.mensaje_Inicio}
+                        rows={7}
+                        onChange={e =>
+                            setFondoData({ ...contenido, mensaje_Inicio: e.target.value })
+                        } />
+                </div>
+                <div className="BuscadorCont" >
                     <span>Mensaje Secundario</span>
-                    <Form.Item>
-                        <TextareaAutosize className="textoG"
-                            placeholder="Segundo Mensaje"
-                            value={contenido.mensaje_Inicio2}
-                            rows={7}
-                            onChange={e =>
-                                setFondoData({ ...contenido, mensaje_Inicio2: e.target.value })
-                            } />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
+                    <TextareaAutosize className="textoGCont"
+                        placeholder="Segundo Mensaje"
+                        value={contenido.mensaje_Inicio2}
+                        rows={7}
+                        onChange={e =>
+                            setFondoData({ ...contenido, mensaje_Inicio2: e.target.value })
+                        } />
+                </div>
+                <div className="BuscadorCont" >
                     <span>Descripción</span>
-                    <Form.Item>
-                        <TextareaAutosize className="textoG"
-                            placeholder="Descripción"
-                            value={contenido.descripcion}
-                            rows={7}
-                            onChange={e =>
-                                setFondoData({ ...contenido, descripcion: e.target.value })
-                            } />
-                    </Form.Item>
-                </Col>
-            </Row>
+                    <TextareaAutosize className="textoGCont"
+                        placeholder="Descripción"
+                        value={contenido.descripcion}
+                        rows={7}
+                        onChange={e =>
+                            setFondoData({ ...contenido, descripcion: e.target.value })
+                        } />
+                </div>
+            </div>
 
-            <Row gutter={24}>
-                <Col span={8} ><br /> <br /></Col>
-            </Row>
 
-            <Row gutter={24}>
-                <Col span={8} >
+
+            <div className="navbarCont">
+                <div className="Buscador1Cont" >
                     <span>Misión</span>
-                    <Form.Item>
-                        <TextareaAutosize className="textoG"
-                            placeholder="Misión"
-                            value={contenido.mision}
-                            rows={7}
-                            onChange={e =>
-                                setFondoData({ ...contenido, mision: e.target.value })
-                            } />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
+                    <TextareaAutosize className="textoGCont"
+                        placeholder="Misión"
+                        value={contenido.mision}
+                        rows={7}
+                        onChange={e =>
+                            setFondoData({ ...contenido, mision: e.target.value })
+                        } />
+                </div>
+            </div>
+            <div className="navbarCont">
+                <div className="Buscador1Cont" >
                     <span>Visión</span>
-                    <Form.Item>
-                        <TextareaAutosize className="textoG"
-                            placeholder="Visión"
-                            value={contenido.vision}
-                            rows={7} 
-                            onChange={e =>
-                                setFondoData({ ...contenido, vision: e.target.value })
-                            } />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
+                    <TextareaAutosize className="textoGCont"
+                        placeholder="Visión"
+                        value={contenido.vision}
+                        rows={7}
+                        onChange={e =>
+                            setFondoData({ ...contenido, vision: e.target.value })
+                        } />
+                </div>
+            </div>
+            <div className="navbarCont">
+                <div className="Buscador1Cont" >
                     <span>Historia</span>
-                    <Form.Item>
-                        <TextareaAutosize className="textoG"
-                            placeholder="Historia"
-                            value={contenido.historia}
-                            rows={7}
-                            onChange={e =>
-                                setFondoData({ ...contenido, historia: e.target.value })
-                            } />
-                    </Form.Item>
-                </Col>
-            </Row>
-
+                    <TextareaAutosize className="textoGCont"
+                        placeholder="Historia"
+                        value={contenido.historia}
+                        rows={7}
+                        onChange={e =>
+                            setFondoData({ ...contenido, historia: e.target.value })
+                        } />
+                </div>
+            </div>
 
             <Form.Item>
+            <div className="Buscador1Cont">
                 <Button type="primary" htmlType="submit" className="btn-submit">
                     Actualizar Contenido
                 </Button>
+                </div>
             </Form.Item>
-        </Form>
+        </Form >
     );
 }
 

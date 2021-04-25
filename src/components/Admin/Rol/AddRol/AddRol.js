@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, notification} from "antd";
-import { CrearRol} from "../../../../api/rol";
+import { Form, Input, Button, notification } from "antd";
+import { CrearRol } from "../../../../api/rol";
 import { getAccessTokenApi } from "../../../../api/auth";
-import { InfoCircleOutlined, IdcardOutlined} from '@ant-design/icons';
+import { InfoCircleOutlined, IdcardOutlined } from '@ant-design/icons';
 
 import "./AddRol.scss";
 
 export default function EditRolForm(props) {
-    const { setIsVisibleModal, setReloadRol, rol } = props;
-    const [RolData, setRolData] = useState({});
+  const { setIsVisibleModal, setReloadRol, rol } = props;
+  const [RolData, setRolData] = useState({});
 
   const addRol = event => {
     event.preventDefault();
@@ -24,14 +24,14 @@ export default function EditRolForm(props) {
       const accesToken = getAccessTokenApi();
       CrearRol(accesToken, RolData)
         .then(response => {
-          if(response === "Rol creado exitosamente."){
+          if (response === "Rol creado exitosamente.") {
             notification["success"]({
               message: response
             });
             setRolData({});
             setIsVisibleModal(false);
             setReloadRol(true);
-          }else{
+          } else {
             notification["error"]({
               message: response
             });
@@ -59,43 +59,44 @@ export default function EditRolForm(props) {
 }
 
 function AddForm(props) {
-    const { RolData, setRolData, addRol} = props; 
-    return (
-      <Form className="form-edit" onSubmitCapture={addRol}>
-        <Row gutter={24}>
-          <Col span={24}>
-            <Form.Item>
-              <Input
-                prefix={<IdcardOutlined />}
-                placeholder="Nombre Rol"
-                value={RolData.nombre}
-                onChange={e =>
-                  setRolData({ ...RolData, nombre: e.target.value})
-                }
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={24}>
-        <Col span={24}>
-            <Form.Item>
-              <Input
-                prefix={<InfoCircleOutlined/>}
-                placeholder="Descripción"
-                value={RolData.descripcion}
-                onChange={e =>
-                  setRolData({ ...RolData, descripcion: e.target.value })
-                }
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-  
-        <Form.Item>
+  const { RolData, setRolData, addRol } = props;
+  return (
+    <Form className="form-edit" onSubmitCapture={addRol}>
+
+
+      <div className="navbarContenido">
+        <div className="BuscadorContenido1" >
+          <Input
+            prefix={<IdcardOutlined />}
+            placeholder="Nombre Rol"
+            value={RolData.nombre}
+            onChange={e =>
+              setRolData({ ...RolData, nombre: e.target.value })
+            }
+          />
+        </div>
+      </div>
+
+      <div className="navbarContenido">
+        <div className="BuscadorContenido1" >
+          <Input
+            prefix={<InfoCircleOutlined />}
+            placeholder="Descripción"
+            value={RolData.descripcion}
+            onChange={e =>
+              setRolData({ ...RolData, descripcion: e.target.value })
+            }
+          />
+        </div>
+      </div>
+
+      <Form.Item>
+        <div className="navbarContenido">
           <Button type="primary" htmlType="submit" className="btn-submit">
             Agregar Rol
           </Button>
-        </Form.Item>
-      </Form>
-    );
-  }
+        </div>
+      </Form.Item>
+    </Form>
+  );
+}

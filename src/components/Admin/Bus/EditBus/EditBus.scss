@@ -16,3 +16,74 @@
       }
     }
   }
+
+
+//..............................................responsive...........................................
+
+
+.navbarContenido {
+  display: flex;
+  justify-content: center ;
+  text-align: center;
+  align-items: center;
+  padding: 1%;
+}
+
+.switchContenido {
+  display: flex;
+  padding: 0px 20px;
+}
+
+.BuscadorContenido{
+  padding: 5px 10px;
+  text-align: center;
+  width: 50%;
+  margin:auto;
+
+}
+
+.BuscadorContenido1{
+  padding: 5px 10px;
+  text-align: center;
+  width: 100%;
+  margin:auto;
+}
+
+.BuscadorContenido2{
+  text-align: center;
+  width: 95%;
+  margin:auto;
+}
+
+
+@media screen and (max-width: 800px) {
+  .navbarContenido {   
+    flex-direction: column;
+  }
+
+  .BuscadorContenido{
+    padding: 5px 10px;
+    text-align: center;
+    width: 100%;
+  }  
+
+  .BuscadorContenido1{
+    padding: 5px 10px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .BuscadorContenido2{
+    text-align: center;
+    width: 95%;
+  }
+  
+  
+  .BuscadorBContenido{
+    width: 100%;
+  }
+
+  .GaficoContenido{
+    width: 100%;
+  }
+}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, notification} from "antd";
-import { CrearBus} from "../../../../api/bus";
+import { Form, Input, Button, notification } from "antd";
+import { CrearBus } from "../../../../api/bus";
 import { getAccessTokenApi } from "../../../../api/auth";
 import { FieldNumberOutlined, CreditCardOutlined, UserAddOutlined, ContactsOutlined } from '@ant-design/icons';
 import { ObtenerPersonaCedula } from "../../../../api/persona";
@@ -8,7 +8,7 @@ import { ObtenerPersonaCedula } from "../../../../api/persona";
 import "./AddBus.scss";
 
 export default function AddBusForm(props) {
-  const { setIsVisibleModal, setReloadBus} = props;
+  const { setIsVisibleModal, setReloadBus } = props;
   const [busData, setbusData] = useState({});
   const [persona, setPersona] = useState({});
 
@@ -28,7 +28,7 @@ export default function AddBusForm(props) {
       const accesToken = getAccessTokenApi();
       CrearBus(accesToken, busData)
         .then(response => {
-          if(response === "Bus creado exitosamente."){
+          if (response === "Bus creado exitosamente.") {
             notification["success"]({
               message: response
             });
@@ -36,7 +36,7 @@ export default function AddBusForm(props) {
             setPersona({});
             setIsVisibleModal(false);
             setReloadBus(true);
-          }else{
+          } else {
             notification["error"]({
               message: response
             });
@@ -56,7 +56,7 @@ export default function AddBusForm(props) {
         busData={busData}
         setbusData={setbusData}
         persona={persona}
-        setPersona = {setPersona}
+        setPersona={setPersona}
         addBus={addBus}
         setReloadBus={setReloadBus}
       />
@@ -69,103 +69,94 @@ function AddForm(props) {
   const { persona, setPersona, busData, setbusData, addBus, setReloadBus } = props;
 
   const accesToken = getAccessTokenApi();
-  
+
   const PersonaCedula = (props) => {
     ObtenerPersonaCedula(accesToken, props).then(result => {
-      if(result.message === "No se ha encontrado ninguna persona."){
+      if (result.message === "No se ha encontrado ninguna persona.") {
         notification["error"]({
           message: result.message
-        }); 
+        });
         setPersona({});
         setReloadBus(true);
-      }else{
-        setPersona(result.persona);    
+      } else {
+        setPersona(result.persona);
       }
     });
   }
-    
+
   return (
 
     <Form className="form-edit" onSubmitCapture={addBus}>
       {/* ver los datos de la persona */}
-      <Row gutter={24}>
-        <Col span={12}>
-          <Form.Item>
-            <Input
-              id = 'Cedula'
-              prefix={<UserAddOutlined />}
-              placeholder="Cédula de la persona"
-              maxLength="10"
-              value={ persona.Vacio}
-            />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-        <Form.Item>
-        <Button type="primary" onClick={() => PersonaCedula(document.getElementById('Cedula').value !== "" ? document.getElementById('Cedula').value  : "11")} className="btn-submit">
-          Buscar datos
-        </Button>
-      </Form.Item>
-        </Col>
-      </Row>
+
+      <div className="navbarContenido">
+        <div className="BuscadorContenido" >
+          <Input
+            id='Cedula'
+            prefix={<UserAddOutlined />}
+            placeholder="Cédula de la persona"
+            maxLength="10"
+            value={persona.Vacio}
+          />
+        </div>
+        <div className="BuscadorContenido" >
+          <Button type="primary" onClick={() => PersonaCedula(document.getElementById('Cedula').value !== "" ? document.getElementById('Cedula').value : "11")} className="btn-submit">
+            Buscar datos
+          </Button>
+        </div>
+      </div>
 
       {/* datos de la persona */}
-      <Row gutter={24}>
-        <Col span={12}>
-          <Form.Item>
-            <Input
 
-              prefix={<ContactsOutlined />}
-              placeholder="Nombre "
-              value={ persona.nombre_persona}
-            />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item>
-            <Input
-              prefix={<ContactsOutlined />}
-              placeholder="Apellido"
-              value={persona.apellido_persona}
-            />
-          </Form.Item>
-        </Col>
-      </Row>
+      <div className="navbarContenido">
+        <div className="BuscadorContenido" >
+          <Input
 
-      <Row gutter={24}>
-        <Col span={12}>
-          <Form.Item>
-            <Input
-              prefix={<FieldNumberOutlined />}
-              placeholder="Numero de Bus"
-              type="number"
-              min="0"
-              value={busData.numero_bus}
-              onChange={e =>
-                setbusData({ ...busData, numero_bus: e.target.value, id_persona: persona._id })
-              }
-            />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item>
-            <Input
-              prefix={<CreditCardOutlined />}
-              placeholder="Placa del Bus"
-              value={busData.placa_bus}
-              maxLength="7"
-              onChange={e =>
-                setbusData({ ...busData, placa_bus: e.target.value.toUpperCase(), id_persona: persona._id })
-              }
-            />
-          </Form.Item>
-        </Col>
-      </Row>
+            prefix={<ContactsOutlined />}
+            placeholder="Nombre "
+            value={persona.nombre_persona}
+          />
+        </div>
+        <div className="BuscadorContenido" >
+          <Input
+            prefix={<ContactsOutlined />}
+            placeholder="Apellido"
+            value={persona.apellido_persona}
+          />
+        </div>
+      </div>
 
+      <div className="navbarContenido">
+        <div className="BuscadorContenido" >
+          <Input
+            prefix={<FieldNumberOutlined />}
+            placeholder="Numero de Bus"
+            type="number"
+            min="0"
+            value={busData.numero_bus}
+            onChange={e =>
+              setbusData({ ...busData, numero_bus: e.target.value, id_persona: persona._id })
+            }
+          />
+        </div>
+        <div className="BuscadorContenido" >
+          <Input
+            prefix={<CreditCardOutlined />}
+            placeholder="Placa del Bus"
+            value={busData.placa_bus}
+            maxLength="7"
+            onChange={e =>
+              setbusData({ ...busData, placa_bus: e.target.value.toUpperCase(), id_persona: persona._id })
+            }
+          />
+        </div>
+      </div>
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="btn-submit">
-          Agregar Bus
-        </Button>
+        <div className="navbarContenido">
+          <Button type="primary" htmlType="submit" className="btn-submit">
+            Agregar Bus
+          </Button>
+        </div>
       </Form.Item>
     </Form>
   );

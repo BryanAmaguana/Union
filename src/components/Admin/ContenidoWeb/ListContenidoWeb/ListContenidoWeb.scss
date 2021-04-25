@@ -1,25 +1,65 @@
-.edit-contenido-form {
-
-  .form-edit {
+  .textoGCont{
     text-align: center;
     width: 100%;
-
-    .ant-form-item {
-      margin-top: 5px;
-      margin-bottom: 5px;
-
-      i {
-        color: rgba(0, 0, 0, 0.25);
-      }
-    }
-
-    .btn-submit {
-      width: 50%;
-    }
+    
+  }
+  .textoG1Cont{
+    text-align: justify;
+    width: 100%;
+    
   }
 
-  .textoG{
+
+//..............................................responsive...........................................
+
+
+.navbarCont {
+  display: flex;
+  justify-content: center ;
+  text-align: center;
+  align-items: center;
+  padding: 1%;
+}
+
+.switchCont {
+  display: flex;
+  padding: 0px 20px;
+}
+
+.BuscadorCont{
+  padding: 5px 10px;
+  text-align: center;
+  width: 30%;
+  margin:auto;
+
+}
+
+
+.Buscador1Cont{
+  padding: 5px 10px;
+  text-align: center;
+  width: 97%;
+  margin:auto;
+
+}
+
+
+@media screen and (max-width: 800px) {
+  .navbarCont {   
+    flex-direction: column;
+  }
+
+  .BuscadorCont{
+    padding: 5px 10px;
     text-align: center;
+    width: 100%;
+  }  
+  
+  .BuscadorBCont{
+    width: 100%;
+  }
+
+  .GaficoCont {
     width: 100%;
   }
 }

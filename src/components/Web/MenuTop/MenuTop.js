@@ -19,7 +19,7 @@ export default function MenuTop() {
       } catch (error) {
         window.location.href = "/Error404";
       }
-      
+
     });
   }, []);
 
@@ -51,7 +51,7 @@ export default function MenuTop() {
         }
         return (
           <Menu.Item key={item._id} className="menu-top-web__item">
-            <div className="current"><a className="smoothscroll" href={`#${item.url}`}>{item.titulo}</a></div>
+            <div><a className="smoothscroll" href={`#${item.url}`}>{item.titulo}</a></div>
           </Menu.Item>
         );
       })}

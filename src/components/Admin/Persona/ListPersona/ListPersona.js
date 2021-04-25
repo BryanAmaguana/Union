@@ -58,9 +58,8 @@ export default function ListPersona(props) {
     return (
         /* switch y boton agregar persona */
         <div className="list-persona">
-            <div className="list-persona__header">
-                {/* Buscar persona */}
-                <div className="Buscar">
+            <div className="navbar">
+                <div className="Buscador" >
                     <Input
                         prefix={<SearchOutlined />}
                         placeholder=" Buscar por cédula "
@@ -69,10 +68,12 @@ export default function ListPersona(props) {
                         }
                     />
                 </div>
-                {/* .............. */}
-                <Button type="primary" onClick={AgregarPersonaModal}>
-                    Nueva Persona
-          </Button>
+                <div className="BuscadorB" >
+                    <Button className="BuscadorB" type="primary" onClick={AgregarPersonaModal}>
+                        Nueva Persona
+                    </Button>
+
+                </div>
             </div>
 
             {/* listado de usuarios activos e inactivos */}
@@ -98,7 +99,8 @@ export default function ListPersona(props) {
                     setDesde={setDesde}
                     limite={limite}
                     setLimite={setLimite}
-                    NumeroPorPagina={NumeroPorPagina} />
+                    NumeroPorPagina={NumeroPorPagina}
+                    setReloadPersona={setReloadPersona} />
             </div>
         </div>
     );
@@ -107,29 +109,29 @@ export default function ListPersona(props) {
 
 /* Mostrar 4 siguientes usuarios Activos */
 function Paginacion(props) {
-    const { paginaActual, setpaginaActual, token, setpersona, desde, setDesde, limite, setlimite, NumeroPorPagina } = props;
+    const { paginaActual, setpaginaActual, token, setpersona, desde, setDesde, limite, setlimite, NumeroPorPagina, setReloadPersona } = props;
     useEffect(() => {
-        try {
-                ObtenerPersona(token, desde, limite).then(response => {
+        ObtenerPersona(token, desde, limite).then(response => {
             setpersona(response.persona);
-            if ((response.persona).length < NumeroPorPagina) {
-                document.getElementById('siguiente').disabled = true;
+            try {
+                if ((response.persona).length < NumeroPorPagina) {
+                    document.getElementById('siguiente').disabled = true;
+                }
+            } catch (error) {
+                setReloadPersona(true);
             }
         });
-        } catch (error) {
-          
-        }
-
+        // eslint-disable-next-line
     }, [desde, limite, token, setpersona, setDesde, setlimite, NumeroPorPagina]);
 
     const Siguiente = () => {
         try {
-                var PA = paginaActual + 1
-        setpaginaActual(PA)
-        setDesde(desde + limite);
-        document.getElementById('anterior').disabled = false;
+            var PA = paginaActual + 1
+            setpaginaActual(PA)
+            setDesde(desde + limite);
+            document.getElementById('anterior').disabled = false;
         } catch (error) {
-          
+
         }
 
     }
@@ -137,12 +139,12 @@ function Paginacion(props) {
     const Atras = () => {
         if (paginaActual > 1) {
             try {
-                    var PA = paginaActual - 1
-            setpaginaActual(PA)
-            setDesde(desde - limite);
-            document.getElementById('siguiente').disabled = false;
+                var PA = paginaActual - 1
+                setpaginaActual(PA)
+                setDesde(desde - limite);
+                document.getElementById('siguiente').disabled = false;
             } catch (error) {
-              
+
             }
 
         }
@@ -152,18 +154,28 @@ function Paginacion(props) {
     }
 
     return (
-        <div>
-            <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-                Anterior
-        </Button>
-            <Button className="centradoB" type="second">
-                {paginaActual}
-            </Button>
+        <div className="navbar">
 
-            <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-                Siguiente
-        </Button>
+        <div className="BuscadorB" >
+          <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+            Anterior
+          </Button>
         </div>
+  
+  
+        <div className="BuscadorB" >
+          <Button className="centradoB" type="second">
+            {paginaActual}
+          </Button>
+        </div>
+  
+        <div className="BuscadorB" >
+          <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+            Siguiente
+          </Button>
+        </div>
+  
+      </div>
     )
 }
 
@@ -202,31 +214,31 @@ function Personas(props) {
 function ListaPersonas(props) {
     const { persona, EditarPersona /* setReloadPersona */ } = props;
 
-/*     const ConfirmarEliminar = () => {
-        const accesToken = getAccessTokenApi();
-
-        confirm({
-            title: "Eliminando Persona",
-            content: `¿Esta seguro que desea eliminar a ${persona.nombre_persona} ${persona.apellido_persona}?`,
-            okText: "Eliminar",
-            okType: "danger",
-            cancelText: "Cancelar",
-            onOk() {
-                EliminarPersona(accesToken, persona._id)
-                    .then(response => {
-                        notification["success"]({
-                            message: response
+    /*     const ConfirmarEliminar = () => {
+            const accesToken = getAccessTokenApi();
+    
+            confirm({
+                title: "Eliminando Persona",
+                content: `¿Esta seguro que desea eliminar a ${persona.nombre_persona} ${persona.apellido_persona}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    EliminarPersona(accesToken, persona._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            });
+                            setReloadPersona(true);
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            });
                         });
-                        setReloadPersona(true);
-                    })
-                    .catch(err => {
-                        notification["error"]({
-                            message: err
-                        });
-                    });
-            }
-        });
-    }; */
+                }
+            });
+        }; */
 
     return (
         <List.Item
@@ -237,10 +249,10 @@ function ListaPersonas(props) {
                     </Button>
                 </Tooltip>,
 
-/*                 <Tooltip title="Eliminar">
-                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
-                        <DeleteOutlined />
-                    </Button></Tooltip> */
+                /*                 <Tooltip title="Eliminar">
+                                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                                        <DeleteOutlined />
+                                    </Button></Tooltip> */
             ]}
         >
             <List.Item.Meta

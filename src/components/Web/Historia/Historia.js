@@ -22,12 +22,13 @@ export default function Historia() {
 
    return (
       <section id="Historia">
-         <div className="text-container">
+         <div className="Parrafo">
             <div className="row">
+               <br/>
+               <br/>
+               <br/>
                <h1>Como Inicio la Cooperativa</h1>
-               <div className="ten columns flex-container">
-                  <h2> {ContenidoInformacion.historia} </h2>
-               </div>
+                  <p> {ContenidoInformacion.historia} </p>
             </div>
          </div>
       </section>

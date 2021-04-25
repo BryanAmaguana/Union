@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { getAccessTokenApi } from "../../../api/auth";
 import {ObtenerCobroPasajeTodo} from "../../../api/CobroPasaje"
 import ListCobroPasaje from "../../../components/Admin/Cobro_Pasaje/ListCobroPasaje";
@@ -15,8 +15,8 @@ export default function CobroPasaje() {
           setcobro(response.cobro);
         });
         setReloadCobro(false);
-    
       }, [token , reloadCobro]);
+      
 
   return (
     <div className="cobro">

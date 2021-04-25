@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Row, Col, notification, DatePicker } from "antd";
+import { Form, Input, Button, notification, DatePicker } from "antd";
 import { UserOutlined, ContactsOutlined, EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
 import { ActualizarPersona } from "../../../../api/persona"
 import { getAccessTokenApi } from "../../../../api/auth"
@@ -65,95 +65,85 @@ function EditForm(props) {
     const { personaData, setpersonaData, updatePersona } = props;
 
     function onChange(dateString) {
-        setpersonaData({ ...personaData, fecha_nacimiento_persona: dateString})
+        setpersonaData({ ...personaData, fecha_nacimiento_persona: dateString })
     }
 
     return (
         <Form className="form-edit" onSubmitCapture={updatePersona}>
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<UserOutlined />}
-                            placeholder="Cédula"
-                            maxLength="10"
-                            value={personaData.cedula_persona}
-                            onChange={e =>
-                                setpersonaData({ ...personaData, cedula_persona: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <DatePicker
-                            onChange={onChange}
-                            placeholder="Fecha de Nacimiento"
-                            className="Fecha"
-                            setDate="2021-01-01"
-                            />
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<ContactsOutlined />}
-                            placeholder="Nombre "
-                            value={personaData.nombre_persona}
-                            onChange={e =>
-                                setpersonaData({ ...personaData, nombre_persona: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<ContactsOutlined />}
-                            placeholder="Apellido"
-                            value={personaData.apellido_persona}
-                            onChange={e =>
-                                setpersonaData({ ...personaData, apellido_persona: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<UserOutlined />}
+                        placeholder="Cédula"
+                        maxLength="10"
+                        value={personaData.cedula_persona}
+                        onChange={e =>
+                            setpersonaData({ ...personaData, cedula_persona: e.target.value })
+                        }
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <DatePicker
+                        onChange={onChange}
+                        placeholder="Fecha de Nacimiento"
+                        className="Fecha"
+                        setDate="2021-01-01"
+                    />
+                </div>
+            </div>
 
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<EnvironmentOutlined />}
-                            placeholder="Dirección"
-                            value={personaData.direccion_persona}
-                            onChange={e =>
-                                setpersonaData({ ...personaData, direccion_persona: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<PhoneOutlined />}
-                            placeholder="Celular"
-                            maxLength="10"
-                            value={personaData.celular_persona}
-                            onChange={e =>
-                                setpersonaData({ ...personaData, celular_persona: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<ContactsOutlined />}
+                        placeholder="Nombre "
+                        value={personaData.nombre_persona}
+                        onChange={e =>
+                            setpersonaData({ ...personaData, nombre_persona: e.target.value })
+                        }
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<ContactsOutlined />}
+                        placeholder="Apellido"
+                        value={personaData.apellido_persona}
+                        onChange={e =>
+                            setpersonaData({ ...personaData, apellido_persona: e.target.value })
+                        }
+                    />
+                </div>
+            </div>
 
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<EnvironmentOutlined />}
+                        placeholder="Dirección"
+                        value={personaData.direccion_persona}
+                        onChange={e =>
+                            setpersonaData({ ...personaData, direccion_persona: e.target.value })
+                        }
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<PhoneOutlined />}
+                        placeholder="Celular"
+                        maxLength="10"
+                        value={personaData.celular_persona}
+                        onChange={e =>
+                            setpersonaData({ ...personaData, celular_persona: e.target.value })
+                        }
+                    />
+                </div>
+            </div>
             <Form.Item>
-                <Button type="primary" htmlType="submit" className="btn-submit">
-                    Actualizar Persona
-        </Button>
+                <div className="navbarContenido">
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        Actualizar Persona
+                    </Button>
+                </div>
             </Form.Item>
         </Form>
     );

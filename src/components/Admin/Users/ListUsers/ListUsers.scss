@@ -4,17 +4,7 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 20px;
-  
-      &-switch {
-        display: flex;
-        align-items: center;
-  
-        > button {
-          margin-right: 20px;
-        }
-      }
     }
-  
     .users-active {
       background-color: #fff;
       padding: 10px 20px;
@@ -36,9 +26,62 @@
   margin: 10px;
 }
 
-.form-edit {
+
+
+//.......................responsive
+.navbar {
+  display: flex;
+  justify-content: center ;
   text-align: center;
-  size:40;
-  width:470px
+  align-items: center;
+  padding: 1%;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  > button {
+    margin-right: 20px;
+  }
+}
+
+.Buscador{
+  padding: 5px 10px;
+  text-align: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  .navbar{   
+    flex-direction: column;
+  }
+
+  .Buscador{
+    padding: 5px 10px;
+    text-align: center;
+    width: 100%;
+  }  
+  
+  .BuscadorB{
+    width: 100%;
+  }
+
+  .list-users {
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .users-active {
+      padding: 5px 10px;
+      width: 100%;
+  
+      .ant-list-item-meta {
+        align-items: center;
+      }
+    }
+  }
+
 
 }

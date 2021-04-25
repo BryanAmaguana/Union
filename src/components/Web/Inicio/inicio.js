@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from "react";
+import React, { useState, useEffect } from "react";
 import MenuTop from "../../../components/Web/MenuTop";
 import Logo from '../../../assets/img/png/UnionIcono.png';
 import { ObtenerContenidoApi } from "../../../api/contenidoWeb";
@@ -9,16 +9,16 @@ export default function Inicio() {
     const [ContenidoInformacion, setContenidoInformacion] = useState({});
 
     useEffect(() => {
-       ObtenerContenidoApi()
-          .then(response => {
-             setContenidoInformacion(response.contenido[0])
-          })
-          .catch(err => {
-             notification["error"]({
-                message: err
-             });
-          });
-          
+        ObtenerContenidoApi()
+            .then(response => {
+                setContenidoInformacion(response.contenido[0])
+            })
+            .catch(err => {
+                notification["error"]({
+                    message: err
+                });
+            });
+
     }, []);
 
     return (
@@ -33,17 +33,18 @@ export default function Inicio() {
             <div className="row banner">
                 <div className="banner-text">
                     <h1 className="logoIconoPrincipal">
-                        <img src={Logo} alt="Union"/>
+                        <img src={Logo} alt="Union" />
                     </h1>
 
-                    <h1 >{ContenidoInformacion.nombre}</h1>
-                    <br/>
-                    
-                    <h3>{ContenidoInformacion.mensaje_Inicio}</h3>
-                    <hr />
-                    <ul className="social">
-                    {ContenidoInformacion.mensaje_Inicio2}
-                    </ul>
+                        <h1 >{ContenidoInformacion.nombre}</h1>
+                        <br />
+
+                        <h3>{ContenidoInformacion.mensaje_Inicio}</h3>
+                        <hr />
+                        <ul className="social">
+                            {ContenidoInformacion.mensaje_Inicio2}
+                        </ul>
+
                 </div>
             </div>
 

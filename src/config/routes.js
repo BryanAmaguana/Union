@@ -1,7 +1,6 @@
 /* importacion de los layout */
 
 import LayoutAdmin from '../layouts/LayoutAdmin';
-import LayoutPersonal from '../layouts/LayoutPersonal'
 import LayoutPublico from '../layouts/LayoutPublico'
 
 /* Importacion paginas Administrador */
@@ -18,6 +17,7 @@ import AdminTipo from '../pages/Admin/Tipo_Pasajero';
 import AdminPasajero from '../pages/Admin/Pasajero';
 import AdminCobro from '../pages/Admin/CobroPasaje';
 import AdminContenido from '../pages/Admin/ContenidoWeb';
+import AdminRecarga from '../pages/Admin/Recarga';
   
 
 /* Menu web */
@@ -26,9 +26,6 @@ import AdminMenuWeb from "../pages/Admin/MenuWeb"
 /* Importacion Publico */
 import HomePublico from '../pages/Publico/Home';
 
-/* Importacion Personal */
-import HomePersonal from '../pages/Personal/Personal';
-import PersonalLogin from '../pages/Personal/SingIn';
 
 /* Error 404 */
 import Error404 from '../pages/Publico/Error404';
@@ -105,24 +102,9 @@ const routes = [
                 exact: true
             },
             {
-                component: Error404
-            }
-        ]
-    },
-    {
-        path: "/personal",
-        component: LayoutPersonal,
-        exact: false,
-        routes: [
-            {
-                path: "/personal",
-                component: HomePersonal,
+                path: '/admin/recarga',
+                component: AdminRecarga,
                 exact: true
-            },
-            {
-                path: "/personal/login",
-                component: PersonalLogin,
-                exact: true 
             },
             {
                 component: Error404

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, notification, Select } from "antd";
+import { Form, Input, Button, notification, Select } from "antd";
 import { CrearTarjeta } from "../../../../api/tarjeta";
 import { getAccessTokenApi } from "../../../../api/auth";
 import { CreditCardOutlined, DollarCircleOutlined } from '@ant-design/icons';
@@ -65,59 +65,53 @@ function AddForm(props) {
   return (
 
     <Form className="form-edit" onSubmitCapture={addTarjeta}>
+      <div className="navbarContenido">
+        <div className="BuscadorContenido" >
+          <Input
+            prefix={<CreditCardOutlined />}
+            placeholder="Código"
+            value={tarjetaData.codigo}
+            onChange={e =>
+              setTarjetaData({ ...tarjetaData, codigo: e.target.value })
+            }
+          />
+        </div>
+        <div className="BuscadorContenido" >
+          <Input
+            prefix={<DollarCircleOutlined />}
+            placeholder="Valor 00.00"
+            type="number"
+            min="0"
+            step="0.01"
+            value={tarjetaData.valor_tarjeta}
+            onChange={e =>
+              setTarjetaData({ ...tarjetaData, valor_tarjeta: e.target.value })
+            }
+          />
+        </div>
+      </div>
 
-      <Row gutter={24}>
-        <Col span={12}>
-          <Form.Item>
-            <Input
-              prefix={<CreditCardOutlined />}
-              placeholder="Código"
-              value={tarjetaData.codigo}
-              onChange={e =>
-                setTarjetaData({ ...tarjetaData, codigo: e.target.value })
-              }
-            />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item>
-            <Input
-              prefix={<DollarCircleOutlined />}
-              placeholder="Valor 00.00"
-              type="number"
-              min="0"
-              step="0.01"
-              value={tarjetaData.valor_tarjeta}
-              onChange={e =>
-                setTarjetaData({ ...tarjetaData, valor_tarjeta: e.target.value })
-              }
-            />
-          </Form.Item>
-        </Col>
-      </Row>
-
-      <Row gutter={24}>
-        <Col span={24}>
-          <Form.Item>
-            <Select
-              placeholder="Seleccione tipo de Tarjeta"
-              onChange={e =>
-                setTarjetaData({ ...tarjetaData, descripcion: e })
-              }
-              value={tarjetaData.descripcion}
-            >
-              {Tipo_Pasajero.map((item) => {
-                return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
-              })}
-            </Select>
-          </Form.Item>
-        </Col>
-      </Row>
+      <div className="navbarContenido">
+        <Select
+          className="BuscadorContenido2"
+          placeholder="Seleccione tipo de Tarjeta"
+          onChange={e =>
+            setTarjetaData({ ...tarjetaData, descripcion: e })
+          }
+          value={tarjetaData.descripcion}
+        >
+          {Tipo_Pasajero.map((item) => {
+            return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
+          })}
+        </Select>
+      </div>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="btn-submit">
-          Agregar Tarjeta
-        </Button>
+        <div className="navbarContenido">
+          <Button type="primary" htmlType="submit" className="btn-submit">
+            Agregar Tarjeta
+          </Button>
+        </div>
       </Form.Item>
     </Form>
   );

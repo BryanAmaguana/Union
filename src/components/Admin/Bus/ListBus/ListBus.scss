@@ -36,9 +36,40 @@
   margin: 10px;
 }
 
-.form-edit {
+//.......................responsive
+.navbar {
+  display: flex;
+  justify-content: center ;
   text-align: center;
-  size:40;
-  width:470px
+  align-items: center;
+  padding: 1%;
+}
 
+.switch {
+  display: flex;
+  align-items: center;
+  > button {
+    margin-right: 20px;
+  }
+}
+
+.Buscador{
+  padding: 5px 10px;
+  text-align: center;
+  width: 50%;
+}
+
+@media screen and (max-width: 800px) {
+ .navbar {   
+    flex-direction: column;
+  }
+
+  .Buscador{
+    padding: 5px 10px;
+    text-align: center;
+    width: 100%;
+  }  
+  .BuscadorB{
+    width: 100%;
+  }
 }

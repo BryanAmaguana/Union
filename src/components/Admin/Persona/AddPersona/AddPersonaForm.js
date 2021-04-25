@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Row, Col, notification, DatePicker } from "antd";
+import { Form, Input, Button, notification, DatePicker } from "antd";
 import { CrearPersona } from "../../../../api/persona";
 import { getAccessTokenApi } from "../../../../api/auth";
 import { UserOutlined, ContactsOutlined, EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
@@ -26,34 +26,34 @@ export default function AddPersonaForm(props) {
                 message: "Todos los campos son obligatorios."
             });
         } else {
-            if(!FormatoCedula){
+            if (!FormatoCedula) {
                 notification["error"]({
                     message: "Formato de cédula incorrecto."
                 });
                 return;
-            }else{
-            const accesToken = getAccessTokenApi();
-            CrearPersona(accesToken, personaData)
-                .then(response => {
-                    if (response === "Persona creada exitosamente.") {
-                        notification["success"]({
-                            message: response
-                        });
-                        
-                        setPersonaData({});
-                        setIsVisibleModal(false);
-                        setReloadPersona(true);
-                    } else {
+            } else {
+                const accesToken = getAccessTokenApi();
+                CrearPersona(accesToken, personaData)
+                    .then(response => {
+                        if (response === "Persona creada exitosamente.") {
+                            notification["success"]({
+                                message: response
+                            });
+
+                            setPersonaData({});
+                            setIsVisibleModal(false);
+                            setReloadPersona(true);
+                        } else {
+                            notification["error"]({
+                                message: response
+                            });
+                        }
+                    })
+                    .catch(err => {
                         notification["error"]({
-                            message: response
+                            message: err
                         });
-                    }
-                })
-                .catch(err => {
-                    notification["error"]({
-                        message: err
                     });
-                });
             }
         }
     };
@@ -93,8 +93,8 @@ function AddForm(props) {
             }
             total = total % 10 ? 10 - total % 10 : 0;
             // eslint-disable-next-line
-            if (cad.charAt(longitud - 1) == total ) {
-                
+            if (cad.charAt(longitud - 1) == total) {
+
                 setMensaje("Cedula Correcta");
                 setFormatoCedula(true);
             } else {
@@ -121,98 +121,95 @@ function AddForm(props) {
     return (
 
         <Form className="form-add" onSubmitCapture={addpersona}>
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<UserOutlined />}
-                            placeholder="Cédula"
-                            value={personaData.cedula_persona}
-                            maxLength="10"
-                            onChange={e =>
-                                setpersonaData({ ...personaData, cedula_persona: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12} >
-                    <Form.Item>                    
-                    <DatePicker 
-                    onChange={onChange} 
-                    placeholder="Fecha de Nacimiento" 
-                    className="Fecha"
-                    value={personaData.fecha_nacimiento_persona}/>
-                    </Form.Item>
-                </Col>
-            </Row>
 
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<ContactsOutlined />}
-                            placeholder="Nombre "
-                            value={personaData.nombre_persona}
-                            onChange={e =>
-                                setpersonaData({ ...personaData, nombre_persona: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<ContactsOutlined />}
-                            placeholder="Apellido"
-                            value={personaData.apellido_persona}
-                            onChange={e =>
-                                setpersonaData({ ...personaData, apellido_persona: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
 
-            <Row gutter={24}>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<EnvironmentOutlined />}
-                            placeholder="Dirección"
-                            value={personaData.direccion_persona}
-                            onChange={e =>
-                                setpersonaData({ ...personaData, direccion_persona: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item>
-                        <Input
-                            prefix={<PhoneOutlined />}
-                            placeholder="Celular"
-                            maxLength="10"
-                            value={personaData.celular_persona}
-                            onChange={e =>
-                                setpersonaData({ ...personaData, celular_persona: e.target.value })
-                            }
-                        />
-                    </Form.Item>
-                </Col>
-            </Row>
 
-            <Row gutter={24}>
-                <Col span={24}>
+
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<UserOutlined />}
+                        placeholder="Cédula"
+                        value={personaData.cedula_persona}
+                        maxLength="10"
+                        onChange={e =>
+                            setpersonaData({ ...personaData, cedula_persona: e.target.value })
+                        }
+                    />
+                </div>
+                <div className="BuscadorContenido" >
+                    <DatePicker
+                        onChange={onChange}
+                        placeholder="Fecha de Nacimiento"
+                        className="Fecha"
+                        value={personaData.fecha_nacimiento_persona} />
+                </div>
+            </div>
+
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<ContactsOutlined />}
+                        placeholder="Nombre "
+                        value={personaData.nombre_persona}
+                        onChange={e =>
+                            setpersonaData({ ...personaData, nombre_persona: e.target.value })
+                        }
+                    />
+                </div>
+
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<ContactsOutlined />}
+                        placeholder="Apellido"
+                        value={personaData.apellido_persona}
+                        onChange={e =>
+                            setpersonaData({ ...personaData, apellido_persona: e.target.value })
+                        }
+                    />
+                </div>
+            </div>
+
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<EnvironmentOutlined />}
+                        placeholder="Dirección"
+                        value={personaData.direccion_persona}
+                        onChange={e =>
+                            setpersonaData({ ...personaData, direccion_persona: e.target.value })
+                        }
+                    />
+                </div>
+
+                <div className="BuscadorContenido" >
+                    <Input
+                        prefix={<PhoneOutlined />}
+                        placeholder="Celular"
+                        maxLength="10"
+                        value={personaData.celular_persona}
+                        onChange={e =>
+                            setpersonaData({ ...personaData, celular_persona: e.target.value })
+                        }
+                    />
+                </div>
+            </div>
+
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
                     <Form.Item>
-                        {Mensaje === "Verificar Cédula"? <div className="Color1">{Mensaje}</div>: <div className="Color2" >{Mensaje}</div>}
+                        {Mensaje === "Verificar Cédula" ? <div className="Color1">{Mensaje}</div> : <div className="Color2" >{Mensaje}</div>}
                     </Form.Item>
-                </Col>
-            </Row>
-            <Form.Item>
-                <Button type="primary" htmlType="submit" className="btn-submit">
-                    Agregar Persona
-        </Button>
-            </Form.Item>
+                </div>
+            </div>
+
+            <div className="navbarContenido">
+                <div className="BuscadorContenido" >
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        Agregar Persona
+                    </Button>
+                </div>
+            </div>
         </Form>
     );
 }

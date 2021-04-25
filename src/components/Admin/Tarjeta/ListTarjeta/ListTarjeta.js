@@ -101,8 +101,8 @@ export default function ListTarjeta(props) {
     return (
         /* switch y boton agregar usuario */
         <div className="list-tarjeta">
-            <div className="list-tarjeta__header">
-                <div className="list-tarjeta__header-switch">
+            <div className="navbar">
+                <div className="switch" >
                     <Switch
                         defaultChecked
                         onChange={() => { setVerTarjetaActivos(!VerTarjetaActivos); setpaginaActual(1); setDesde(0); setLimite(6); setBotonesPaginacion(!BotonesPaginacion) }}
@@ -111,9 +111,7 @@ export default function ListTarjeta(props) {
                         {VerTarjetaActivos ? "Tarjetas Activas" : "Tarjetas Inactivas"}
                     </span>
                 </div>
-
-                {/* Buscar Usuario */}
-                <div className="form-edit">
+                <div className="Buscador" >
                     <Input
                         prefix={<SearchOutlined />}
                         placeholder=" Buscar código de tarjeta"
@@ -122,11 +120,12 @@ export default function ListTarjeta(props) {
                         }
                     />
                 </div>
-                {/* .............. */}
+                <div className="BuscadorB" >
 
-                <Button type="primary" onClick={AgregarTarjetaModal}>
-                    Nueva Tarjeta
-                </Button>
+                    <Button className="BuscadorB" type="primary" onClick={AgregarTarjetaModal}>
+                        Nueva Tarjeta
+                    </Button>
+                </div>
             </div>
 
             {/* listado de usuarios activos e inactivos */}
@@ -158,7 +157,8 @@ export default function ListTarjeta(props) {
                         limite={limite}
                         setLimite={setLimite}
                         setTarjetaInactivos={setTarjetaInactivos}
-                        NumeroPorPagina={NumeroPorPagina} /> :
+                        NumeroPorPagina={NumeroPorPagina}
+                        setReloadTarjeta={setReloadTarjeta} /> :
                     <PaginacionI
                         paginaActual={paginaActual}
                         setpaginaActual={setpaginaActual}
@@ -169,7 +169,8 @@ export default function ListTarjeta(props) {
                         limite={limite}
                         setLimite={setLimite}
                         setTarjetaInactivos={setTarjetaInactivos}
-                        NumeroPorPagina={NumeroPorPagina} />
+                        NumeroPorPagina={NumeroPorPagina}
+                        setReloadTarjeta={setReloadTarjeta} />
                 }
             </div>
         </div>
@@ -178,29 +179,29 @@ export default function ListTarjeta(props) {
 
 /* Mostrar 4 siguientes usuarios Activos */
 function PaginacionA(props) {
-    const { paginaActual, setpaginaActual, token, setTarjetaActivos, desde, setDesde, limite, setTarjetaInactivos, NumeroPorPagina } = props;
+    const { paginaActual, setpaginaActual, token, setTarjetaActivos, desde, setDesde, limite, setTarjetaInactivos, NumeroPorPagina, setReloadTarjeta } = props;
     useEffect(() => {
-        try {
-                ObtenerTarjeta(token, true, desde, limite).then(response => {
+        ObtenerTarjeta(token, true, desde, limite).then(response => {
             setTarjetaActivos(response.tarjeta);
-            if ((response.tarjeta).length < NumeroPorPagina) {
-                document.getElementById('siguiente').disabled = true;
+            try {
+                if ((response.tarjeta).length < NumeroPorPagina) {
+                    document.getElementById('siguiente').disabled = true;
+                }
+            } catch (error) {
+                setReloadTarjeta(true);
             }
         });
-        } catch (error) {
-          
-        }
-
+        // eslint-disable-next-line
     }, [desde, limite, token, setTarjetaActivos, setDesde, setTarjetaInactivos, NumeroPorPagina]);
 
     const Siguiente = () => {
         try {
-                var PA = paginaActual + 1
-        setpaginaActual(PA)
-        setDesde(desde + limite);
-        document.getElementById('anterior').disabled = false;
+            var PA = paginaActual + 1
+            setpaginaActual(PA)
+            setDesde(desde + limite);
+            document.getElementById('anterior').disabled = false;
         } catch (error) {
-          
+
         }
 
     }
@@ -208,12 +209,12 @@ function PaginacionA(props) {
     const Atras = () => {
         if (paginaActual > 1) {
             try {
-                    var PA = paginaActual - 1
-            setpaginaActual(PA)
-            setDesde(desde - limite);
-            document.getElementById('siguiente').disabled = false;
+                var PA = paginaActual - 1
+                setpaginaActual(PA)
+                setDesde(desde - limite);
+                document.getElementById('siguiente').disabled = false;
             } catch (error) {
-              
+
             }
 
         }
@@ -223,31 +224,46 @@ function PaginacionA(props) {
     }
 
     return (
-        <div>
-            <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-                Anterior
-            </Button>
-            <Button className="centradoB" type="second">
-                {paginaActual}
-            </Button>
+        <div className="navbar">
 
-            <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-                Siguiente
-            </Button>
+            <div className="BuscadorB" >
+                <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+                    Anterior
+                </Button>
+            </div>
+
+
+            <div className="BuscadorB" >
+                <Button className="centradoB" type="second">
+                    {paginaActual}
+                </Button>
+            </div>
+
+            <div className="BuscadorB" >
+                <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+                    Siguiente
+                </Button>
+            </div>
+
         </div>
     )
 }
 
 /* Mostrar 4 siguientes usuarios Inactivos */
 function PaginacionI(props) {
-    const { paginaActual, setpaginaActual, token, setTarjetaActivos, desde, setDesde, limite, setTarjetaInactivos, NumeroPorPagina } = props;
+    const { paginaActual, setpaginaActual, token, setTarjetaActivos, desde, setDesde, limite, setTarjetaInactivos, NumeroPorPagina, setReloadTarjeta } = props;
     useEffect(() => {
         ObtenerTarjeta(token, false, desde, limite).then(response => {
             setTarjetaInactivos(response.tarjeta);
-            if ((response.tarjeta).length < NumeroPorPagina) {
-                document.getElementById('siguiente').disabled = true;
+            try {
+                if ((response.tarjeta).length < NumeroPorPagina) {
+                    document.getElementById('siguiente').disabled = true;
+                }
+            } catch (error) {
+                setReloadTarjeta(true);
             }
         });
+        // eslint-disable-next-line
     }, [desde, limite, token, setTarjetaActivos, setDesde, setTarjetaInactivos, NumeroPorPagina]);
 
     const Siguiente = () => {
@@ -270,17 +286,27 @@ function PaginacionI(props) {
     }
 
     return (
-        <div>
-            <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-                Anterior
-            </Button>
-            <Button className="centradoB" type="second">
-                {paginaActual}
-            </Button>
+        <div className="navbar">
 
-            <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-                Siguiente
-            </Button>
+            <div className="BuscadorB" >
+                <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+                    Anterior
+                </Button>
+            </div>
+
+
+            <div className="BuscadorB" >
+                <Button className="centradoB" type="second">
+                    {paginaActual}
+                </Button>
+            </div>
+
+            <div className="BuscadorB" >
+                <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+                    Siguiente
+                </Button>
+            </div>
+
         </div>
     )
 }
@@ -375,22 +401,31 @@ function ListaTarjetaActivos(props) {
     return (
         <List.Item
             actions={[
-                <Tooltip title="Editar">
-                    <Button type="primary" onClick={() => EditarTarjeta(tarjeta)} >
-                        <EditOutlined />
-                    </Button>
-                </Tooltip>,
 
-                <Tooltip title="Desactivar">
-                    <Button type="danger" onClick={() => desactivarTarjeta()}>
-                        <StopOutlined />
-                    </Button>
-                </Tooltip>,
 
-                /*                 <Tooltip title="Eliminar">
-                                    <Button type="danger" onClick={() => ConfirmarEliminar()}>
-                                        <DeleteOutlined />
-                                    </Button></Tooltip> */
+                <div className="navbarContenido">
+                    <div className="BuscadorContenido" >
+                        <Tooltip title="Editar">
+                            <Button type="primary" onClick={() => EditarTarjeta(tarjeta)} >
+                                <EditOutlined />
+                            </Button>
+                        </Tooltip>
+                    </div>
+                    <div className="BuscadorContenido" >
+                        <Tooltip title="Desactivar">
+                            <Button type="danger" onClick={() => desactivarTarjeta()}>
+                                <StopOutlined />
+                            </Button>
+                        </Tooltip>
+
+                        {/* <Tooltip title="Eliminar">
+                  <Button type="danger" onClick={() => ConfirmarEliminar()}>
+                    <DeleteOutlined />
+                  </Button></Tooltip> */}
+                    </div>
+                </div>
+
+
             ]}
         >
             <List.Item.Meta
@@ -402,7 +437,7 @@ function ListaTarjetaActivos(props) {
                         <br />
                         <b>Descripción:</b> {tarjeta.descripcion.nombre ? tarjeta.descripcion.nombre : '...'}
                         <br />
-                        <b>Bloqueo:</b> {tarjeta.bloqueo? tarjeta.bloqueo : 'ninguno'}
+                        <b>Bloqueo:</b> {tarjeta.bloqueo ? tarjeta.bloqueo : 'ninguno'}
                     </div>
                 }
             />
@@ -506,7 +541,7 @@ function ListaTarjetaInactivos(props) {
                         <br />
                         <b>Descripción:</b> {tarjeta.descripcion.nombre ? tarjeta.descripcion.nombre : '...'}
                         <br />
-                        <b>Bloqueo:</b> {tarjeta.bloqueo? tarjeta.bloqueo : 'ninguno'}
+                        <b>Bloqueo:</b> {tarjeta.bloqueo ? tarjeta.bloqueo : 'ninguno'}
                     </div>
                 }
             />

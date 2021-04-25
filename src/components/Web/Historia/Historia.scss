@@ -20,8 +20,28 @@
     padding: 20px;
     letter-spacing: 3px;
     color: rgb(128, 48, 48);
+    text-align: center;
  }
  #Historia h2 {
    font: 18px/30px 'opensans-bold', sans-serif;
-   padding: 50px;
 }
+
+
+ .Parrafo {
+   font: 18px/30px 'opensans-bold', sans-serif;
+   float: right;
+   text-align: justify;
+   width: 100%;
+   padding: 150px;
+
+ }
+
+ @media only screen and (max-width:800px) {
+   /* For tablets: */
+   .Parrafo  {
+      font: 18px/30px 'opensans-bold', sans-serif;
+      text-align: justify;
+      width: 100%;
+      padding: 20px;
+   }
+ }

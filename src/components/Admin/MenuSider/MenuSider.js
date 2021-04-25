@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import { HomeOutlined, UserOutlined, TrademarkCircleOutlined, 
     MehOutlined, CarOutlined, CreditCardOutlined, QuestionCircleOutlined,
-     /* NodeIndexOutlined */ TeamOutlined, DollarCircleOutlined, GlobalOutlined, FileDoneOutlined } from '@ant-design/icons';
+     /* NodeIndexOutlined */ TeamOutlined, DollarCircleOutlined, GlobalOutlined, FileDoneOutlined, DollarOutlined } from '@ant-design/icons';
 import { getAccessTokenApi } from "../../../api/auth";
 import jwt_decode from "jwt-decode";
 import { Avatar } from "antd";
@@ -99,6 +99,12 @@ function MenuSider(props) {
                     <Link to={"/admin/cobro"}>
                     <DollarCircleOutlined />
                         <span className="nac-text">Cobro Pasaje</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="/admin/recarga">
+                    <Link to={"/admin/recarga"}>
+                    <DollarOutlined />
+                        <span className="nac-text">Recargas</span>
                     </Link>
                 </Menu.Item>
 

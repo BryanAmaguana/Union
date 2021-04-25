@@ -1,0 +1,80 @@
+.Admin{
+    background-color: #fff;
+    padding: 10px 20px;
+    width: 100%;
+    height: 100%;
+  }
+  .list-cobro {
+    &__header {
+        text-align:center; 
+  padding: 10px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+        width: 90%;       
+        margin: 0 auto;
+    }
+  }
+
+.centradoL{
+  text-align:center; 
+  padding: 10px;
+}
+
+.centradoB{
+  text-align:center; 
+  margin: 10px;
+}
+
+.Buscar {
+  width: 200px;
+  margin-left: 5px
+}
+
+.BuscarLetra {
+  margin-left: 30px
+}
+
+
+
+//..............................................responsive...........................................
+
+
+.navbar {
+  display: flex;
+  justify-content: center ;
+  text-align: center;
+  align-items: center;
+  padding: 1%;
+}
+
+.switch {
+  display: flex;
+  padding: 0px 20px;
+}
+
+.Buscador{
+  padding: 5px 10px;
+  text-align: center;
+  width: 50%;
+}
+
+@media screen and (max-width: 800px) {
+   .navbar {   
+    flex-direction: column;
+  }
+
+  .Buscador{
+    padding: 5px 10px;
+    text-align: center;
+    width: 100%;
+  }  
+  
+  .BuscadorB{
+    width: 100%;
+  }
+
+  .Gafico {
+    width: 100%;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Avatar, Form, Input, Select, Button, Row, Col, notification } from "antd";
+import { Avatar, Form, Input, Select, Button, notification } from "antd";
 import { useDropzone } from "react-dropzone";
 import NoAvatar from "../../../../assets/img/png/no-avatar.png";
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
@@ -163,81 +163,74 @@ function EditForm(props) {
 
   return (
     <Form className="form-edit" onSubmitCapture={updateUser}>
-      <Row gutter={24}>
-        <Col span={12}>
-          <Form.Item>
-            <Input
-              prefix={<UserOutlined />}
-              placeholder="Nombre Usuario"
-              value={userData.nombre_usuario}
-              onChange={e =>
-                setUserData({ ...userData, nombre_usuario: e.target.value })
-              }
-            />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item>
-            <Input
-              prefix={<MailOutlined />}
-              placeholder="Correo"
-              value={userData.correo}
-              onChange={e =>
-                setUserData({ ...userData, correo: e.target.value })
-              }
-            />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={24}>
-        <Col span={24}>
-          <Form.Item>
-            <Select
-              placeholder="Seleccione una rol"
-              onChange={e =>
-                setUserData({ ...userData, id_rol: e })}
-              value={userData.id_rol}
-            >
 
-              {rol.map((item) => {
-                return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
-              })}
-            </Select>
-          </Form.Item>
-        </Col>
-      </Row>
+      <div className="navbarContenido">
+        <div className="BuscadorContenido" >
+          <Input
+            prefix={<UserOutlined />}
+            placeholder="Nombre Usuario"
+            value={userData.nombre_usuario}
+            onChange={e =>
+              setUserData({ ...userData, nombre_usuario: e.target.value })
+            }
+          />
+        </div>
+        <div className="BuscadorContenido" >
+          <Input
+            prefix={<MailOutlined />}
+            placeholder="Correo"
+            value={userData.correo}
+            onChange={e =>
+              setUserData({ ...userData, correo: e.target.value })
+            }
+          />
+        </div>
+      </div>
 
-      <Row gutter={24}>
-        <Col span={12}>
-          <Form.Item>
-            <Input
-              prefix={<LockOutlined />}
-              type="password"
-              placeholder="Contraseña"
-              onChange={e =>
-                setUserData({ ...userData, contrasena: e.target.value })
-              }
-            />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item>
-            <Input
-              prefix={<LockOutlined />}
-              type="password"
-              placeholder="Repetir contraseña"
-              onChange={e =>
-                setUserData({ ...userData, contrasenaR: e.target.value })
-              }
-            />
-          </Form.Item>
-        </Col>
-      </Row>
+      <div className="navbarContenido">
+        <Select
+          className="BuscadorContenido2"
+          placeholder="Seleccione una rol"
+          onChange={e =>
+            setUserData({ ...userData, id_rol: e })}
+          value={userData.id_rol}
+        >
+          {rol.map((item) => {
+            return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
+          })}
+        </Select>
+      </div>
+
+
+      <div className="navbarContenido">
+        <div className="BuscadorContenido" >
+          <Input
+            prefix={<LockOutlined />}
+            type="password"
+            placeholder="Contraseña"
+            onChange={e =>
+              setUserData({ ...userData, contrasena: e.target.value })
+            }
+          />
+        </div>
+        <div className="BuscadorContenido" >
+          <Input
+            prefix={<LockOutlined />}
+            type="password"
+            placeholder="Repetir contraseña"
+            onChange={e =>
+              setUserData({ ...userData, contrasenaR: e.target.value })
+            }
+          />
+        </div>
+      </div>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="btn-submit">
-          Actualizar Usuario
-        </Button>
+        <div className="navbarContenido">
+          <Button type="primary" htmlType="submit" className="btn-submit">
+            Actualizar Usuario
+          </Button>
+        </div>
       </Form.Item>
     </Form>
   );
