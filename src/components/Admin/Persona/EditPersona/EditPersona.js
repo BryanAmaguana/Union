@@ -35,20 +35,18 @@ export default function EditPersonaForm(props) {
             notification["error"]({
                 message: "Datos Incompletos."
             });
-            return;
-        }
-
-        ActualizarPersona(token, PersonaActualizado, persona._id).then(result => {
-            if (result.message === "Persona actualizada correctamente.") {
-                setIsVisibleModal(false);
+        } else {
+            ActualizarPersona(token, PersonaActualizado, persona._id).then(result => {
+                if (result.message === "Persona actualizada correctamente.") {
+                    setIsVisibleModal(false);
+                    setReloadPersona(true);
+                }
+                notification["info"]({
+                    message: result.message
+                });
                 setReloadPersona(true);
-            }
-            notification["info"]({
-                message: result.message
             });
-            setReloadPersona(true);
-        });
-
+        }
     };
 
     return (

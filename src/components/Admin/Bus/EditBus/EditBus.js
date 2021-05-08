@@ -23,25 +23,22 @@ export default function EditBusForm(props) {
     e.preventDefault();
     const token = getAccessTokenApi();
     let BusActualizado = BusData;
-
     if (!BusActualizado.numero_bus || !BusActualizado.id_persona || !BusActualizado.placa_bus) {
       notification["error"]({
-        message: "Número, Dueño y Placas son Obligatorios."
+        message: "Número y Placas son Obligatorios."
       });
-      return;
-    }
-
-    ActualizarBus(token, BusActualizado, bus._id).then(result => {
-      if (result.message === "Bus actualizado correctamente.") {
-        setIsVisibleModal(false);
+    } else {
+      ActualizarBus(token, BusActualizado, bus._id).then(result => {
+        if (result.message === "Bus actualizado correctamente.") {
+          setIsVisibleModal(false);
+          setReloadBus(true);
+        }
+        notification["info"]({
+          message: result.message
+        });
         setReloadBus(true);
-      }
-      notification["info"]({
-        message: result.message
       });
-      setReloadBus(true);
-    });
-
+    }
   };
 
   return (

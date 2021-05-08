@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button,  notification } from "antd";
+import { Form, Input, Button, notification } from "antd";
 import { InfoCircleOutlined, IdcardOutlined } from '@ant-design/icons';
 import { ActualizarRol } from "../../../../api/rol"
 import { getAccessTokenApi } from "../../../../api/auth"
@@ -25,18 +25,18 @@ export default function EditUserForm(props) {
       notification["error"]({
         message: "Nombre y Descripcion son Obligatorios."
       });
-      return;
-    }
-    ActualizarRol(token, RolActualizado, rol._id).then(result => {
-      if (result.message === "Rol actualizado correctamente.") {
-        setIsVisibleModal(false);
+    } else {
+      ActualizarRol(token, RolActualizado, rol._id).then(result => {
+        if (result.message === "Rol actualizado correctamente.") {
+          setIsVisibleModal(false);
+          setReloadRol(true);
+        }
+        notification["info"]({
+          message: result.message
+        });
         setReloadRol(true);
-      }
-      notification["info"]({
-        message: result.message
       });
-      setReloadRol(true);
-    });
+    }
   };
 
   return (

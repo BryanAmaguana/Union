@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, notification, Select } from "antd";
+import { Form, Input, Button, notification /* Select */ } from "antd";
 import { CrearPasajero } from "../../../../api/pasajero";
 import { getAccessTokenApi } from "../../../../api/auth";
 import { UserAddOutlined, ContactsOutlined, DollarCircleOutlined, InfoCircleOutlined, CreditCardOutlined } from '@ant-design/icons';
@@ -15,12 +15,50 @@ export default function AddPasajeroForm(props) {
     const [persona, setPersona] = useState({});
     const [tarjeta, setTarjeta] = useState({});
 
+    const TipoPasajero = (fecha, tipo) => {
+        var id_tipo = 0;
+        var hoy = new Date();
+        var cumpleanos = new Date(fecha);
+        var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+        var m = hoy.getMonth() - cumpleanos.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+            edad--;
+        }
+
+        if (edad < 18) {
+            for (let i = 0; i < tipo.length; i++) {
+                if (tipo[i].nombre === "Estudiante") {
+                    id_tipo = tipo[i]._id
+                }
+            }
+        } else if (edad >= 18) {
+            for (let i = 0; i < tipo.length; i++) {
+                if (tipo[i].nombre === "Adulto") {
+                    id_tipo = tipo[i]._id
+                }
+            }
+        } else if (edad >= 60) {
+            for (let i = 0; i < tipo.length; i++) {
+                if (tipo[i].nombre === "Tercera Edad") {
+                    id_tipo = tipo[i]._id
+                }
+            }
+        }else {
+            for (let i = 0; i < Tipo_Pasajero.length; i++) {
+                if (Tipo_Pasajero[i].nombre === "Especial") {
+                    id_tipo = Tipo_Pasajero[i]._id
+                }
+            }
+        }
+        return id_tipo;
+    }
 
     const addPasajero = event => {
         event.preventDefault();
         pasajeroData.id_persona = persona._id;
         pasajeroData.id_tarjeta_pasajero = tarjeta._id;
         pasajeroData.cedula_persona = persona.cedula_persona;
+        pasajeroData.id_tipo_pasajero = TipoPasajero(persona.fecha_nacimiento_persona, Tipo_Pasajero);
         if (
             !pasajeroData.id_persona ||
             !pasajeroData.cedula_persona ||
@@ -32,29 +70,36 @@ export default function AddPasajeroForm(props) {
             });
 
         } else {
-            const accesToken = getAccessTokenApi();
-            CrearPasajero(accesToken, pasajeroData)
-                .then(response => {
-                    if (response === "Pasajero creado exitosamente.") {
-                        notification["success"]({
-                            message: response
+            if(pasajeroData.id_tipo_pasajero === tarjeta.descripcion._id){
+                const accesToken = getAccessTokenApi();
+                CrearPasajero(accesToken, pasajeroData)
+                    .then(response => {
+                        if (response === "Pasajero creado exitosamente.") {
+                            notification["success"]({
+                                message: response
+                            });
+                            setPasajeroData({});
+                            setPersona({});
+                            setTarjeta({});
+                            setIsVisibleModal(false);
+                            setReloadPasajero(true);
+                        } else {
+                            notification["info"]({
+                                message: response
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        notification["error"]({
+                            message: err
                         });
-                        setPasajeroData({});
-                        setPersona({});
-                        setTarjeta({});
-                        setIsVisibleModal(false);
-                        setReloadPasajero(true);
-                    } else {
-                        notification["info"]({
-                            message: response
-                        });
-                    }
-                })
-                .catch(err => {
-                    notification["error"]({
-                        message: err
                     });
+            }else{
+                notification["error"]({
+                    message: "La tarjeta no coincide con la edad del pasajero"
                 });
+            }
+          
         }
     };
 
@@ -76,8 +121,8 @@ export default function AddPasajeroForm(props) {
 
 
 function AddForm(props) {
-    const { persona, setPersona, pasajeroData, setPasajeroData, addPasajero, tarjeta, setTarjeta, Tipo_Pasajero } = props;
-    const { Option } = Select;
+    const { persona, setPersona, /* pasajeroData, setPasajeroData, */ addPasajero, tarjeta, setTarjeta/*  Tipo_Pasajero  */ } = props;
+    /*     const { Option } = Select; */
     const accesToken = getAccessTokenApi();
 
     const PersonaCedula = (props) => {
@@ -190,7 +235,7 @@ function AddForm(props) {
                 </div>
             </div>
 
-            <div className="navbarContenido">
+            {/*             <div className="navbarContenido">
                 <Select
                     className="BuscadorContenido2"
                     placeholder="Seleccione tipo de pasajero"
@@ -202,7 +247,7 @@ function AddForm(props) {
                         return <Option key={item._id.toString()} value={`${item._id}`}> {item.nombre} </Option>
                     })}
                 </Select>
-            </div>
+            </div> */}
 
             <Form.Item>
                 <div className="navbarContenido">

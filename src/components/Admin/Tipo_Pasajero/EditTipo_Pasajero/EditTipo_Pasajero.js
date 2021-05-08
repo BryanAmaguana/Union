@@ -28,20 +28,18 @@ export default function EditTipoForm(props) {
       notification["error"]({
         message: "Nombre, Valor y Descripción son Obligatorios."
       });
-      return;
-    }
-
-    ActualizarTipo_Pasajero(token, TipoActualizada, tipo._id).then(result => {
-      if (result.message === "Tipo de pasajero actualizado correctamente.") {
-        setIsVisibleModal(false);
+    }else{
+      ActualizarTipo_Pasajero(token, TipoActualizada, tipo._id).then(result => {
+        if (result.message === "Tipo de pasajero actualizado correctamente.") {
+          setIsVisibleModal(false);
+          setReloadTipo(true);
+        }
+        notification["info"]({
+          message: result.message
+        });
         setReloadTipo(true);
-      }
-      notification["info"]({
-        message: result.message
       });
-      setReloadTipo(true);
-    });
-
+    }
   };
 
   return (

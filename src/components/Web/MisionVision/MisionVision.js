@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { ObtenerContenidoApi } from "../../../api/contenidoWeb";
-import { notification } from "antd";
 
 import "./MisionVision.scss";
 
 export default function MisionVision() {
    const [ContenidoInformacion, setContenidoInformacion] = useState({});
+   const [reloadMision , setReloadMision] = useState(false);
 
    useEffect(() => {
       ObtenerContenidoApi()
          .then(response => {
             setContenidoInformacion(response.contenido[0])
-         })
-         .catch(err => {
-            notification["error"]({
-               message: err
-            });
          });
-         
-   }, []);
+         setReloadMision(false);
+   }, [reloadMision]);
 
    return (
       <section id="MisionVision">

@@ -34,11 +34,10 @@ export default function MenuWebList(props) {
                     )
                 });
             });
-            setListItems(listItemsArray);
         } catch (error) {
-            setReloadMenuWeb(true);
+            console.log("Error del servidor")
         }
-
+            setListItems(listItemsArray);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [menu]);
 

@@ -41,7 +41,14 @@
   margin-left: 30px
 }
 
-
+.BuscadorR{
+  width: 50%;
+  text-align: center;
+}
+.BuscadorR1{
+  text-align: center;
+  width: 30%;
+}
 
 //..............................................responsive...........................................
 
@@ -59,22 +66,20 @@
   padding: 0px 20px;
 }
 
-.Buscador{
-  padding: 5px 40px;
-  text-align: center;
-  width: 50%;
-}
 
 @media screen and (max-width: 800px) {
  .navbar {   
     flex-direction: column;
   }
 
-  .Buscador{
-    padding: 5px 10px;
+  .BuscadorR{
+    width: 80%;
+    text-align: center;
+  }
+  .BuscadorR1{
     text-align: center;
     width: 100%;
-  }  
+  }
   
   .BuscadorB{
     width: 100%;

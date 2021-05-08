@@ -70,9 +70,6 @@ export default function ListBus(props) {
   return (
     /* switch y boton agregar buses */
     <div className="list-bus">
-
-
-
       <div className="navbar">
         <div className="switch" >
           <Switch

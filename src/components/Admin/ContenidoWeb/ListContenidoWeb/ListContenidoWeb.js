@@ -65,6 +65,7 @@ function EditForm(props) {
                         prefix={<ContactsOutlined />}
                         placeholder={'Nombre'}
                         value={contenido.nombre}
+                        maxLength="55"
                         onChange={e =>
                             setFondoData({ ...contenido, nombre: e.target.value })
                         }

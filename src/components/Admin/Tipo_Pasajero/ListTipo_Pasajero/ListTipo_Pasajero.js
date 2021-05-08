@@ -43,11 +43,13 @@ export default function ListTipoP(props) {
                         {VerTipoActivos ? "Tipo de Pasajeros Activos" : "Tipo de Pasajeros Inactivos"}
                     </span>
                 </div>
+                &nbsp;
                 <div className="BuscadorB" >
                     <Button type="primary" className="BuscadorB" onClick={AgregarTipoModal}>
                         Nuevo Tipo de Pasajero
                     </Button>
                 </div>
+                &nbsp;
             </div>
 
 

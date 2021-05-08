@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { notification } from "antd";
 import Inicio from '../../components/Web/Inicio';
 import MisionVision from '../../components/Web/MisionVision';
 import Footer from '../../components/Web/Footer';
@@ -9,18 +8,14 @@ import { ObtenerMenuApi } from "../../api/menu";
 
 export default function InicioPagina() {
     const [menu, setmenu] = useState(false);
+    const [reloadHome, setReloadHome] = useState(false);
 
     useEffect(() => {
-        ObtenerMenuApi()
-            .then(response => {
-                setmenu(response.menu);
-            })
-            .catch(err => {
-                notification["error"]({
-                    message: err
-                });
-            });
-    }, []);
+        ObtenerMenuApi().then(response => {
+            setmenu(response.menu);
+        });
+        setReloadHome(false);
+    }, [reloadHome]);
 
     return (
         <div className="App">
@@ -29,15 +24,16 @@ export default function InicioPagina() {
                 // eslint-disable-next-line
                 menu.map((menu) => {
                     if (menu.disponible & menu.url === "Historia") {
-                        return (<Historia key={menu._id}/>);
+                        return (
+                            <Historia key={menu._id} />);
                     };
                     if (menu.disponible && menu.url === "MisionVision") {
-                        return (<MisionVision key={menu._id}/>)
+                        return (<MisionVision key={menu._id} />)
                     };
                     if (menu.disponible && menu.url === "Informacion") {
-                        return (<Informacion key={menu._id}/>)
+                        return (<Informacion key={menu._id} />)
                     }
-                })):(
+                })) : (
                 <Inicio />)}
             <Footer />
         </div>

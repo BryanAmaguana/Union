@@ -37,20 +37,18 @@ export default function EditPasajeroForm(props) {
             notification["error"]({
                 message: "Campos Vacios."
             });
-            return;
-        }
-
-        ActualizarPasajero(token, PasajeroActualizado, pasajero._id).then(result => {
-            if (result.message === "Pasajero actualizado correctamente.") {
-                setIsVisibleModal(false);
+        } else {
+            ActualizarPasajero(token, PasajeroActualizado, pasajero._id).then(result => {
+                if (result.message === "Pasajero actualizado correctamente.") {
+                    setIsVisibleModal(false);
+                    setReloadPasajero(true);
+                }
+                notification["info"]({
+                    message: result.message
+                });
                 setReloadPasajero(true);
-            }
-            notification["info"]({
-                message: result.message
             });
-            setReloadPasajero(true);
-        });
-
+        }
     };
 
     return (

@@ -28,20 +28,18 @@ export default function EditRutaForm(props) {
             notification["error"]({
                 message: "Código, Valor y Descripción son Obligatorios."
             });
-            return;
-        }
-
-        ActualizarRuta(token, RutaActualizada, ruta._id).then(result => {
-            if (result.message === "Ruta actualizada correctamente.") {
-                setIsVisibleModal(false);
+        }else{
+            ActualizarRuta(token, RutaActualizada, ruta._id).then(result => {
+                if (result.message === "Ruta actualizada correctamente.") {
+                    setIsVisibleModal(false);
+                    setReloadRuta(true);
+                }
+                notification["info"]({
+                    message: result.message
+                });
                 setReloadRuta(true);
-            }
-            notification["info"]({
-                message: result.message
             });
-            setReloadRuta(true);
-        });
-
+        }
     };
 
     return (

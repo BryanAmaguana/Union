@@ -1,0 +1,59 @@
+
+
+//.......................responsive
+.navbar {
+    display: flex;
+    justify-content: center ;
+    text-align: center;
+    align-items: center;
+    padding: 1%;
+  }
+  
+  .switch {
+    display: flex;
+    align-items: center;
+    > button {
+      margin-right: 20px;
+    }
+  }
+  
+  .Buscador{
+    padding: 5px 10px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  @media screen and (max-width: 800px) {
+    .navbar{   
+      flex-direction: column;
+    }
+  
+    .Buscador{
+      padding: 5px 10px;
+      text-align: center;
+      width: 100%;
+    }  
+    
+    .BuscadorB{
+      width: 100%;
+    }
+  
+    .list-users {
+      &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .users-active {
+        padding: 5px 10px;
+        width: 100%;
+    
+        .ant-list-item-meta {
+          align-items: center;
+        }
+      }
+    }
+  
+  
+  }

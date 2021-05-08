@@ -50,10 +50,8 @@ export default function EditContenidoForm(props) {
             notification["error"]({
                 message: "Campos Vacios."
             });
-            return;
-        }
-
-        if (typeof FondoActualizado.fondo === "object") {
+        } else {
+            if (typeof FondoActualizado.fondo === "object") {
                 ActualizarFondo(token, FondoActualizado.fondo, contenido._id).then(response => {
 
                     if (response.message === 'La extension de la imagen no es valida. (Extensiones permitidas: .png y .jpg)') {
@@ -71,17 +69,18 @@ export default function EditContenidoForm(props) {
                         });
                     }
                 });
-        } else {
-            ActualizarContenidoApi(token, contenido._id, FondoActualizado).then(result => {
-                if (result === "Contenido Web Actualizado correctamente.") {
-                    setIsVisibleModal(false);
+            } else {
+                ActualizarContenidoApi(token, contenido._id, FondoActualizado).then(result => {
+                    if (result === "Contenido Web Actualizado correctamente.") {
+                        setIsVisibleModal(false);
+                        setReloadContenidoWeb(true);
+                    }
+                    notification["info"]({
+                        message: result
+                    });
                     setReloadContenidoWeb(true);
-                }
-                notification["info"]({
-                    message: result
                 });
-                setReloadContenidoWeb(true);
-            });
+            }
         }
     };
 
@@ -160,15 +159,15 @@ function EditForm(props) {
                         />
                     </Form.Item>
                 </Col>
-                </Row>
-                <Row gutter={24}>
+            </Row>
+            <Row gutter={24}>
                 <Col span={24}>
                     <Form.Item>
                         <textarea
                             prefix={<PicCenterOutlined />}
                             placeholder="Contenido"
                             value={FondoData.contenido}
-                            rows="10" 
+                            rows="10"
                             cols="64"
                             onChange={e =>
                                 setFondoData({ ...FondoData, contenido: e.target.value })

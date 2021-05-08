@@ -5,10 +5,12 @@ import { ObtenerCobroPasajeTodo, ObtenerCobroPasaje } from "../../../../api/Cobr
 import { getAccessTokenApi } from "../../../../api/auth";
 import { ObtenerBusNumero } from "../../../../api/bus";
 import moment from 'moment';
+import jsPDF from 'jspdf'
+import 'jspdf-autotable';
 
 import "./ListCobroPasaje.scss";
 export default function ListCobro(props) {
-    const { cobro, setcobro, setReloadCobro } = props;
+    const { cobro, setcobro, setReloadCobro, contenido } = props;
     const [BusquedaCobro, setBusquedaCobro] = useState(false);
     const [paginaActual, setpaginaActual] = useState(1);
     const [desde, setDesde] = useState(0);
@@ -17,15 +19,30 @@ export default function ListCobro(props) {
     const NumeroPorPagina = 4;
     const [Numero, setNumero] = useState("");
     const [Inicio, setInicio] = useState("");
+    const [InicioRp, setInicioRp] = useState("");
+    const [FinRp, setFinRP] = useState("");
     const [Fin, setFin] = useState("");
+    const [Nbus, setNbus] = useState("");
+    const [btnGenerar, setbntGenerar] = useState(true);
+    const [Dueño, setDueño] = useState("");
+    const [Cedula, setCedula] = useState("");
+    let newDate = new Date()
+    let month = newDate.getMonth();
+    // eslint-disable-next-line
+    var mes = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+
 
     function FechaInicio(dateString) {
         const date = moment(dateString).format('YYYY-MM-DD');
+        const date2 = moment(dateString).format('DD-MM-YYYY');
+        setInicioRp(date2);
         setInicio(date);
     }
 
     function FechaFin(dateString) {
         const date = moment(dateString).format('YYYY-MM-DD');
+        const date2 = moment(dateString).format('DD-MM-YYYY');
+        setFinRP(date2)
         setFin(date)
     }
 
@@ -44,9 +61,20 @@ export default function ListCobro(props) {
                         });
                         setBusquedaCobro(false);
                     } else {
+                        try {
+
+                            setCedula(result.bus.id_persona.cedula_persona);
+                            setDueño(result.bus.id_persona.nombre_persona + " " + result.bus.id_persona.apellido_persona);
+                            setNbus(Numero);
+                        } catch (error) {
+                            setCedula("XXXXXXXXXX");
+                            setDueño("XXXXXXXXXX XXXXXXXXXX");
+                        }
+                        setbntGenerar(false);
                         ObtenerCobroPasaje(token, Inicio, Fin, Numero)
                             .then(response => {
                                 setBusquedaCobro(response.cobro);
+
                             })
                             .catch(err => {
                                 notification["error"]({
@@ -63,12 +91,221 @@ export default function ListCobro(props) {
         }
     }
 
+
+    const GenerarReporte = () => {
+
+        // Create a new jsPDF instance
+        const doc = new jsPDF("p", "pt", "a4"); // default values
+
+        // doc.text(text, x, y, flags, angle, align);
+
+        /*  ____________________________________Titulo del reporte____________________________________ */
+        doc.setFontSize(16);
+        doc.text(
+            contenido[0].nombre.toUpperCase(),
+            105 * 2.83, //horizontal
+            15 * 2.83, //vertical
+            null,
+            null,
+            "center"
+        );
+        doc.setFont("Times-Roman", "normal");
+
+
+        /*  _______________________________Telefono y Direccion del reporte__________________________________ */
+        doc.setFontSize(10);
+        doc.text(
+            "Correo: " + contenido[0].correo.toLowerCase(),
+            105 * 2.83,//horizontal
+            19 * 2.83,//vertical
+            null,
+            null,
+            "center"
+        );
+        doc.setFont("Times-Roman", "normal");
+        doc.text(
+            "Teléfono: " + contenido[0].telefono.toLowerCase() + "   Celular: " + contenido[0].Celular.toLowerCase(),
+            105 * 2.83,//horizontal
+            23 * 2.83,//vertical
+            null,
+            null,
+            "center"
+        );
+        doc.setFont("Times-Roman", "normal");
+
+        /* __________________________________Linea que divide la cabecera_____________________________ */
+        doc.setFontSize(14);
+        doc.text(
+            "________________________________________________________________________",
+            103 * 2.83, //posicion Horizontal
+            26 * 2.83, //Posicion vertical
+            null,
+            null,
+            "center"
+        );
+
+        /* __________________________________Codigo para Agreagar una imagen_____________________________ */
+
+        // add image to the pdf
+        // doc.addImage(imageData, format, x, y, width, height);
+        /*         doc.addImage(
+                    "https://source.unsplash.com/random/600x400",
+                    "JPEG",
+                    15 * 2.83,
+                    40 * 2.83,
+                    180 * 2.83,
+                    120 * 2.83
+                ); */
+
+        /* __________________________________Titulo del Cuerpo_____________________________ */
+        // Image subtitle
+        doc.setFontSize(14);
+        doc.text(
+            "Reporte mensual por unidad de transporte",
+            105 * 2.83, //horizontal
+            34 * 2.83, //vertical
+            null,
+            null,
+            "center"
+        );
+        doc.setFont("Times-Roman", "normal");
+
+        /* __________________________________Fecha del reporte _____________________________ */
+
+        if (InicioRp === "" || InicioRp === " " || FinRp === "" || FinRp === " ") {
+            notification["info"]({
+                message: "Reporte generado del mes de " + mes[month]
+            });
+
+            doc.setFontSize(13);
+            doc.text(
+                // eslint-disable-next-line
+                "Del " + `01/${month < 10 ? `0${month}` : `${month}`}/${year}` + " Al " + `${date}/${month < 10 ? `0${month}` : `${month}`}/${year}`,
+                105 * 2.83, //horizontal
+                42 * 2.80, //vertical
+                null,
+                null,
+                "center"
+            );
+            doc.setFont("Times-Roman", "normal");
+        } else {
+            notification["info"]({
+                message: "Reporte generado del " + InicioRp + " Al " + FinRp
+            });
+            doc.setFontSize(13);
+            doc.text(
+                "Del  " + InicioRp + "  Al  " + FinRp,
+                105 * 2.83, //horizontal
+                42 * 2.80, //vertical
+                null,
+                null,
+                "center"
+            );
+            doc.setFont("Times-Roman", "normal");
+
+        }
+
+        /* __________________________________Tabla del reporte _____________________________ */
+        // Table
+        if (BusquedaCobro) {
+
+            /* __________________________________Total de ingresos_____________________________ */
+            // Image subtitle
+            let TotalB = 0;
+
+            if (BusquedaCobro) {
+                for (let i = 0; i < BusquedaCobro.length; i++) {
+                    TotalB += BusquedaCobro[i].valor_pagado;
+                }
+            }
+
+            doc.setFontSize(13);
+            doc.text(
+                "Total de ingresos $ " + TotalB.toFixed(2),
+                14 * 2.83, //horizontal
+                48 * 2.83, //vertical
+                null,
+                null,
+                "left"
+            );
+            doc.setFont("Times-Roman", "normal");
+
+
+            const usersCol = [" ", " "];
+
+            let Pasajeros = 0;
+            let PasajerosA = 0;
+            let PasajerosAT = 0;
+            let PasajerosN = 0;
+            let PasajerosNT = 0;
+
+            if (BusquedaCobro) {
+                for (let i = 0; i < BusquedaCobro.length; i++) {
+                    if (BusquedaCobro[i].valor_pagado > 0.15) {
+                        PasajerosA++;
+                        PasajerosAT += BusquedaCobro[i].valor_pagado;
+                    } else {
+                        PasajerosN++;
+                        PasajerosNT += BusquedaCobro[i].valor_pagado;
+                    }
+                    Pasajeros++;
+
+                }
+            }
+
+            const usersRows = [
+                ["Cédula del propietario ", Cedula],
+                ["Nombre Apellido del propietario ", Dueño],
+                ["Bus N. ", Nbus],
+                ["Fecha Inicio ", InicioRp],
+                ["Fecha Fin ", FinRp],
+                ["Pasajes completos registrados ($ 0.30)", PasajerosA + "  Adultos"],
+                ["Total pasaje completos", "$ " + PasajerosAT.toFixed(2)],
+                ["Niños o Tercera edad registrados ($ 0.15) ", PasajerosN + "  Niños/Tercera edad"],
+                ["Total medio pasaje", "$ " + PasajerosNT.toFixed(2)],
+                ["Total Pasajeros ", Pasajeros + " Personas"],
+                ["Ingresos Totales ", "$ " + TotalB.toFixed(2)]];
+
+            // const startY = 10 * 2.83;
+            const startY = 50 * 2.83;
+            doc.autoTable(usersCol, usersRows, {
+                // startY: 180 * 2.83,
+                startY,
+                theme: "striped",
+                styles: {
+                    fontSize: 11
+                }
+            });
+        } else {
+            doc.setFontSize(14);
+            doc.text(
+                "Sin Conección a la base de Datos",
+                105 * 2.83, //horizontal
+                55 * 2.83, //vertical
+                null,
+                null,
+                "center"
+            );
+            doc.setFont("Times-Roman", "normal");
+        }
+
+        /* __________________________________Mensaje Final _____________________________ */
+
+        /*        doc.text(
+                   "Test avec Hooks",
+                   22 * 2.83,
+                   doc.autoTable.previous.finalY + 22 // we can use doc.autoTable.previous to get previous table data
+               ); */
+        doc.save(`Reporte Cobros Bus N ${Nbus} del mes de  ${mes[month]}.pdf`);
+    }
+
     return (
         /* switch y boton agregar persona */
         <div className="list-cobro">
             <div className="navbar">
                 <div className="switch" >
                     <span >Fecha Inicio </span>
+                    &nbsp;&nbsp;&nbsp;
                     <DatePicker className="BuscadorB"
                         prefix={<SearchOutlined />}
                         placeholder="Fecha Inicio"
@@ -76,14 +313,17 @@ export default function ListCobro(props) {
                 </div>
                 <div className="switch" >
                     <span >Fecha Fin </span>
+                    &nbsp;&nbsp;&nbsp;
                     <DatePicker className="BuscadorB"
                         prefix={<SearchOutlined />}
                         placeholder=" Fecha Fin "
                         onChange={FechaFin} />
                 </div>
-                <span >Unidad N˚ </span>
-                <div className="Buscador" >
+
+                <div className="Buscador1">
+                    <span >Unidad N˚ </span>
                     <Input
+                        className="Buscador"
                         prefix={<SearchOutlined />}
                         placeholder=" Numero de Bus "
                         onChange={
@@ -91,9 +331,17 @@ export default function ListCobro(props) {
                         }
                     />
                 </div>
+                &nbsp;
                 <div className="BuscadorB" >
                     <Button className="BuscadorB" type="primary" onClick={Buscar}>
                         Buscar
+                    </Button>
+                </div>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div className="BuscadorB" >
+                    <Button id='reporte' disabled={btnGenerar} className="BuscadorB" type="primary" onClick={GenerarReporte}>
+                        Generar Reporte
                     </Button>
                 </div>
             </div>
@@ -167,26 +415,26 @@ function Paginacion(props) {
     return (
         <div className="navbar">
 
-        <div className="BuscadorB" >
-          <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-            Anterior
-          </Button>
+            <div className="BuscadorB" >
+                <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+                    Anterior
+                </Button>
+            </div>
+
+
+            <div className="BuscadorB" >
+                <Button className="centradoB" type="second">
+                    {paginaActual}
+                </Button>
+            </div>
+
+            <div className="BuscadorB" >
+                <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+                    Siguiente
+                </Button>
+            </div>
+
         </div>
-    
-    
-        <div className="BuscadorB" >
-          <Button className="centradoB" type="second">
-            {paginaActual}
-          </Button>
-        </div>
-    
-        <div className="BuscadorB" >
-          <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-            Siguiente
-          </Button>
-        </div>
-    
-      </div>
     )
 }
 

@@ -4,7 +4,8 @@ import { EditOutlined, StopOutlined, /* DeleteOutlined */ CheckOutlined, SearchO
 import Modal from "../../../Modal";
 import NoAvatar from "../../../../assets/img/png/pasajero.png";
 import EditPasajero from "../EditPasajero";
-import { ActivarPasajero, /* EliminarPasajero */ ObtenerCedulaPasajero, ObtenerPasajero } from "../../../../api/pasajero";
+import { ActivarPasajero, /* EliminarPasajero */ ObtenerCedulaPasajero, ObtenerPasajero, ObtenerCodigoPasajero } from "../../../../api/pasajero";
+import { ActivarTarjeta } from "../../../../api/tarjeta";
 import { getAccessTokenApi } from "../../../../api/auth";
 import AddPasajero from "../AddPasajero";
 
@@ -28,6 +29,54 @@ export default function ListPasajero(props) {
     const token = getAccessTokenApi();
     const NumeroPorPagina = 3;
 
+    /* Actualizacion de Tarjetas */
+    var hoy = new Date();
+    let Dia = hoy.getDate();
+    let Mes = hoy.getMonth();
+
+    if (Mes === Dia) {
+        PasajeroActivos.forEach(pasajero => {
+            var id_tipo = 0;
+            var cumpleanos = new Date(pasajero.id_persona.fecha_nacimiento_persona);
+            var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+            var m = hoy.getMonth() - cumpleanos.getMonth();
+
+            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                edad--;
+            }
+            if (edad < 18) {
+                for (let i = 0; i < Tipo_Pasajero.length; i++) {
+                    if (Tipo_Pasajero[i].nombre === "Estudiante") {
+                        id_tipo = Tipo_Pasajero[i]._id
+                    }
+                }
+            } else if (edad >= 18) {
+                for (let i = 0; i < Tipo_Pasajero.length; i++) {
+                    if (Tipo_Pasajero[i].nombre === "Adulto") {
+                        id_tipo = Tipo_Pasajero[i]._id
+                    }
+                }
+            } else if (edad >= 60) {
+                for (let i = 0; i < Tipo_Pasajero.length; i++) {
+                    if (Tipo_Pasajero[i].nombre === "Tercera Edad") {
+                        id_tipo = Tipo_Pasajero[i]._id
+                    }
+                }
+            } else {
+                for (let i = 0; i < Tipo_Pasajero.length; i++) {
+                    if (Tipo_Pasajero[i].nombre === "Especial") {
+                        id_tipo = Tipo_Pasajero[i]._id
+                    }
+                }
+            }
+            if (id_tipo !== pasajero.id_tipo_pasajero._id) {
+                ActivarTarjeta(token, pasajero.id_tarjeta_pasajero._id, false);
+                notification["info"]({
+                    message: "Actualizando tarjetas de usuarios.. "
+                });
+            }
+        });
+    }
 
     /* Modal para agregar buses */
     const AgregarPasajeroModal = () => {
@@ -71,12 +120,37 @@ export default function ListPasajero(props) {
         }
     }
 
+    const BuscarCodigo = codigo => {
+        setBuquedaPasajeroA(PasajeroActivos);
+        setBusquedaPasajeroI(PasajeroInactivos);
+        if (codigo === "" || codigo === " ") {
+            setBuquedaPasajeroA(PasajeroActivos);
+            setBusquedaPasajeroI(PasajeroInactivos);
+        } else {
+            ObtenerCodigoPasajero(token, codigo, true)
+                .then(response => {
+                    setBuquedaPasajeroA(response.pasajero)
+                })
+                .catch(err => {
+                    notification["error"]({
+                        message: err
+                    });
+                });
+            ObtenerCodigoPasajero(token, codigo, false)
+                .then(response => {
+                    setBusquedaPasajeroI(response.pasajero)
+                })
+                .catch(err => {
+                    notification["error"]({
+                        message: err
+                    });
+                });
+        }
+    }
+
     return (
         /* switch y boton agregar buses */
         <div className="list-pasajero">
-
-
-
             <div className="navbar">
                 <div className="switch" >
                     <Switch
@@ -96,6 +170,17 @@ export default function ListPasajero(props) {
                         }
                     />
                 </div>
+
+                <div className="Buscador" >
+                    <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="Buscar Codigo Tarjeta"
+                        onChange={
+                            event => BuscarCodigo(event.target.value)
+                        }
+                    />
+                </div>
+
                 <div className="BuscadorB" >
                     <Button className="BuscadorB" type="primary" onClick={AgregarPasajeroModal}>
                         Nuevo Pasajero
@@ -196,26 +281,26 @@ function PaginacionA(props) {
     return (
         <div className="navbar">
 
-        <div className="BuscadorB" >
-          <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-            Anterior
-          </Button>
+            <div className="BuscadorB" >
+                <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+                    Anterior
+                </Button>
+            </div>
+
+
+            <div className="BuscadorB" >
+                <Button className="centradoB" type="second">
+                    {paginaActual}
+                </Button>
+            </div>
+
+            <div className="BuscadorB" >
+                <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+                    Siguiente
+                </Button>
+            </div>
+
         </div>
-    
-    
-        <div className="BuscadorB" >
-          <Button className="centradoB" type="second">
-            {paginaActual}
-          </Button>
-        </div>
-    
-        <div className="BuscadorB" >
-          <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-            Siguiente
-          </Button>
-        </div>
-    
-      </div>
     )
 }
 
@@ -258,26 +343,26 @@ function PaginacionI(props) {
     return (
         <div className="navbar">
 
-        <div className="BuscadorB" >
-          <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-            Anterior
-          </Button>
+            <div className="BuscadorB" >
+                <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+                    Anterior
+                </Button>
+            </div>
+
+
+            <div className="BuscadorB" >
+                <Button className="centradoB" type="second">
+                    {paginaActual}
+                </Button>
+            </div>
+
+            <div className="BuscadorB" >
+                <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+                    Siguiente
+                </Button>
+            </div>
+
         </div>
-    
-    
-        <div className="BuscadorB" >
-          <Button className="centradoB" type="second">
-            {paginaActual}
-          </Button>
-        </div>
-    
-        <div className="BuscadorB" >
-          <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-            Siguiente
-          </Button>
-        </div>
-    
-      </div>
     )
 }
 
@@ -377,26 +462,26 @@ function ListaPActivos(props) {
 
 
                 <div className="navbarContenido">
-                <div className="BuscadorContenido" >
-                <Tooltip title="Editar">
-                    <Button type="primary" onClick={() => EditarPasajero(pasajero)} >
-                        <EditOutlined />
-                    </Button>
-                </Tooltip>
-                </div>
-                <div className="BuscadorContenido" >
-                <Tooltip title="Desactivar">
-                    <Button type="danger" onClick={() => desactivarPasajero()}>
-                        <StopOutlined />
-                    </Button>
-                </Tooltip>
-      
-                  {/* <Tooltip title="Eliminar">
+                    <div className="BuscadorContenido" >
+                        <Tooltip title="Editar">
+                            <Button type="primary" onClick={() => EditarPasajero(pasajero)} >
+                                <EditOutlined />
+                            </Button>
+                        </Tooltip>
+                    </div>
+                    <div className="BuscadorContenido" >
+                        <Tooltip title="Desactivar">
+                            <Button type="danger" onClick={() => desactivarPasajero()}>
+                                <StopOutlined />
+                            </Button>
+                        </Tooltip>
+
+                        {/* <Tooltip title="Eliminar">
                         <Button type="danger" onClick={() => ConfirmarEliminar()}>
                           <DeleteOutlined />
                         </Button></Tooltip> */}
+                    </div>
                 </div>
-              </div>
             ]}
         >
             <List.Item.Meta
@@ -409,12 +494,18 @@ function ListaPActivos(props) {
                     <div>
 
                         <b>Saldo de la tarjeta: </b> {pasajero.id_tarjeta_pasajero.valor_tarjeta ? Valor(pasajero.id_tarjeta_pasajero.valor_tarjeta) : '0.00'}
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <b>Tarifa: </b> {pasajero.id_tipo_pasajero.valor ? Valor(pasajero.id_tipo_pasajero.valor) : '...'}
                         <br />
                         <b>Código de tarjeta: </b> {pasajero.id_tarjeta_pasajero.codigo ? pasajero.id_tarjeta_pasajero.codigo : '...'}
                         <br />
                         <b>Tipo de Pasajero: </b> {pasajero.id_tipo_pasajero.nombre ? pasajero.id_tipo_pasajero.nombre : '...'}
                         <br />
-                        <b>Tarifa: </b> {pasajero.id_tipo_pasajero.valor ? Valor(pasajero.id_tipo_pasajero.valor) : '...'}
+                        <b>Tarjeta: </b> {pasajero.id_tarjeta_pasajero.disponible === true ? "Activo" : ' Desactivada'}
                         <br />
                         <b>Cédula: </b> {pasajero.cedula_persona ? pasajero.cedula_persona : '...'}
                         <br />
@@ -524,12 +615,18 @@ function ListaPInactivos(props) {
                     <div>
 
                         <b>Saldo de la tarjeta: </b> {pasajero.id_tarjeta_pasajero.valor_tarjeta ? Valor(pasajero.id_tarjeta_pasajero.valor_tarjeta) : '0.00'}
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <b>Tarifa: </b> {pasajero.id_tipo_pasajero.valor ? Valor(pasajero.id_tipo_pasajero.valor) : '...'}
                         <br />
                         <b>Código de tarjeta: </b> {pasajero.id_tarjeta_pasajero.codigo ? pasajero.id_tarjeta_pasajero.codigo : '...'}
                         <br />
                         <b>Tipo de Pasajero: </b> {pasajero.id_tipo_pasajero.nombre ? pasajero.id_tipo_pasajero.nombre : '...'}
                         <br />
-                        <b>Tarifa: </b> {pasajero.id_tipo_pasajero.valor ? Valor(pasajero.id_tipo_pasajero.valor) : '...'}
+                        <b>Tarjeta: </b> {pasajero.id_tarjeta_pasajero.disponible === true ? "Activo" : ' Desactivada'}
                         <br />
                         <b>Cédula: </b> {pasajero.cedula_persona ? pasajero.cedula_persona : '...'}
                         <br />

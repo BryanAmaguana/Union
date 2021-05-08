@@ -30,7 +30,6 @@ export default function AddPersonaForm(props) {
                 notification["error"]({
                     message: "Formato de cédula incorrecto."
                 });
-                return;
             } else {
                 const accesToken = getAccessTokenApi();
                 CrearPersona(accesToken, personaData)

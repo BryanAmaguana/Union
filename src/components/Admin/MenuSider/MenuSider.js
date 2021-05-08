@@ -38,6 +38,53 @@ function MenuSider(props) {
                         <span className="nav-text">Inicio</span>
                     </Link>
                 </Menu.Item>
+                <Menu.Item key="/admin/cobro">
+                    <Link to={"/admin/cobro"}>
+                    <DollarCircleOutlined />
+                        <span className="nac-text">Cobro Pasaje</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="/admin/recarga">
+                    <Link to={"/admin/recarga"}>
+                    <DollarOutlined />
+                        <span className="nac-text">Recargas</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/tarjeta">
+                    <Link to={"/admin/tarjeta"}>
+                    <CreditCardOutlined />
+                        <span className="nac-text">Tarjeta</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/tipo">
+                    <Link to={"/admin/tipo"}>
+                    <QuestionCircleOutlined />
+                        <span className="nac-text">Tipo Pasajero</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/bus">
+                    <Link to={"/admin/bus"}>
+                    <CarOutlined />
+                        <span className="nac-text">Buses</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/pasajero">
+                    <Link to={"/admin/pasajero"}>
+                    <TeamOutlined />
+                        <span className="nac-text">Pasajero</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/persona">
+                    <Link to={"/admin/persona"}>
+                    <MehOutlined />
+                        <span className="nac-text">Personas</span>
+                    </Link>
+                </Menu.Item>
 
                 <Menu.Item key="/admin/usuario">
                     <Link to={"/admin/usuario"}>
@@ -53,60 +100,13 @@ function MenuSider(props) {
                     </Link>
                 </Menu.Item>
 
-                <Menu.Item key="/admin/persona">
-                    <Link to={"/admin/persona"}>
-                    <MehOutlined />
-                        <span className="nac-text">Personas</span>
-                    </Link>
-                </Menu.Item>
-
-                <Menu.Item key="/admin/bus">
-                    <Link to={"/admin/bus"}>
-                    <CarOutlined />
-                        <span className="nac-text">Buses</span>
-                    </Link>
-                </Menu.Item>
-
-                <Menu.Item key="/admin/tarjeta">
-                    <Link to={"/admin/tarjeta"}>
-                    <CreditCardOutlined />
-                        <span className="nac-text">Tarjeta</span>
-                    </Link>
-                </Menu.Item>
-
+               
 {/*                 <Menu.Item key="/admin/ruta">
                     <Link to={"/admin/ruta"}>
                     <NodeIndexOutlined />
                         <span className="nac-text">Ruta</span>
                     </Link>
                 </Menu.Item> */}
-
-                <Menu.Item key="/admin/tipo">
-                    <Link to={"/admin/tipo"}>
-                    <QuestionCircleOutlined />
-                        <span className="nac-text">Tipo Pasajero</span>
-                    </Link>
-                </Menu.Item>
-
-                <Menu.Item key="/admin/pasajero">
-                    <Link to={"/admin/pasajero"}>
-                    <TeamOutlined />
-                        <span className="nac-text">Pasajero</span>
-                    </Link>
-                </Menu.Item>
-
-                <Menu.Item key="/admin/cobro">
-                    <Link to={"/admin/cobro"}>
-                    <DollarCircleOutlined />
-                        <span className="nac-text">Cobro Pasaje</span>
-                    </Link>
-                </Menu.Item>
-                <Menu.Item key="/admin/recarga">
-                    <Link to={"/admin/recarga"}>
-                    <DollarOutlined />
-                        <span className="nac-text">Recargas</span>
-                    </Link>
-                </Menu.Item>
 
                 <Menu.Item key="/admin/menuweb">
                     <Link to={"/admin/menuweb"}>

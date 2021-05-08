@@ -21,14 +21,10 @@ export default function Users() {
     ObtenerUsuariosAI(token, false, 0, 4).then(response => {
       setusuariosInactivos(response.usuario);
     });
-
     ObtenerRol(token).then(response => {
       setRol(response.rol);
     });
-
     setReloadUsers(false);
-
-
   }, [token , reloadUsers]);
 
   return (

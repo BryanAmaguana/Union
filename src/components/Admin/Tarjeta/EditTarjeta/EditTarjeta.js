@@ -28,20 +28,19 @@ export default function EditTarjetaForm(props) {
             notification["error"]({
                 message: "Código, Valor y Descripción son Obligatorios."
             });
-            return;
-        }
 
-        ActualizarTarjeta(token, TarjetaActualizada, tarjeta._id).then(result => {
-            if (result.message === "Tarjeta actualizada correctamente.") {
-                setIsVisibleModal(false);
+        } else {
+            ActualizarTarjeta(token, TarjetaActualizada, tarjeta._id).then(result => {
+                if (result.message === "Tarjeta actualizada correctamente.") {
+                    setIsVisibleModal(false);
+                    setReloadTarjeta(true);
+                }
+                notification["info"]({
+                    message: result.message
+                });
                 setReloadTarjeta(true);
-            }
-            notification["info"]({
-                message: result.message
             });
-            setReloadTarjeta(true);
-        });
-
+        }
     };
     return (
         <div className="edit-tarjeta-form">

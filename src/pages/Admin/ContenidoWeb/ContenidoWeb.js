@@ -14,11 +14,10 @@ export default function ContenidoWeb() {
     ObtenerContenidoApi().then(response => {
       if(response.contenido){
         setContenidoWeb(response.contenido[0]);
-      }
-      
+      }  
     });
     setReloadContenidoWeb(false);
-  }, [token , reloadContenidoWeb]);
+  }, [token, reloadContenidoWeb]);
 
   return (
     <div className="contenido">

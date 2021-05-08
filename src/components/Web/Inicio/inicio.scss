@@ -6,12 +6,12 @@ body { background: #0f0f0f; }
 /* b. Header Styles
 /* ------------------------------------------------------------------ */
 
-header {
+.headerIniio {
    position: relative;
    height: 800px;
    min-height: auto;
    width: 100%;
-   background: #161415 url(../../../assets/img/png/Fondo.png) no-repeat top center;
+   background: #161415 url(../../../assets/img/png/Fondo.png);
    background-size: cover !important;
 	-webkit-background-size: cover !important;
    text-align: center;
@@ -28,14 +28,6 @@ header {
       }
   }
 
-.logoInicio {
-    padding: 10px;
-
-    img {
-      width: 150px;
-      text-align: left;
-    }
-  }
 
 /* vertically center banner section */
 header:before {
