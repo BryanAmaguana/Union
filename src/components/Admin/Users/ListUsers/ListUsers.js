@@ -227,26 +227,26 @@ function PaginacionA(props) {
   return (
     <div className="navbar">
 
-    <div className="BuscadorB" >
-      <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-        Anterior
-      </Button>
+      <div className="BuscadorB" >
+        <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+          Anterior
+        </Button>
+      </div>
+
+
+      <div className="BuscadorB" >
+        <Button className="centradoB" type="second">
+          {paginaActual}
+        </Button>
+      </div>
+
+      <div className="BuscadorB" >
+        <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+          Siguiente
+        </Button>
+      </div>
+
     </div>
-
-
-    <div className="BuscadorB" >
-      <Button className="centradoB" type="second">
-        {paginaActual}
-      </Button>
-    </div>
-
-    <div className="BuscadorB" >
-      <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-        Siguiente
-      </Button>
-    </div>
-
-  </div>
   )
 }
 
