@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Switch, List, Input, Button, Avatar, Tooltip, notification, /* Modal as ModalAntd */ } from "antd";
-import { EditOutlined, StopOutlined, /* DeleteOutlined */ CheckOutlined, SearchOutlined } from '@ant-design/icons';
+import { Switch, List, Input, Button, Avatar, Tooltip, notification, Modal as ModalAntd } from "antd";
+import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined, SearchOutlined } from '@ant-design/icons';
 import Modal from "../../../Modal";
 import NoAvatar from "../../../../assets/img/png/Nobus.png";
 import EditBusForm from "../EditBus";
-import { ActivarBus, /* EliminarBus */ ObtenerBusNumero, ObtenerBus } from "../../../../api/bus";
+import { ActivarBus, EliminarBus, ObtenerBusNumero, ObtenerBus } from "../../../../api/bus";
 import { getAccessTokenApi } from "../../../../api/auth";
 import AddBus from "../AddBus";
 
 import "./ListBus.scss";
 
-/* const { confirm } = ModalAntd; */
+const { confirm } = ModalAntd;
 
 export default function ListBus(props) {
   const { BusActivo, setBusActivos, BusInactivo, setBusInactivos, setReloadBus } = props;
@@ -48,6 +48,7 @@ export default function ListBus(props) {
     } else {
       ObtenerBusNumero(token, Numero, true)
         .then(response => {
+          console.log(response.bus)
           setBusquedaBusA(response.bus)
         })
         .catch(err => {
@@ -57,6 +58,7 @@ export default function ListBus(props) {
         });
       ObtenerBusNumero(token, Numero, false)
         .then(response => {
+          console.log(response.bus)
           setBusquedaBusI(response.bus)
         })
         .catch(err => {
@@ -189,26 +191,26 @@ function PaginacionA(props) {
   return (
     <div className="navbar">
 
-    <div className="BuscadorB" >
-      <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-        Anterior
-      </Button>
+      <div className="BuscadorB" >
+        <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+          Anterior
+        </Button>
+      </div>
+
+
+      <div className="BuscadorB" >
+        <Button className="centradoB" type="second">
+          {paginaActual}
+        </Button>
+      </div>
+
+      <div className="BuscadorB" >
+        <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+          Siguiente
+        </Button>
+      </div>
+
     </div>
-
-
-    <div className="BuscadorB" >
-      <Button className="centradoB" type="second">
-        {paginaActual}
-      </Button>
-    </div>
-
-    <div className="BuscadorB" >
-      <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-        Siguiente
-      </Button>
-    </div>
-
-  </div>
   )
 }
 
@@ -251,26 +253,26 @@ function PaginacionI(props) {
   return (
     <div className="navbar">
 
-    <div className="BuscadorB" >
-      <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
-        Anterior
-      </Button>
+      <div className="BuscadorB" >
+        <Button id='anterior' className="centradoB" type="primary" onClick={Atras}>
+          Anterior
+        </Button>
+      </div>
+
+
+      <div className="BuscadorB" >
+        <Button className="centradoB" type="second">
+          {paginaActual}
+        </Button>
+      </div>
+
+      <div className="BuscadorB" >
+        <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
+          Siguiente
+        </Button>
+      </div>
+
     </div>
-
-
-    <div className="BuscadorB" >
-      <Button className="centradoB" type="second">
-        {paginaActual}
-      </Button>
-    </div>
-
-    <div className="BuscadorB" >
-      <Button id='siguiente' className="centradoB" type="primary" onClick={Siguiente}>
-        Siguiente
-      </Button>
-    </div>
-
-  </div>
   )
 }
 
@@ -306,6 +308,8 @@ function LBusActivo(props) {
 /* Metodo que muesta los datos dento de la lista */
 function ListaBusActivos(props) {
   const { bus, Editarbus, setReloadBus } = props;
+  // console.log("Veamos si vale")
+  //console.log(bus);
 
   const desactivarBus = () => {
     const accesToken = getAccessTokenApi();
@@ -356,18 +360,18 @@ function ListaBusActivos(props) {
 
         <div className="navbarContenido">
           <div className="BuscadorContenido" >
-          <Tooltip title="Editar">
-          <Button type="primary" onClick={() => Editarbus(bus)} >
-            <EditOutlined />
-          </Button>
-        </Tooltip>
+            <Tooltip title="Editar">
+              <Button type="primary" onClick={() => Editarbus(bus)} >
+                <EditOutlined />
+              </Button>
+            </Tooltip>
           </div>
           <div className="BuscadorContenido" >
-          <Tooltip title="Desactivar">
-          <Button type="danger" onClick={() => desactivarBus()}>
-            <StopOutlined />
-          </Button>
-        </Tooltip>
+            <Tooltip title="Desactivar">
+              <Button type="danger" onClick={() => desactivarBus()}>
+                <StopOutlined />
+              </Button>
+            </Tooltip>
 
             {/* <Tooltip title="Eliminar">
                   <Button type="danger" onClick={() => ConfirmarEliminar()}>
@@ -435,31 +439,31 @@ function ListaBusInactivos(props) {
       });
   };
 
-  /*     const ConfirmarEliminar = () => {
-          const accesToken = getAccessTokenApi();
-  
-          confirm({
-              title: "Eliminando Bus",
-              content: `¿Esta seguro que desea eliminar el Bus Numero:  ${bus.numero_bus}?`,
-              okText: "Eliminar",
-              okType: "danger",
-              cancelText: "Cancelar",
-              onOk() {
-                  EliminarBus(accesToken, bus._id)
-                      .then(response => {
-                          notification["success"]({
-                              message: response
-                          });
-                          setReloadBus(true);
-                      })
-                      .catch(err => {
-                          notification["error"]({
-                              message: err
-                          });
-                      });
-              }
+  const ConfirmarEliminar = () => {
+    const accesToken = getAccessTokenApi();
+
+    confirm({
+      title: "Eliminando Bus",
+      content: `¿Esta seguro que desea eliminar el Bus Numero:  ${bus.numero_bus}?`,
+      okText: "Eliminar",
+      okType: "danger",
+      cancelText: "Cancelar",
+      onOk() {
+        EliminarBus(accesToken, bus._id)
+          .then(response => {
+            notification["success"]({
+              message: response
+            });
+            setReloadBus(true);
+          })
+          .catch(err => {
+            notification["error"]({
+              message: err
+            });
           });
-      }; */
+      }
+    });
+  };
 
   return (
     <List.Item
@@ -469,11 +473,11 @@ function ListaBusInactivos(props) {
             <CheckOutlined />
           </Button>
         </Tooltip>,
-        /*                 <Tooltip title="Eliminar">
-                            <Button type="danger" onClick={() => ConfirmarEliminar()}>
-                                <DeleteOutlined />
-                            </Button>
-                        </Tooltip> */
+        <Tooltip title="Eliminar">
+          <Button type="danger" onClick={() => ConfirmarEliminar()}>
+            <DeleteOutlined />
+          </Button>
+        </Tooltip>
       ]}
     >
       <List.Item.Meta
